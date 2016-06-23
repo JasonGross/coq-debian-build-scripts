@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -ex
+
+function to_debian_version() {
+  echo "$1" | sed s'/-\(rc\|beta\|alpha\)/\1/g' | sed s'/\(rc\|beta\|alpha\)/~\1/g'
+}
+
+for i in 8.5pl1 8.5 8.5rc1 8.5beta3 8.5beta2 8.5beta1 8.4pl6 8.4pl5 8.4pl4 8.4pl3 8.4pl2 8.4pl1 8.4 8.4rc1 8.4beta2 8.4beta 8.3pl5 8.3pl4 8.3pl3 8.3pl2 8.3pl1 8.3 8.3-rc1 8.3-beta0 8.2pl3 8.2pl2 8.2pl1 8.2 8.2beta2 8.2alpha 8.1pl6 8.1pl5 8.1pl4 8.1pl3 8.1pl2 8.1pl1 8.1 8.0pl3 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1 6.1 5.8.3 5.8.2 5.6; do
+  PKG="$(to_debian_version "$i")"
+  mkdir -p debian-sources/coq-$PKG
+  cp -af coq-source/coq-$i.tar.gz debian-sources/coq-$PKG/coq_$PKG.orig.tar.gz
+done

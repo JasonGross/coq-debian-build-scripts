@@ -30,6 +30,7 @@ for i in pl3 pl2 pl1 beta2 alpha; do # rc1 beta4 beta3 beta have no files, beta1
 done
 for i in ""; do
   wget -N https://coq.inria.fr/distrib/V8.2$i/files/coq-8.2$i-1.tar.gz || exit 1
+  cp -af coq-8.2$i-1.tar.gz coq-8.2$i.tar.gz
 done
 for i in pl6 pl4 pl3 pl2 pl1 ""; do # gamma beta have no files
   wget -N https://coq.inria.fr/distrib/V8.1$i/files/coq-8.1$i.tar.gz || exit 1

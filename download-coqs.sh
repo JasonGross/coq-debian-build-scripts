@@ -4,7 +4,7 @@ set -ex
 
 mkdir -p coq-source
 cd coq-source
-
+function comment () {
 for i in pl1 "" beta1 beta2 beta3 rc1; do
   wget -N https://coq.inria.fr/distrib/V8.5$i/files/coq-8.5$i.tar.gz
 done
@@ -45,31 +45,35 @@ done
 for i in 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1; do # 5.8.3 5.8.2 5.6; do # 5.10 has no files, 6.2.beta is named strangely
   wget -N https://coq.inria.fr/distrib/V$i/coq-$i.tar.gz || exit 1
 done
+}
 for i in 6.1; do
-  wget -N https://coq.inria.fr/distrib/V$i/V$i.tar.z || exit 1
-  cp -af V$i.tar.z coq-$i.tar.z
+  # wget -N https://coq.inria.fr/distrib/V$i/V$i.tar.z || exit 1 # actually .tar.gz
+  wget -N https://coq.inria.fr/distrib/V$i/V$i-ocaml1.07.tar.gz || exit 1
+  cp -af V$i-ocaml1.07.tar.gz coq-$i.tar.gz
 done
-for i in 5.8.3; do
+for i in 5.8.3 5.8.2 5.6; do
   mkdir -p $i
   pushd $i
-  wget -N https://coq.inria.fr/distrib/V$i/coq.tar.Z
-  for j in $(seq -w 1 10); do
-    wget -N https://coq.inria.fr/distrib/V$i/coq.$j
-  done
-  popd
-done
-for i in 5.8.2; do
-  mkdir -p $i
-  pushd $i
-  wget -N https://coq.inria.fr/distrib/V$i/coq.tar.Z
-  for j in $(seq -f %02g 1 8); do
-    wget -N https://coq.inria.fr/distrib/V$i/coq.$j
-  done
-  popd
-done
-for i in 5.6; do
-  mkdir -p $i
-  pushd $i
-  wget -N https://coq.inria.fr/distrib/V5.6/coq.tar.Z
+  rm -rf coq-$i
+  mkdir coq-$i
+  wget -N https://coq.inria.fr/distrib/V$i/coq.tar.Z || exit 1
+  cp -af coq.tar.Z coq-$i/
+  if [ "$i" == 5.8.3 -o "$i" == 5.8.2 ]; then
+    if [ "$i" == 5.8.3 ]; then MAX=10; fi
+    if [ "$i" == 5.8.2 ]; then MAX=8; fi
+    for j in $(seq -f %02g 1 $MAX); do
+      wget -N https://coq.inria.fr/distrib/V$i/coq.$j || exit 1
+      cp -af coq.$j coq-$i/
+    done
+  fi
+  cd coq-$i/
+  uncompress coq.tar.Z
+  tar xf coq.tar
+  ls coq.*
+  rm coq.*
+  cd ..
+  rm -f coq-$i.tar.gz
+  tar -czvf coq-$i.tar.gz coq-$i
+  cp -af coq-$i.tar.gz ../
   popd
 done

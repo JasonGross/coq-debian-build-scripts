@@ -4,7 +4,7 @@ set -ex
 
 mkdir -p coq-source
 cd coq-source
-function comment () {
+
 for i in pl1 "" beta1 beta2 beta3 rc1; do
   wget -N https://coq.inria.fr/distrib/V8.5$i/files/coq-8.5$i.tar.gz
 done
@@ -45,7 +45,6 @@ done
 for i in 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1; do # 5.8.3 5.8.2 5.6; do # 5.10 has no files, 6.2.beta is named strangely
   wget -N https://coq.inria.fr/distrib/V$i/coq-$i.tar.gz || exit 1
 done
-}
 for i in 6.1; do
   # wget -N https://coq.inria.fr/distrib/V$i/V$i.tar.z || exit 1 # actually .tar.gz
   wget -N https://coq.inria.fr/distrib/V$i/V$i-ocaml1.07.tar.gz || exit 1

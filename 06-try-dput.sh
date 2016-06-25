@@ -7,7 +7,6 @@ set -ex
 for i in $VERSIONS; do
   PKG="$(to_debian_version "$i")"
   pushd "debian-sources/coq-$PKG" || exit $?
-  cd "coq-$PKG"
-  debuild -S || exit $? # -us -uc
+  dput ppa:jgross-h/many-coq-versions "coq_${PKG}-1_source.changes"
   popd
 done

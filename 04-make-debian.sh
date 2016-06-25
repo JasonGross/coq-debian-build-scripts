@@ -14,7 +14,7 @@ for i in $VERSIONS; do
   mkdir -p debian || exit $?
   if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
   if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi
-  EDITOR="true" dch --create -v "$i-1" --package coq || exit $?
+  EDITOR="true" dch --create -v "$PKG-1" --package coq || exit $?
   sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit $?
   echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
   cat > debian/control <<EOF

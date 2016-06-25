@@ -24,7 +24,7 @@ for i in $VERSIONS; do
     rm -rf "coq-$PKG-1" || exit $?
   elif [ "$COUNT" -eq 1 ]; then
     mv "$(ls)" "coq-$PKG" || exit $?
-    tar -cf "../$ORIG" "coq-$PKG" || exit $?
+    tar -czf "../$ORIG" "coq-$PKG" || exit $?
     cd ..
     mv "coq-$PKG" "coq-$PKG-1" || exit $?
     mv "coq-$PKG-1/coq-$PKG" "coq-$PKG" || exit $?

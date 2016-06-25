@@ -12,7 +12,8 @@ for i in $VERSIONS; do
   cd "coq-$PKG"
   rm -rf debian
   mkdir -p debian || exit 1
-  # Set DEBFULLNAME, DEBEMAIL
+  if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
+  if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi
   EDITOR="true" dch --create -v "$i-1" --package coq || exit 1
   sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit 1
   echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging

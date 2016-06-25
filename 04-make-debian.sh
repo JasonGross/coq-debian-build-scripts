@@ -32,13 +32,37 @@ Depends: \${shlibs:Depends}, \${misc:Depends}
 Homepage: http://coq.inria.fr/
 Description: Coq is a proof assistant for higher-order logic, which allows the development of computer programs consistent with their formal specification. It is developed using Objective Caml and Camlp5.
 EOF
-  cat > debian/rules <<'EOF'
-#!/usr/bin/make -f
-%:
-	dh "$@"
-EOF
+  # cribbed from http://http.debian.net/debian/pool/main/c/coq/coq_8.5-2.debian.tar.xz
+  cat ../../debian-rules.in | sed s"/@@@COQ_VERSION@@@/$i/g" > debian/rules
   mkdir -p debian/source
   echo '3.0 (quilt)' > debian/source/format || exit $? # magic from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
-  cp -f LICENSE debian/copyright || touch debian/copyright
+  if [ -e COPYRIGHT ]; then
+    COPYRIGHT="$(cat COPYRIGHT | tr '\n' '~' | sed s'/ ~/~/g' | sed s'/~/ /g' | grep -o 'Copyright [^\.]*')"
+  else
+    COPYRIGHT="1999-2015 The Coq development team, INRIA, CNRS, University Paris Sud, University Paris 7, Ecole Polytechnique"
+  fi
+  cat > debian/copyright <<EOF
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Packaged-By: Fernando Sanchez <fer@debian.org>
+Packaged-Date: Fri, 03 Dec 1999 22:06:04 +0100
+Source: http://coq.inria.fr/
+
+Files: *
+Copyright: ${COPYRIGHT}
+License: LGPL-2.1
+
+Files: debian/*
+Copyright: 1999-2000 Fernando Sanchez <fer@debian.org>
+           2001-2002 Judicael Courant <Judicael.Courant@lri.fr>
+           2004-2009 Samuel Mimram <smimram@debian.org>
+           2008-2014 Stéphane Glondu <glondu@debian.org>
+           2016-2016 Jason Gross <jgross@mit.edu>
+License: LGPL-2.1
+
+License: LGPL-2.1
+ The Coq Proof Assistant is distributed under the terms of the GNU
+ Lesser General Public Licence, version 2.1, see
+ `/usr/share/common-licenses/LGPL-2.1'.
+EOF
   popd
 done

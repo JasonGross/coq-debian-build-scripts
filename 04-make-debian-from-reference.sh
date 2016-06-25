@@ -29,6 +29,8 @@ for i in $VERSIONS; do
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
+  sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
+  sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi
   if [ ! -e 'test-suite/bugs/closed/4366.v' ]; then rm -f debian/patches/0002-Remove-test-4366-too-picky-on-the-timeout.patch; fi
   (cd debian/patches && ls *.patch | sort) > debian/patches/series

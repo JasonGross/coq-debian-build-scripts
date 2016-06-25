@@ -28,20 +28,23 @@ for i in $VERSIONS; do
   cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
+  mv "debian/coq.install.in" "debian/${PKG}.install.in"
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
-  cat >> debian/rules <<EOF
+  cat >> debian/rules <<'EOF'
 
 .PHONY: override_dh_auto_clean
 override_dh_auto_clean:
-	dh_auto_clean || (dh_auto_configure && dh_auto_clean)
+	dh_auto_clean || make distclean -k || make clean -k || true
 
 EOF
 
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi
   if [ ! -e 'test-suite/bugs/closed/4366.v' ]; then rm -f debian/patches/0002-Remove-test-4366-too-picky-on-the-timeout.patch; fi
   (cd debian/patches && ls *.patch | sort) > debian/patches/series
+  if [ ! -e 'test-suite/success/Nsatz.v' ]; then rm -rf debian/patches; fi
+  if [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then rm -rf debian/patches; fi
   popd
 done

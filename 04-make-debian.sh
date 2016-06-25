@@ -62,7 +62,7 @@ License: LGPL-2.1
 License: LGPL-2.1
  The Coq Proof Assistant is distributed under the terms of the GNU
  Lesser General Public Licence, version 2.1, see
- `/usr/share/common-licenses/LGPL-2.1'.
+ \`/usr/share/common-licenses/LGPL-2.1'.
 EOF
   popd
 done

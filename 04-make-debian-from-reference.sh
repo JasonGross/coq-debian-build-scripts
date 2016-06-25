@@ -33,6 +33,17 @@ for i in $VERSIONS; do
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
+  if [ "$(grep -c -R '{w|' .)" -ne 0 ]; then
+    if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4)|g' -i debian/control || exit $?
+    elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4.02.0)|g' -i debian/control || exit $?
+    elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10, << 4)|g' -i debian/control || exit $?
+    else
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
+    fi
+  fi
   cat >> debian/rules <<'EOF'
 
 .PHONY: override_dh_auto_clean
@@ -42,6 +53,9 @@ override_dh_auto_clean:
 EOF
   if [ "$(find . -name "configure*" | xargs cat | grep -c -- '-configdir')" -eq 0 ]; then
     sed s'|-configdir /etc/xdg/coq||g' -i debian/rules
+  fi
+  if [ ! -e configure -a "$(grep -c '^configure:' Makefile)" -ne 0 ]; then
+    sed s'|./configure $(CONFIGUREOPTS)|make configure|g' -i debian/rules
   fi
 
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi

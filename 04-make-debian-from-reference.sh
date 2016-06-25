@@ -31,19 +31,25 @@ for i in $VERSIONS; do
   mv "debian/coq.install.in" "debian/${PKG}.install.in"
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
-  sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
+  for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
+    sed s'/^Package: '"$pkgname"'/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
+  done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   if [ "$(grep -R '{w|' . | grep -c '{w|')" -ne 0 ]; then
-    if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
-    elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4.02.0)|g' -i debian/control || exit $?
-    elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 && << 4)|g' -i debian/control || exit $?
+    if [ -e configure ]; then
+      if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
+        sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
+      elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
+        sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4.02.0)|g' -i debian/control || exit $?
+      elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
+        sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 && << 4)|g' -i debian/control || exit $?
+      else
+        sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
+      fi
     else
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
     fi
-  else
+  elif [ -e configure ]; then
     if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
       sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
@@ -52,8 +58,10 @@ for i in $VERSIONS; do
       sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 && << 4)|g' -i debian/control || exit $?
     fi
   fi
-  if [ "$(grep -c '/toploop' Makefile.build)" -eq 0 ]; then
-    sed s'|chmod a-x debian/tmp/usr/lib/coq/toploop/\*cma|#|g' -i debian/rules
+  if [ -e Makefile.build ]; then
+    if [ "$(grep -c '/toploop' Makefile.build)" -eq 0 ]; then
+      sed s'|chmod a-x debian/tmp/usr/lib/coq/toploop/\*cma|#|g' -i debian/rules
+    fi
   fi
   cat >> debian/rules <<'EOF'
 
@@ -65,15 +73,20 @@ EOF
   if [ "$(find . -name "configure*" | xargs cat | grep -c -- '-configdir')" -eq 0 ]; then
     sed s'|-configdir /etc/xdg/coq||g' -i debian/rules
   fi
-  if [ ! -e configure -a "$(grep -c '^configure:' Makefile)" -ne 0 ]; then
-    sed s'|./configure $(CONFIGUREOPTS)|make configure|g' -i debian/rules
+  if [ ! -e configure -a -e Makefile ]; then
+    if [ "$(grep -c '^configure:' Makefile 2>/dev/null)" -ne 0 ]; then
+      sed s'|./configure $(CONFIGUREOPTS)|make configure|g' -i debian/rules
+    fi
   fi
 
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi
   if [ ! -e 'test-suite/bugs/closed/4366.v' ]; then rm -f debian/patches/0002-Remove-test-4366-too-picky-on-the-timeout.patch; fi
   (cd debian/patches && ls *.patch | sort) > debian/patches/series
-  if [ ! -e 'test-suite/success/Nsatz.v' ]; then rm -rf debian/patches; fi
-  if [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then rm -rf debian/patches; fi
+  if [ ! -e 'test-suite/success/Nsatz.v' ]; then
+    rm -rf debian/patches
+  elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then
+    rm -rf debian/patches
+  fi
   if [ "$i" == "8.5beta1" -o "$i" == "8.4pl6" ]; then # test-suite is broken
     sed s'/\(\$(MAKE) test-suite COMPLEXITY=\)/\1 || true/g' -i debian/rules
   fi

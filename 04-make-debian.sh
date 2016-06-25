@@ -4,6 +4,8 @@ set -ex
 
 . versions.sh
 
+SPACE=" "
+
 for i in $VERSIONS; do
   PKG="$(to_debian_version "$i")"
   pushd "debian-sources/coq-$PKG" || exit 1
@@ -24,21 +26,10 @@ Build-Depends: debhelper (>= 9), dh-ocaml (>= 0.9.5~), ocaml-nox (>= 4), ocaml-b
 
 
 Package: coq
-Binary: coq, coqide, coq-theories, libcoq-ocaml, libcoq-ocaml-dev
 Architecture: any
 Depends: \${shlibs:Depends}, \${misc:Depends}
-Package-List:
- coq deb math optional arch=any
- coq-theories deb math optional arch=any
- coqide deb math optional arch=any
- libcoq-ocaml deb ocaml optional arch=any
- libcoq-ocaml-dev deb ocaml optional arch=any
 Homepage: http://coq.inria.fr/
 Description: Coq is a proof assistant for higher-order logic, which allows the development of computer programs consistent with their formal specification. It is developed using Objective Caml and Camlp5.
-
-  This package provides coqtop, a command line interface to Coq.
-
-  A graphical interface for Coq is provided in the coqide package. Coq can also be used with ProofGeneral, which allows proofs to be edited using emacs and xemacs. This requires the proofgeneral package to be installed.
 EOF
   cat > debian/rules <<_EOF
 #!/usr/bin/make -f

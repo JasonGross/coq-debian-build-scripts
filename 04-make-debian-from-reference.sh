@@ -32,6 +32,13 @@ for i in $VERSIONS; do
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
+  cat >> debian/rules <<EOF
+
+.PHONY: override_dh_auto_clean
+override_dh_auto_clean:
+	dh_auto_clean || (dh_auto_configure && dh_auto_clean)
+
+EOF
 
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi
   if [ ! -e 'test-suite/bugs/closed/4366.v' ]; then rm -f debian/patches/0002-Remove-test-4366-too-picky-on-the-timeout.patch; fi

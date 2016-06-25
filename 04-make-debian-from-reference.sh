@@ -35,22 +35,25 @@ for i in $VERSIONS; do
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   if [ "$(grep -c -R '{w|' .)" -ne 0 ]; then
     if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4.02.0)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4.02.0)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10, << 4)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 && << 4)|g' -i debian/control || exit $?
     else
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
     fi
   else
     if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4.02.0)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4.02.0)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10, << 4)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 && << 4)|g' -i debian/control || exit $?
     fi
+  fi
+  if [ "$(grep -c '/toploop' Makefile.build)" -eq 0 ]; then
+    sed s'|chmod a-x debian/tmp/usr/lib/coq/toploop/\*cma|#|g' -i debian/rules
   fi
   cat >> debian/rules <<'EOF'
 
@@ -71,7 +74,7 @@ EOF
   (cd debian/patches && ls *.patch | sort) > debian/patches/series
   if [ ! -e 'test-suite/success/Nsatz.v' ]; then rm -rf debian/patches; fi
   if [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then rm -rf debian/patches; fi
-  if [ "$i" == "8.5beta1" ]; then # test-suite is broken
+  if [ "$i" == "8.5beta1" -o "$i" == "8.4pl6" ]; then # test-suite is broken
     sed s'/\(\$(MAKE) test-suite COMPLEXITY=\)/\1 || true/g' -i debian/rules
   fi
   popd

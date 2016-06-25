@@ -32,11 +32,11 @@ Depends: \${shlibs:Depends}, \${misc:Depends}
 Homepage: http://coq.inria.fr/
 Description: Coq is a proof assistant for higher-order logic, which allows the development of computer programs consistent with their formal specification. It is developed using Objective Caml and Camlp5.
 EOF
-  cat > debian/rules <<_EOF
+  cat > debian/rules <<'EOF'
 #!/usr/bin/make -f
 %:
-	dh $@
-_EOF
+	dh "$@"
+EOF
   mkdir -p debian/source
   echo '3.0 (quilt)' > debian/source/format || exit $? # magic from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
   cp -f LICENSE debian/copyright || touch debian/copyright

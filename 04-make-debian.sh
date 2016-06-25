@@ -7,14 +7,17 @@ set -ex
 SPACE=" "
 
 for i in $VERSIONS; do
-  PKG="$(to_debian_version "$i")"
-  pushd "debian-sources/coq-$PKG" || exit $?
-  cd "coq-$PKG"
+  VERSION="$(to_debian_version "$i")"
+  PKG="$(to_package_name "$i")"
+  FOLDER="$(to_folder_name "$i")"
+  ARCHIVE="$(to_archive_name "$i")"
+  pushd "debian-sources/$FOLDER" || exit $?
+  cd "$FOLDER"
   rm -rf debian
   mkdir -p debian || exit $?
   if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
   if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi
-  EDITOR="true" dch --create -v "$PKG-1" --package coq || exit $?
+  EDITOR="true" dch --create -v "${VERSION}-1" --package "$PKG" || exit $?
   sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit $?
   echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
   cat > debian/control <<EOF

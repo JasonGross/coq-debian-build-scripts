@@ -5,9 +5,9 @@ set -ex
 . versions.sh
 
 for i in $VERSIONS; do
-  PKG="$(to_debian_version "$i")"
-  pushd "debian-sources/coq-$PKG" || exit $?
-  cd "coq-$PKG"
+  FOLDER="$(to_folder_name "$i")"
+  pushd "debian-sources/$FOLDER" || exit $?
+  cd "$FOLDER"
   debuild -S || exit $? # -us -uc
   popd
 done

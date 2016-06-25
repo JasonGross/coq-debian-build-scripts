@@ -5,7 +5,8 @@ set -ex
 . versions.sh
 
 for i in $VERSIONS; do
-  PKG="$(to_debian_version "$i")"
-  mkdir -p "debian-sources/coq-$PKG"
-  cp -af "coq-source/coq-$i.tar.gz" "debian-sources/coq-$PKG/coq_$PKG.preorig.tar.gz" || exit $?
+  FOLDER="$(to_folder_name "$i")"
+  ARCHIVE="$(to_archive_name "$i")"
+  mkdir -p "debian-sources/$FOLDER"
+  cp -af "coq-source/coq-$i.tar.gz" "debian-sources/$FOLDER/$ARCHIVE.preorig.tar.gz" || exit $?
 done

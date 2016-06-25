@@ -14,12 +14,12 @@ for i in $VERSIONS; do
   mkdir -p debian || exit $?
   if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
   if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi
-  EDITOR="true" dch --create -v "$PKG-1" --package coq || exit $?
+  EDITOR="true" dch --create -v "$PKG$PPA_EXT" --package coq || exit $?
   sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit $?
   if [[ "$PKG" == *"~"* ]]; then
-    sed -i s'/UNRELEASED/experimental/g' debian/changelog || exit $?
+    sed -i s'/UNRELEASED/trusty/g' debian/changelog || exit $?
   else
-    sed -i s'/UNRELEASED/unstable/g' debian/changelog || exit $?
+    sed -i s'/UNRELEASED/trusty/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
   cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?

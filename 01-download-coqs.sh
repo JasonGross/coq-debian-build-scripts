@@ -5,9 +5,10 @@ set -ex
 mkdir -p coq-source
 cd coq-source
 
-for i in pl1 "" beta1 beta2 beta3 rc1; do
+for i in pl1; do #"" beta1 beta2 beta3 rc1; do
   wget -N https://coq.inria.fr/distrib/V8.5$i/files/coq-8.5$i.tar.gz
 done
+function comment() {
 for i in pl6 pl5 pl4 pl3 pl2 pl1 "" rc1 beta2 beta; do
   wget -N https://coq.inria.fr/distrib/V8.4$i/files/coq-8.4$i.tar.gz || exit $?
 done
@@ -76,3 +77,4 @@ for i in 5.8.3 5.8.2 5.6; do
   cp -af coq-$i.tar.gz ../
   popd
 done
+}

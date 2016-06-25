@@ -43,6 +43,14 @@ for i in $VERSIONS; do
     else
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
     fi
+  else
+    if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4)|g' -i debian/control || exit $?
+    elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2, << 4.02.0)|g' -i debian/control || exit $?
+    elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10, << 4)|g' -i debian/control || exit $?
+    fi
   fi
   cat >> debian/rules <<'EOF'
 

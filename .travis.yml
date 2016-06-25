@@ -1,0 +1,10 @@
+language: generic
+
+sudo: required
+dist: trusty
+
+before_install:
+  - sudo apt-get update -q
+  - ./00-install-prereqs.sh -y
+
+script: make

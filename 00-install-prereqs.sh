@@ -1,3 +1,8 @@
 #!/bin/bash
 
-sudo apt-get install --show-progress git
+ARGS=""
+if [ $# -ne 0 ]; then
+    ARGS="--show-progress"
+fi
+
+sudo apt-get install "$@" $ARGS git

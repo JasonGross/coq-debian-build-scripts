@@ -8,14 +8,14 @@ SPACE=" "
 
 for i in $VERSIONS; do
   PKG="$(to_debian_version "$i")"
-  pushd "debian-sources/coq-$PKG" || exit 1
+  pushd "debian-sources/coq-$PKG" || exit $?
   cd "coq-$PKG"
   rm -rf debian
-  mkdir -p debian || exit 1
+  mkdir -p debian || exit $?
   if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
   if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi
-  EDITOR="true" dch --create -v "$i-1" --package coq || exit 1
-  sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit 1
+  EDITOR="true" dch --create -v "$i-1" --package coq || exit $?
+  sed -i s'/ (Closes: #XXXXXX)//g' debian/changelog || exit $?
   echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
   cat > debian/control <<EOF
 Source: coq
@@ -38,7 +38,7 @@ EOF
 	dh $@
 _EOF
   mkdir -p debian/source
-  echo '3.0 (quilt)' > debian/source/format || exit 1 # magic from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
+  echo '3.0 (quilt)' > debian/source/format || exit $? # magic from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
   cp -f LICENSE debian/copyright || touch debian/copyright
   popd
 done

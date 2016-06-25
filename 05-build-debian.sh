@@ -6,8 +6,8 @@ set -ex
 
 for i in $VERSIONS; do
   PKG="$(to_debian_version "$i")"
-  pushd "debian-sources/coq-$PKG" || exit 1
+  pushd "debian-sources/coq-$PKG" || exit $?
   cd "coq-$PKG"
-  debuild -us -uc || exit 1
+  debuild -us -uc || exit $?
   popd
 done

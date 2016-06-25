@@ -33,7 +33,7 @@ for i in $VERSIONS; do
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^Package: coq$/Package: '"$PKG"'/g' -i debian/control || exit $?
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
-  if [ "$(grep -c -R '{w|' .)" -ne 0 ]; then
+  if [ "$(grep -R '{w|' . | grep -c '{w|')" -ne 0 ]; then
     if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
       sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 && << 4)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then

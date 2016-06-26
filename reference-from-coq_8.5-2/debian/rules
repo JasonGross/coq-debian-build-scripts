@@ -27,7 +27,7 @@ COQ_ABI := $(COQ_VERSION)+$(OCAML_ABI)
 
 ARCH := $(shell dpkg-architecture -q DEB_TARGET_ARCH)
 ifeq ($(ARCH),$(filter $(ARCH),amd64 i386))
-NATIVE_COMPUTE := 
+NATIVE_COMPUTE :=
 else
 NATIVE_COMPUTE := -native-compiler no
 endif
@@ -101,6 +101,7 @@ override_dh_auto_install:
 override_dh_install:
 	chmod a-x debian/tmp/usr/lib/coq/toploop/*cma
 	dh_install --fail-missing
+	mkdir -p debian/coqide/usr/share/pixmaps
 	cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm
 
 .PHONY: override_dh_ocaml

@@ -102,6 +102,14 @@ DYN: usr/lib/coq/plugins/setoid_ring/newring_plugin.cmxs
 DYN: usr/lib/coq/plugins/micromega/micromega_plugin.cmxs
 DYN: usr/lib/coq/plugins/quote/quote_plugin.cmxs
 EOF
+    cat > debian/coqide.install <<'EOF'
+usr/bin/coqide*
+usr/lib/coq/ide/coq.png
+usr/lib/coq/ide/.coqide-gtk2rc
+usr/lib/coq/ide/FAQ
+usr/share/man/man1/coqide*
+debian/coqide.desktop    usr/share/applications
+EOF
   fi
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
     for f in "debian/${pkgname}".*; do

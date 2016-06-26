@@ -69,6 +69,84 @@ usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cma
 usr/lib/coq/plugins/funind/recdef_plugin.cma
 usr/lib/coq/plugins/nsatz/nsatz_plugin.cma
 usr/lib/coq/plugins/xml/xml_plugin.cma
+usr/lib/coq/plugins/romega/romega_plugin.cma
+usr/lib/coq/plugins/firstorder/ground_plugin.cma
+usr/lib/coq/plugins/subtac/subtac_plugin.cma
+usr/lib/coq/plugins/field/field_plugin.cma
+usr/lib/coq/plugins/rtauto/rtauto_plugin.cma
+usr/lib/coq/plugins/setoid_ring/newring_plugin.cma
+usr/lib/coq/plugins/micromega/micromega_plugin.cma
+usr/lib/coq/plugins/quote/quote_plugin.cma
+usr/lib/coq/plugins/decl_mode/decl_mode_plugin.cma
+DYN: usr/lib/coq/plugins/ring/ring_plugin.cmxs
+DYN: usr/lib/coq/plugins/fourier/fourier_plugin.cmxs
+DYN: usr/lib/coq/plugins/extraction/extraction_plugin.cmxs
+DYN: usr/lib/coq/plugins/omega/omega_plugin.cmxs
+DYN: usr/lib/coq/plugins/cc/cc_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/string_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/nat_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/z_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/r_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cmxs
+DYN: usr/lib/coq/plugins/funind/recdef_plugin.cmxs
+DYN: usr/lib/coq/plugins/nsatz/nsatz_plugin.cmxs
+DYN: usr/lib/coq/plugins/xml/xml_plugin.cmxs
+DYN: usr/lib/coq/plugins/romega/romega_plugin.cmxs
+DYN: usr/lib/coq/plugins/firstorder/ground_plugin.cmxs
+DYN: usr/lib/coq/plugins/subtac/subtac_plugin.cmxs
+DYN: usr/lib/coq/plugins/field/field_plugin.cmxs
+DYN: usr/lib/coq/plugins/rtauto/rtauto_plugin.cmxs
+DYN: usr/lib/coq/plugins/setoid_ring/newring_plugin.cmxs
+DYN: usr/lib/coq/plugins/micromega/micromega_plugin.cmxs
+DYN: usr/lib/coq/plugins/quote/quote_plugin.cmxs
+DYN: usr/lib/coq/plugins/decl_mode/decl_mode_plugin.cmxs
+EOF
+    cat > debian/coqide.install <<'EOF'
+usr/bin/coqide*
+usr/share/coq/coq.png
+etc/xdg/coq/coqide-gtk2rc
+usr/share/doc/coq/FAQ-CoqIde usr/share/doc/coqide
+usr/share/man/man1/coqide*
+debian/coqide.desktop    usr/share/applications
+EOF
+  fi
+  if [[ "$i" == 8.3* ]]; then
+    cat > debian/libcoq-ocaml-dev.install.in <<'EOF'
+usr/bin/coqmktop*
+usr/share/man/man1/coqmktop*
+usr/lib/coq/proofs/proofs.cma
+usr/lib/coq/ide/ide.cma
+usr/lib/coq/interp/interp.cma
+usr/lib/coq/tactics/tactics.cma
+usr/lib/coq/tactics/hightactics.cma
+usr/lib/coq/lib/lib.cma
+usr/lib/coq/toplevel/toplevel.cma
+usr/lib/coq/parsing/highparsing.cma
+usr/lib/coq/parsing/grammar.cma
+usr/lib/coq/parsing/parsing.cma
+usr/lib/coq/pretyping/pretyping.cma
+usr/lib/coq/library/library.cma
+usr/lib/coq/kernel/kernel.cma
+usr/lib/coq/config/coq_config.cmo
+# other *.cm* files will be added here by debian/rules
+EOF
+    cat > debian/libcoq-ocaml.install.in <<'EOF'
+usr/lib/coq/dllcoqrun.so @OCamlDllDir@
+usr/lib/coq/plugins/ring/ring_plugin.cma
+usr/lib/coq/plugins/fourier/fourier_plugin.cma
+usr/lib/coq/plugins/extraction/extraction_plugin.cma
+usr/lib/coq/plugins/omega/omega_plugin.cma
+usr/lib/coq/plugins/cc/cc_plugin.cma
+usr/lib/coq/plugins/syntax/string_syntax_plugin.cma
+usr/lib/coq/plugins/syntax/nat_syntax_plugin.cma
+usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cma
+usr/lib/coq/plugins/syntax/z_syntax_plugin.cma
+usr/lib/coq/plugins/syntax/r_syntax_plugin.cma
+usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cma
+usr/lib/coq/plugins/funind/recdef_plugin.cma
+usr/lib/coq/plugins/nsatz/nsatz_plugin.cma
+usr/lib/coq/plugins/xml/xml_plugin.cma
 usr/lib/coq/plugins/dp/dp_plugin.cma
 usr/lib/coq/plugins/romega/romega_plugin.cma
 usr/lib/coq/plugins/firstorder/ground_plugin.cma
@@ -119,6 +197,7 @@ EOF
     done
     sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
     sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
+    sed s'/ '"$pkgname"' (/ '"${PKG/coq/${pkgname}}"' (/g' -i debian/control || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   if [ "$(grep -R '{w|' . | grep -c '{w|')" -ne 0 ]; then
@@ -158,6 +237,11 @@ EOF
     fi
   else
     sed s'|-native-compiler no||g' -i debian/rules
+  fi
+  if [ -e configure ]; then
+    if [ "$(grep -c -- '--coqrunbyteflags' configure)" -ne 0 ]; then
+      sed s'|-debug |-debug --coqrunbyteflags "-dllib -lcoqrun" "-dllib -lcoqrun" |g' -i debian/rules
+    fi
   fi
   if [[ "$i" != 8.5* ]]; then
     sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?

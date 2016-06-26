@@ -34,6 +34,32 @@ for i in $VERSIONS; do
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   if [[ "$i" == 8.4* ]]; then
+    cat > debian/coq.install.in <<'EOF'
+usr/bin/coqc*
+usr/bin/coqdep*
+usr/bin/coqdoc*
+usr/bin/coq_makefile*
+usr/bin/coq-tex*
+usr/bin/coqtop*
+usr/bin/coqwc*
+usr/bin/gallina*
+usr/lib/coq/plugins/micromega/csdpcert
+usr/lib/coq/tools/coqdoc/coqdoc.css
+usr/lib/coq/tools/coqdoc/coqdoc.sty
+usr/lib/coq/states/initial.coq
+usr/share/emacs/site-lisp/coq/
+usr/share/man/man1/coqc*
+usr/share/man/man1/coqdep*
+usr/share/man/man1/coqdoc*
+usr/share/man/man1/coq_makefile*
+usr/share/man/man1/coq-tex*
+usr/share/man/man1/coqtop*
+usr/share/man/man1/coqwc*
+usr/share/man/man1/gallina*
+usr/share/emacs/site-lisp/coqdoc.sty    usr/share/texmf/tex/latex/misc/
+debian/coq.xpm                          usr/share/pixmaps
+debian/coqvars.mk                       usr/share/coq
+EOF
     cat > debian/libcoq-ocaml-dev.install.in <<'EOF'
 usr/bin/coqmktop*
 usr/share/man/man1/coqmktop*

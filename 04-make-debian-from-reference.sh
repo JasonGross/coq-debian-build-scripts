@@ -39,7 +39,7 @@ for i in $VERSIONS; do
         mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
       fi
     done
-    sed s'/^Package: '"$pkgname"'/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
+    sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
     sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?

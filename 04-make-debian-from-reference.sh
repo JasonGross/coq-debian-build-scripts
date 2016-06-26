@@ -68,6 +68,15 @@ for i in $VERSIONS; do
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
     fi
   fi
+  if [ -e configure.ml ]; then
+    if [ "$(grep -c -- '-no-native-compiler' configure.ml)" -ne 0]; then
+      sed s'|-native-compiler no|-no-native-compiler|g' -i debian/rules
+    elif [ "$(grep -c -- '-native-compiler' configure.ml)" -eq 0]; then
+      sed s'|-native-compiler no||g' -i debian/rules
+    fi
+  else
+    sed s'|-native-compiler no||g' -i debian/rules
+  fi
   if [[ "$i" != 8.5* ]]; then
     sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
   fi

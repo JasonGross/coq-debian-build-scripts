@@ -68,7 +68,7 @@ for i in $VERSIONS; do
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
     fi
   fi
-  if [[ "$i" != 8.5* ]] && [[ "$i" != 8.4* ]]; then
+  if [[ "$i" != 8.5* ]]; then
     sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
   fi
   if [ -e Makefile.build ]; then

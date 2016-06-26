@@ -10,6 +10,9 @@ for i in $VERSIONS; do
   pushd "debian-sources/$FOLDER" || exit $?
   if [ "$TARGET" == trusty ]; then
     dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
+    if [[ "$i" == 8.4* ]]; then
+      dput ppa:jgross-h/many-coq-versions-ocaml-3 "${ARCHIVE}${PPA_EXT}_source.changes"
+    fi
   elif [ "$TARGET" == precise ]; then
     dput ppa:jgross-h/many-coq-versions-ocaml-3 "${ARCHIVE}${PPA_EXT}_source.changes"
   fi

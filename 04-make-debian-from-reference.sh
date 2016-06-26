@@ -242,6 +242,12 @@ EOF
     if [ "$(grep -c -- '--coqrunbyteflags' configure)" -ne 0 ]; then
       sed s'|-debug |-debug --coqrunbyteflags "-dllib -lcoqrun" |g' -i debian/rules
     fi
+    if [ "$(grep -c -- '-browser' configure)" -eq 0 ]; then
+      sed s'|-browser "[^"]*"||g' -i debian/rules
+    fi
+    if [ "$(grep -c -- '-with-doc' configure)" -eq 0 ]; then
+      sed s'|-with-doc no||g' -i debian/rules
+    fi
   fi
   if [[ "$i" != 8.5* ]]; then
     sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
@@ -258,12 +264,35 @@ override_dh_auto_clean:
 	dh_auto_clean || make distclean -k || make clean -k || true
 
 EOF
+  if [ "$(find . -name "Makefile*" | xargs cat | grep -c '^\s*mkdirhier')" -ne 0 ]; then
+    sed s'|Build-Depends:|Build-Depends: xutils-dev,|g' -i debian/control
+  fi
   if [ "$(find . -name "configure*" | xargs cat | grep -c -- '-configdir')" -eq 0 ]; then
     sed s'|-configdir /etc/xdg/coq||g' -i debian/rules
   fi
-  if [ ! -e configure -a -e Makefile ]; then
-    if [ "$(grep -c '^configure:' Makefile 2>/dev/null)" -ne 0 ]; then
-      sed s'|./configure $(CONFIGUREOPTS)|make configure|g' -i debian/rules
+  if [ ! -e configure -a ! -e configure.ml ]; then
+    if [ -e Makefile ]; then
+      if [ "$(grep -c '^configure:' Makefile 2>/dev/null)" -ne 0 ]; then
+        sed s'|./configure $(CONFIGUREOPTS)|make configure|g' -i debian/rules
+      fi
+    elif [[ "$i" == 5.6* ]]; then
+      sed s'|./configure $(CONFIGUREOPTS)|true|g' -i debian/rules
+      cat >> debian/rules <<'EOF'
+
+.PHONY: override_dh_auto_build
+override_dh_auto_build:
+	dh_auto_build || make -C SRC
+
+EOF
+    elif [[ "$i" == 5.8* ]]; then
+      sed s'|./configure $(CONFIGUREOPTS)|true|g' -i debian/rules
+      cat >> debian/rules <<'EOF'
+
+.PHONY: override_dh_auto_build
+override_dh_auto_build:
+	dh_auto_build || (make -C LIB/libc; make -C LIB/stream-pp; make -C SRC)
+
+EOF
     fi
   fi
 

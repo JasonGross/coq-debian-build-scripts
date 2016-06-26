@@ -28,11 +28,14 @@ for i in $VERSIONS; do
   cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
+  if [ "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
+    sed s'|usr/bin/coqworkmgr.||g' -i debian/coq.install.in || exit $?
+  fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
     for f in "debian/${pkgname}".*; do
-      if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" ]; then
+      if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" -a "$f" != "debian/coqide.desktop" ]; then
         mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
       fi
     done

@@ -240,7 +240,7 @@ EOF
   fi
   if [ -e configure ]; then
     if [ "$(grep -c -- '--coqrunbyteflags' configure)" -ne 0 ]; then
-      sed s'|-debug |-debug --coqrunbyteflags "-dllib -lcoqrun" "-dllib -lcoqrun" |g' -i debian/rules
+      sed s'|-debug |-debug --coqrunbyteflags "-dllib -lcoqrun" |g' -i debian/rules
     fi
   fi
   if [[ "$i" != 8.5* ]]; then

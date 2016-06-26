@@ -37,6 +37,7 @@ for i in $VERSIONS; do
       fi
     done
     sed s'/^Package: '"$pkgname"'/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
+    sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   if [ "$(grep -R '{w|' . | grep -c '{w|')" -ne 0 ]; then
@@ -62,7 +63,7 @@ for i in $VERSIONS; do
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
       #sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 \&\& << 4.02.0)|g' -i debian/control || exit $?
-      sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
+      sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
     elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
       #sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 \&\& << 4)|g' -i debian/control || exit $?
       sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?

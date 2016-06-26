@@ -32,7 +32,7 @@ for i in $VERSIONS; do
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
     for f in "debian/${pkgname}".*; do
-      if [ "$f" != "coqvars.mk.in" -a "$f" != "coq.xpm" ]; then
+      if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" ]; then
         mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
       fi
     done
@@ -46,7 +46,7 @@ for i in $VERSIONS; do
         sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
       elif [ "$(grep -c '3.11.2|3.12\*|4.\*)' configure)" -ne 0 ]; then
         #sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.11.2 \&\& << 4.02.0)|g' -i debian/control || exit $?
-        sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
+        sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4.02.0)|g' -i debian/control || exit $?
       elif [ "$(grep -c '3.1\*)' configure)" -ne 0 ]; then
         #sed s'|ocaml-nox (>= 4)|ocaml-nox (>= 3.10 \&\& << 4)|g' -i debian/control || exit $?
         sed s'|ocaml-nox (>= 4)|ocaml-nox (<< 4)|g' -i debian/control || exit $?
@@ -69,7 +69,7 @@ for i in $VERSIONS; do
     fi
   fi
   if [[ "$i" != 8.5* ]] && [[ "$i" != 8.4* ]]; then
-    sed s'|ocaml-findlib (>= 1.4),||g' -i debian/control || exit $?
+    sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
   fi
   if [ -e Makefile.build ]; then
     if [ "$(grep -c '/toploop' Makefile.build)" -eq 0 ]; then

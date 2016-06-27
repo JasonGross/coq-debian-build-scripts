@@ -99,16 +99,16 @@ for i in $VERSIONS; do
     sed s'|-native-compiler no||g' -i debian/rules
   fi
   if [ -e configure ]; then
-    if [ "$(grep -c -- '--coqrunbyteflags' configure)" -ne 0 ]; then
+    if [ "$(cat configure* | grep -c -- '--coqrunbyteflags')" -ne 0 ]; then
       sed s'|-debug |-debug --coqrunbyteflags "-dllib -lcoqrun" |g' -i debian/rules
     fi
-    if [ "$(grep -c -- '-browser' configure)" -eq 0 ]; then
+    if [ "$(cat configure* | grep -c -- '-browser')" -eq 0 ]; then
       sed s'|-browser "[^"]*"||g' -i debian/rules
     fi
-    if [ "$(grep -c -- '-with-doc' configure)" -eq 0 ]; then
+    if [ "$(cat configure* | grep -c -- '-with-doc')" -eq 0 ]; then
       sed s'|-with-doc no||g' -i debian/rules
     fi
-    if [ "$(grep -c camlp5 configure)" -eq 0 ]; then
+    if [ "$(cat configure* | grep -c camlp5)" -eq 0 ]; then
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi

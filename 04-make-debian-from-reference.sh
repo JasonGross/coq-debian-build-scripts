@@ -45,6 +45,17 @@ for i in $VERSIONS; do
   if [ -e debian/coq.install.in -a "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
     sed s'|usr/bin/coqworkmgr.||g' -i debian/coq.install.in || exit $?
   fi
+  sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
+  cat >> debian/rules <<'EOF'
+
+.PHONY: override_dh_auto_clean
+override_dh_auto_clean:
+	dh_auto_clean || make distclean -k || make clean -k || true
+
+override_dh_auto_install::
+	find debian/tmp -name '*.cmxs' -printf '%P\n' \
+	  >> debian/coq-theories.install
+EOF
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
@@ -124,17 +135,6 @@ for i in $VERSIONS; do
       sed s'|chmod a-x debian/tmp/usr/lib/coq/toploop/\*cma|#|g' -i debian/rules
     fi
   fi
-  sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
-  cat >> debian/rules <<'EOF'
-
-.PHONY: override_dh_auto_clean
-override_dh_auto_clean:
-	dh_auto_clean || make distclean -k || make clean -k || true
-
-override_dh_auto_install::
-	find debian/tmp -name '*.cmxs' -printf '%P\n' \
-	  >> debian/coq-theories.install
-EOF
   if [ "$(find . -name "Makefile*" | xargs cat | grep -c '^\s*mkdirhier')" -ne 0 ]; then
     sed s'|Build-Depends:|Build-Depends: xutils-dev,|g' -i debian/control
   fi

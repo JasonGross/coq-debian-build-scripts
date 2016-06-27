@@ -94,8 +94,6 @@ override_dh_auto_install:
 	  >> debian/coq-theories.install
 	find debian/tmp -name '*.glob' -printf '%P\n' \
 	  >> debian/coq-theories.install
-	find debian/tmp -name '*.cmxs' -printf '%P\n' \
-	  >> debian/coq-theories.install
 	find debian/tmp -name '.coq-native' -printf '%P\n' \
 	  >> debian/coq-theories.install
 
@@ -103,7 +101,6 @@ override_dh_auto_install:
 override_dh_install:
 	chmod a-x debian/tmp/usr/lib/coq/toploop/*cma
 	dh_install --fail-missing
-	mkdir -p debian/coqide/usr/share/pixmaps
 	cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm
 
 .PHONY: override_dh_ocaml

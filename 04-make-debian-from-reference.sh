@@ -42,7 +42,7 @@ for i in $VERSIONS; do
   fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
-  if [ "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
+  if [ -e debian/coq.install.in -a "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
     sed s'|usr/bin/coqworkmgr.||g' -i debian/coq.install.in || exit $?
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
@@ -108,6 +108,9 @@ for i in $VERSIONS; do
     if [ "$(grep -c -- '-with-doc' configure)" -eq 0 ]; then
       sed s'|-with-doc no||g' -i debian/rules
     fi
+    if [ "$(grep -c camlp5 configure)" -eq 0 ]; then
+      sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
+    fi
   fi
   if [[ "$i" != 8.5* ]]; then
     sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
@@ -158,7 +161,9 @@ EOF
 
   if [ ! -e 'test-suite/bugs/closed/4429.v' ]; then rm -f debian/patches/0003-Remove-test-4429.patch; fi
   if [ ! -e 'test-suite/bugs/closed/4366.v' ]; then rm -f debian/patches/0002-Remove-test-4366-too-picky-on-the-timeout.patch; fi
-  (cd debian/patches && ls *.patch | sort) > debian/patches/series
+  if [ -e debian/patches/series ]; then
+    (cd debian/patches && ls *.patch | sort) > debian/patches/series
+  fi
   if [ ! -e 'test-suite/success/Nsatz.v' ]; then
     rm -rf debian/patches
   elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then

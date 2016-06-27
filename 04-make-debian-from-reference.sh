@@ -61,6 +61,7 @@ for i in $VERSIONS; do
     sed s'/ '"$pkgname"' (/ '"${PKG/coq/${pkgname}}"' (/g' -i debian/control || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
+  sed s'|\(cp debian/coq.xpm \)\(.*\)\(/coqide.xpm\)|mkdir -p \2 \&\& \1\2\3|g' -i debian/rules || exit $?
   if [ "$(grep -R '{w|' . | grep -c '{w|')" -ne 0 ]; then
     if [ -e configure ]; then
       if [ "$(grep -c '3.11.2|3.12\*)' configure)" -ne 0 ]; then
@@ -114,19 +115,25 @@ for i in $VERSIONS; do
     fi
   fi
   if [[ "$i" != 8.5* ]]; then
-    sed s'|ocaml-findlib (>= 1.4),|,|g' -i debian/control || exit $?
+    if [ "$TARGET" == precise ]; then
+      sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
+    fi
   fi
   if [ -e Makefile.build ]; then
     if [ "$(grep -c '/toploop' Makefile.build)" -eq 0 ]; then
       sed s'|chmod a-x debian/tmp/usr/lib/coq/toploop/\*cma|#|g' -i debian/rules
     fi
   fi
+  sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
   cat >> debian/rules <<'EOF'
 
 .PHONY: override_dh_auto_clean
 override_dh_auto_clean:
 	dh_auto_clean || make distclean -k || make clean -k || true
 
+override_dh_auto_install::
+	find debian/tmp -name '*.cmxs' -printf '%P\n' \
+	  >> debian/coq-theories.install
 EOF
   if [ "$(find . -name "Makefile*" | xargs cat | grep -c '^\s*mkdirhier')" -ne 0 ]; then
     sed s'|Build-Depends:|Build-Depends: xutils-dev,|g' -i debian/control
@@ -172,6 +179,7 @@ EOF
   fi
   if [ "$i" == "8.5beta1" -o "$i" == "8.4pl6" ]; then # test-suite is broken
     sed s'/\(\$(MAKE) test-suite COMPLEXITY=\)/\1 || true/g' -i debian/rules
+    sed s'~\(\$(MAKE) check COMPLEXITY= BESTCHICKEN=/bin/true\)~\1 || true~g' -i debian/rules
   fi
   popd
 done

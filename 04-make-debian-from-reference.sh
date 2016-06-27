@@ -55,6 +55,7 @@ for i in $VERSIONS; do
         fi
       fi
     done
+    sed s'|Recommends: '"$pkgname"' |Recommends: '"${PKG/coq/${pkgname}}"' |g' -i debian/control || exit $?
     sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
     sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
     sed s'/ '"$pkgname"' (/ '"${PKG/coq/${pkgname}}"' (/g' -i debian/control || exit $?

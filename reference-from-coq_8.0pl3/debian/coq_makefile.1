@@ -1,0 +1,96 @@
+.TH COQ 1 "April 25, 2001"
+
+.SH NAME
+coq_makefile \- The Coq Proof Assistant makefile generator
+
+
+.SH SYNOPSIS
+.B coq_makefile
+[
+.B options
+]
+[
+.I subdirectory
+]
+[
+.I file.v
+]
+[
+.I file.ml
+]
+
+.SH DESCRIPTION
+
+.B coq_makefile
+is a makefile generator for Coq proof developments.
+
+.SH OPTIONS
+
+.TP
+.I subdirectory
+Subdirectory that should be "made".
+.TP
+.I file.v
+Coq file to be compiled.
+.TP
+.I file.ml
+ML file to be compiled.
+.TP
+.B \-h,\ \-\-help
+Will give you a description of the whole list of options of
+.BR coq_makefile .
+.TP
+.BI \-custom\  command\ dependencies\ file
+Add target
+.I file
+with command
+.I command
+and dependencies
+.I dependencies.
+.TP
+.BI \-I dir
+Look for dependencies in
+.IR dir .
+.TP
+.BI \-R\  physicalpath\ logicalpath
+Look for dependencies recursively starting from.
+.IR physicalpath .
+The logical path associated to the physical path is
+.IR logicalpath .
+.TP
+.IB VARIABLE\  =\  value
+Add the variable definition "VARIABLE=value".
+.TP
+.B \-byte
+Compile with byte-code version of
+.BR coq (1).
+.TP
+.B \-opt
+Compile with native-code version of
+.BR coq (1).
+.TP
+.B \-impredicative\-set
+Compile with option
+.B \-impredicative\-set
+of
+.BR coq (1).
+.TP
+.B
+.BI \-f\  file
+Take the contents of file as arguments.
+.TP
+.BI \-o\  file
+Output should go in file
+.IR file .
+
+
+.SH SEE ALSO
+
+.BR coqtop (1),
+.BR coqtc (1),
+.BR coqdep (1).
+.br
+.I
+The Coq Reference Manual.
+.I
+The Coq web site: http://coq.inria.fr

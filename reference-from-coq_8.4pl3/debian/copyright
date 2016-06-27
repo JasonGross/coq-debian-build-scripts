@@ -1,0 +1,29 @@
+Packaged-By: Fernando Sanchez <fer@debian.org>
+Packaged-Date: Fri, 03 Dec 1999 22:06:04 +0100
+Original-Source-Location: http://coq.inria.fr/
+
+Files: *
+Copyright: © 1999-2010 The Coq development team,
+                       INRIA, CNRS, University Paris Sud,
+                       University Paris 7, Ecole Polytechnique.
+License: LGPL-2.1
+
+  This product includes also software developed by
+    Pierre Crégut, France Telecom R & D (plugins/omega and plugins/romega)
+    Pierre Courtieu and Julien Forest, CNAM (plugins/funind)
+    Claudio Sacerdoti Coen, HELM, University of Bologna, (plugins/xml)
+    Pierre Corbineau, Radbout University, Nijmegen (declarative mode)
+    John Harrison, University of Cambridge (csdp wrapper)
+
+  The file /usr/share/doc/coq/CREDITS.gz contains a list of contributors.
+
+  The Coq Proof Assistant is distributed under the terms of the GNU
+  Lesser General Public Licence, version 2.1, see
+  /usr/share/common-licenses/LGPL-2.1.
+
+Files: debian/*
+Copyright: © 1999-2000 Fernando Sanchez <fer@debian.org>
+           © 2001-2002 Judicael Courant <Judicael.Courant@lri.fr>
+           © 2004-2009 Samuel Mimram <smimram@debian.org>
+           © 2008-2010 Stéphane Glondu <glondu@debian.org>
+License: LGPL-2.1

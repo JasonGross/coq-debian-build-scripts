@@ -25,7 +25,21 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
+  if [[ "$i" == 8.4* ]]; then
+    cp -a ../../../reference-from-coq_8.4pl3/debian ./ || exit $?
+  elif [[ "$i" == 8.3* ]]; then
+    cp -a ../../../reference-from-coq_8.3p4/debian ./ || exit $?
+  elif [[ "$i" == 8.2* ]]; then
+    cp -a ../../../reference-from-coq_8.2pl2/debian ./ || exit $?
+  elif [[ "$i" == 8.1* ]]; then
+    cp -a ../../../reference-from-coq_8.1pl3/debian ./ || exit $?
+  elif [[ "$i" == 8.0* ]]; then
+    cp -a ../../../reference-from-coq_8.0pl3/debian ./ || exit $?
+  elif [[ "$i" == 7.3* ]]; then
+    cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
+  else
+    cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
+  fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
   if [ "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
@@ -33,218 +47,12 @@ for i in $VERSIONS; do
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
-  if [[ "$i" == 8.4* ]]; then
-    cat > debian/coq.install.in <<'EOF'
-usr/bin/coqc*
-usr/bin/coqdep*
-usr/bin/coqdoc*
-usr/bin/coq_makefile*
-usr/bin/coq-tex*
-usr/bin/coqtop*
-usr/bin/coqwc*
-usr/bin/gallina*
-usr/lib/coq/plugins/micromega/csdpcert
-usr/lib/coq/tools/coqdoc/coqdoc.css
-usr/lib/coq/tools/coqdoc/coqdoc.sty
-usr/lib/coq/states/initial.coq
-usr/share/emacs/site-lisp/coq/
-usr/share/man/man1/coqc*
-usr/share/man/man1/coqdep*
-usr/share/man/man1/coqdoc*
-usr/share/man/man1/coq_makefile*
-usr/share/man/man1/coq-tex*
-usr/share/man/man1/coqtop*
-usr/share/man/man1/coqwc*
-usr/share/man/man1/gallina*
-usr/share/emacs/site-lisp/coqdoc.sty    usr/share/texmf/tex/latex/misc/
-debian/coq.xpm                          usr/share/pixmaps
-debian/coqvars.mk                       usr/share/coq
-EOF
-    cat > debian/libcoq-ocaml-dev.install.in <<'EOF'
-usr/bin/coqmktop*
-usr/share/man/man1/coqmktop*
-usr/lib/coq/proofs/proofs.cma
-usr/lib/coq/ide/ide.cma
-usr/lib/coq/interp/interp.cma
-usr/lib/coq/tactics/tactics.cma
-usr/lib/coq/tactics/hightactics.cma
-usr/lib/coq/lib/lib.cma
-usr/lib/coq/toplevel/toplevel.cma
-usr/lib/coq/parsing/highparsing.cma
-usr/lib/coq/parsing/grammar.cma
-usr/lib/coq/parsing/parsing.cma
-usr/lib/coq/pretyping/pretyping.cma
-usr/lib/coq/library/library.cma
-usr/lib/coq/kernel/kernel.cma
-usr/lib/coq/config/coq_config.cmo
-# other *.cm* files will be added here by debian/rules
-EOF
-    cat > debian/libcoq-ocaml.install.in <<'EOF'
-usr/lib/coq/dllcoqrun.so @OCamlDllDir@
-usr/lib/coq/plugins/ring/ring_plugin.cma
-usr/lib/coq/plugins/fourier/fourier_plugin.cma
-usr/lib/coq/plugins/extraction/extraction_plugin.cma
-usr/lib/coq/plugins/omega/omega_plugin.cma
-usr/lib/coq/plugins/cc/cc_plugin.cma
-usr/lib/coq/plugins/syntax/string_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/nat_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/z_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/r_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cma
-usr/lib/coq/plugins/funind/recdef_plugin.cma
-usr/lib/coq/plugins/nsatz/nsatz_plugin.cma
-usr/lib/coq/plugins/xml/xml_plugin.cma
-usr/lib/coq/plugins/romega/romega_plugin.cma
-usr/lib/coq/plugins/firstorder/ground_plugin.cma
-usr/lib/coq/plugins/subtac/subtac_plugin.cma
-usr/lib/coq/plugins/field/field_plugin.cma
-usr/lib/coq/plugins/rtauto/rtauto_plugin.cma
-usr/lib/coq/plugins/setoid_ring/newring_plugin.cma
-usr/lib/coq/plugins/micromega/micromega_plugin.cma
-usr/lib/coq/plugins/quote/quote_plugin.cma
-usr/lib/coq/plugins/decl_mode/decl_mode_plugin.cma
-DYN: usr/lib/coq/plugins/ring/ring_plugin.cmxs
-DYN: usr/lib/coq/plugins/fourier/fourier_plugin.cmxs
-DYN: usr/lib/coq/plugins/extraction/extraction_plugin.cmxs
-DYN: usr/lib/coq/plugins/omega/omega_plugin.cmxs
-DYN: usr/lib/coq/plugins/cc/cc_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/string_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/nat_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/z_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/r_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/funind/recdef_plugin.cmxs
-DYN: usr/lib/coq/plugins/nsatz/nsatz_plugin.cmxs
-DYN: usr/lib/coq/plugins/xml/xml_plugin.cmxs
-DYN: usr/lib/coq/plugins/romega/romega_plugin.cmxs
-DYN: usr/lib/coq/plugins/firstorder/ground_plugin.cmxs
-DYN: usr/lib/coq/plugins/subtac/subtac_plugin.cmxs
-DYN: usr/lib/coq/plugins/field/field_plugin.cmxs
-DYN: usr/lib/coq/plugins/rtauto/rtauto_plugin.cmxs
-DYN: usr/lib/coq/plugins/setoid_ring/newring_plugin.cmxs
-DYN: usr/lib/coq/plugins/micromega/micromega_plugin.cmxs
-DYN: usr/lib/coq/plugins/quote/quote_plugin.cmxs
-DYN: usr/lib/coq/plugins/decl_mode/decl_mode_plugin.cmxs
-EOF
-    cat > debian/coqide.install <<'EOF'
-usr/bin/coqide*
-usr/share/coq/coq.png
-etc/xdg/coq/coqide-gtk2rc
-usr/share/doc/coq/FAQ-CoqIde usr/share/doc/coqide
-usr/share/man/man1/coqide*
-debian/coqide.desktop    usr/share/applications
-EOF
-  fi
-  if [[ "$i" == 8.3* ]]; then
-    cat > debian/coq.install.in <<'EOF'
-usr/bin/coqc*
-usr/bin/coqdep*
-usr/bin/coqdoc*
-usr/bin/coq_makefile*
-usr/bin/coq-tex*
-usr/bin/coqtop*
-usr/bin/coqwc*
-usr/bin/gallina*
-usr/lib/coq/plugins/micromega/csdpcert
-usr/lib/coq/tools/coqdoc/coqdoc.css
-usr/lib/coq/tools/coqdoc/coqdoc.sty
-usr/lib/coq/states/initial.coq
-usr/share/emacs/site-lisp/coq/
-usr/share/man/man1/coqc*
-usr/share/man/man1/coqdep*
-usr/share/man/man1/coqdoc*
-usr/share/man/man1/coq_makefile*
-usr/share/man/man1/coq-tex*
-usr/share/man/man1/coqtop*
-usr/share/man/man1/coqwc*
-usr/share/man/man1/gallina*
-usr/share/emacs/site-lisp/coqdoc.sty    usr/share/texmf/tex/latex/misc/
-debian/coq.xpm                          usr/share/pixmaps
-debian/coqvars.mk                       usr/share/coq
-EOF
-    cat > debian/libcoq-ocaml-dev.install.in <<'EOF'
-usr/bin/coqmktop*
-usr/share/man/man1/coqmktop*
-usr/lib/coq/proofs/proofs.cma
-usr/lib/coq/ide/ide.cma
-usr/lib/coq/interp/interp.cma
-usr/lib/coq/tactics/tactics.cma
-usr/lib/coq/tactics/hightactics.cma
-usr/lib/coq/lib/lib.cma
-usr/lib/coq/toplevel/toplevel.cma
-usr/lib/coq/parsing/highparsing.cma
-usr/lib/coq/parsing/grammar.cma
-usr/lib/coq/parsing/parsing.cma
-usr/lib/coq/pretyping/pretyping.cma
-usr/lib/coq/library/library.cma
-usr/lib/coq/kernel/kernel.cma
-usr/lib/coq/config/coq_config.cmo
-# other *.cm* files will be added here by debian/rules
-EOF
-    cat > debian/libcoq-ocaml.install.in <<'EOF'
-usr/lib/coq/dllcoqrun.so @OCamlDllDir@
-usr/lib/coq/plugins/ring/ring_plugin.cma
-usr/lib/coq/plugins/fourier/fourier_plugin.cma
-usr/lib/coq/plugins/extraction/extraction_plugin.cma
-usr/lib/coq/plugins/omega/omega_plugin.cma
-usr/lib/coq/plugins/cc/cc_plugin.cma
-usr/lib/coq/plugins/syntax/string_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/nat_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/z_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/r_syntax_plugin.cma
-usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cma
-usr/lib/coq/plugins/funind/recdef_plugin.cma
-usr/lib/coq/plugins/nsatz/nsatz_plugin.cma
-usr/lib/coq/plugins/xml/xml_plugin.cma
-usr/lib/coq/plugins/dp/dp_plugin.cma
-usr/lib/coq/plugins/romega/romega_plugin.cma
-usr/lib/coq/plugins/firstorder/ground_plugin.cma
-usr/lib/coq/plugins/subtac/subtac_plugin.cma
-usr/lib/coq/plugins/field/field_plugin.cma
-usr/lib/coq/plugins/rtauto/rtauto_plugin.cma
-usr/lib/coq/plugins/setoid_ring/newring_plugin.cma
-usr/lib/coq/plugins/micromega/micromega_plugin.cma
-usr/lib/coq/plugins/quote/quote_plugin.cma
-DYN: usr/lib/coq/plugins/ring/ring_plugin.cmxs
-DYN: usr/lib/coq/plugins/fourier/fourier_plugin.cmxs
-DYN: usr/lib/coq/plugins/extraction/extraction_plugin.cmxs
-DYN: usr/lib/coq/plugins/omega/omega_plugin.cmxs
-DYN: usr/lib/coq/plugins/cc/cc_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/string_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/nat_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/numbers_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/z_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/r_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/syntax/ascii_syntax_plugin.cmxs
-DYN: usr/lib/coq/plugins/funind/recdef_plugin.cmxs
-DYN: usr/lib/coq/plugins/nsatz/nsatz_plugin.cmxs
-DYN: usr/lib/coq/plugins/xml/xml_plugin.cmxs
-DYN: usr/lib/coq/plugins/dp/dp_plugin.cmxs
-DYN: usr/lib/coq/plugins/romega/romega_plugin.cmxs
-DYN: usr/lib/coq/plugins/firstorder/ground_plugin.cmxs
-DYN: usr/lib/coq/plugins/subtac/subtac_plugin.cmxs
-DYN: usr/lib/coq/plugins/field/field_plugin.cmxs
-DYN: usr/lib/coq/plugins/rtauto/rtauto_plugin.cmxs
-DYN: usr/lib/coq/plugins/setoid_ring/newring_plugin.cmxs
-DYN: usr/lib/coq/plugins/micromega/micromega_plugin.cmxs
-DYN: usr/lib/coq/plugins/quote/quote_plugin.cmxs
-EOF
-    cat > debian/coqide.install <<'EOF'
-usr/bin/coqide*
-usr/lib/coq/ide/coq.png
-usr/lib/coq/ide/.coqide-gtk2rc
-usr/lib/coq/ide/FAQ
-usr/share/man/man1/coqide*
-debian/coqide.desktop    usr/share/applications
-EOF
-  fi
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
     for f in "debian/${pkgname}".*; do
-      if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" -a "$f" != "debian/coqide.desktop" ]; then
-        mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
+      if [ -e "$f" ]; then
+        if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" -a "$f" != "debian/coqide.desktop" ]; then
+          mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
+        fi
       fi
     done
     sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?

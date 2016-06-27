@@ -22,36 +22,26 @@ ADDPREF := COQINSTALLPREFIX=$(COQPREF) OLDROOT=
 
 PACKAGES := $(shell dh_listpackages)
 
-COQ_VERSION := @@@COQ_VERSION@@@ # 8.5
+COQ_VERSION := 8.3pl4
 COQ_ABI := $(COQ_VERSION)+$(OCAML_ABI)
 
-ARCH := $(shell dpkg-architecture -q DEB_TARGET_ARCH)
-ifeq ($(ARCH),$(filter $(ARCH),amd64 i386))
-NATIVE_COMPUTE :=
-else
-NATIVE_COMPUTE := -native-compiler no
-endif
-
-CONFIGUREOPTS := -arch Linux -prefix /usr -mandir /usr/share/man \
-  -configdir /etc/xdg/coq \
-  -emacslib /usr/share/emacs/site-lisp/coq \
-  -browser "/usr/bin/x-www-browser %s &" \
-  -with-doc no \
-  -debug \
-  $(NATIVE_COMPUTE)
+CONFIGUREOPTS := --arch Linux --prefix /usr --mandir /usr/share/man \
+  --emacslib /usr/share/emacs/site-lisp/coq \
+  --browser "/usr/bin/x-www-browser %s &" \
+  --with-doc no --coqrunbyteflags "-dllib -lcoqrun"
 
 export OCAMLINIT_SED += \
   -e 's%@CoqVersion@%$(COQ_VERSION)%' \
   -e 's%@CoqABI@%$(COQ_ABI)%'
 
 %:
-	+dh $@ --with ocaml
+	+dh --with ocaml $@
 
 # There is already a file named "build" in upstream sources, so the
 # above rule is never called. We make it explicitly a phony rule here.
 .PHONY: build
 build:
-	+dh $@ --with ocaml
+	+dh --with ocaml $@
 
 .PHONY: override_dh_auto_configure
 override_dh_auto_configure:
@@ -79,34 +69,21 @@ endif
 
 .PHONY: override_dh_auto_test
 override_dh_auto_test:
-	$(MAKE) test-suite COMPLEXITY=
+	$(MAKE) check COMPLEXITY= BESTCHICKEN=/bin/true
 
 .PHONY: override_dh_auto_install
 override_dh_auto_install:
 	$(MAKE) $(ADDPREF) install
 	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cmi|cmx|cmxa|[ao])$$' \
-	  | grep -v toploop/ | grep -v coq-native \
+	  -regex '.*\.(cm[xi]|cmxa|[ao])$$' \
 	  >> debian/libcoq-ocaml-dev.install
 	find debian/tmp -name '*.vo' -printf '%P\n' \
-	  >> debian/coq-theories.install
-	find debian/tmp -name '*.v' -printf '%P\n' \
-	  >> debian/coq-theories.install
-	find debian/tmp -name '*.glob' -printf '%P\n' \
-	  >> debian/coq-theories.install
-	find debian/tmp -name '.coq-native' -printf '%P\n' \
 	  >> debian/coq-theories.install
 
 .PHONY: override_dh_install
 override_dh_install:
-	chmod a-x debian/tmp/usr/lib/coq/toploop/*cma
 	dh_install --fail-missing
 	cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm
-
-.PHONY: override_dh_ocaml
-override_dh_ocaml:
-	dh_ocaml --nodefined-map coqide:Xmlprotocol,Ide_slave
-	for f in debian/*substvars; do echo $$f; cat $$f; done
 
 .PHONY: override_dh_gencontrol
 override_dh_gencontrol:

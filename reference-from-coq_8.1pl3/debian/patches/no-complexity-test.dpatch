@@ -1,0 +1,21 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## no-complexity-test.dpatch by Julien Cristau <julien.cristau@ens-lyon.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Don't run complexity tests, they are far too fragile.
+
+@DPATCH@
+diff -urNad coq-8.1gamma~/test-suite/check coq-8.1gamma/test-suite/check
+--- coq-8.1gamma~/test-suite/check	2006-11-03 14:07:27.000000000 +0100
++++ coq-8.1gamma/test-suite/check	2006-11-23 15:19:49.000000000 +0100
+@@ -145,8 +145,8 @@
+ test_parser parser
+ echo "Interactive tests"
+ test_interactive interactive
+-echo "Complexity tests"
+-test_complexity complexity
++echo "Skipping complexity tests"
++#test_complexity complexity
+ echo "Module tests"
+ $coqtop -compile modules/Nat
+ $coqtop -compile modules/plik

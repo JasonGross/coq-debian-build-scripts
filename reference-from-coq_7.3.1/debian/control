@@ -1,0 +1,19 @@
+Source: coq
+Section: devel
+Priority: optional
+Maintainer: Debian OCaml Maintainers <debian-ocaml-maint@lists.debian.org>
+Uploaders: Ralf Treinen <treinen@debian.org>, Sven Luther <luther@debian.org>, Jerome Marant <jerome@debian.org>, Remi Vanicat <vanicat@debian.org>, Stefano Zacchiroli <zack@debian.org>
+Standards-Version: 3.6.1
+Build-Depends: debhelper (>= 3), ocaml-3.07, dpatch, ocaml-best-compilers
+
+Package: coq
+Architecture: any
+Depends: ${shlibs:Depends}
+Suggests: coq-doc, ocaml-3.07, cle, ledit
+Recommends: coq-doc, proofgeneral-coq
+Description: Proof assistant for higher-order logic
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp4.
+ For more information, see <http://coq.inria.fr/>.
+

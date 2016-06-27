@@ -1,0 +1,6 @@
+usr/bin/coqide*
+usr/lib/coq/ide/coq.png
+usr/lib/coq/ide/.coqide-gtk2rc
+usr/lib/coq/ide/FAQ
+usr/share/man/man1/coqide*
+debian/coqide.desktop    usr/share/applications

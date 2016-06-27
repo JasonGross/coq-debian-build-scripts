@@ -1,0 +1,11 @@
+--- coq-8.2.pl2+dfsg.orig/kernel/byterun/coq_interp.c
++++ coq-8.2.pl2+dfsg/kernel/byterun/coq_interp.c
+@@ -144,7 +144,7 @@ sp is a local copy of the global variabl
+ #define SP_REG asm("a4")
+ #define ACCU_REG asm("d7")
+ #endif
+-#ifdef __arm__
++#if defined(__arm__) && !defined(__thumb2__)
+ #define PC_REG asm("r9")
+ #define SP_REG asm("r8")
+ #define ACCU_REG asm("r7")

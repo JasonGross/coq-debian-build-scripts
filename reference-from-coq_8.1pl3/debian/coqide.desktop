@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=CoqIDE Proof Assistant
+Comment=Graphical interface for the Coq proof assistant
+Exec=coqide
+Type=Application
+Categories=Development;Science;Math;IDE;GTK;
+Terminal=false
+Icon=coq

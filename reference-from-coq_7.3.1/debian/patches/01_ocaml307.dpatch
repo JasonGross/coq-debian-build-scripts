@@ -1,0 +1,189 @@
+#! /bin/sh -e
+## 01_ocaml307.dpatch by Ralf Treinen <treinen@debian.org>
+## using a patch by Hugo Herbelin <hugo.herbelin@inria.fr>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Patch for cimpilation with ocaml 3.07
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+       -patch) patch $patch_opts -p1 < $0;;
+       -unpatch) patch $patch_opts -E -p1 -R < $0;;
+        *)
+                echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+                exit 1;;
+esac
+
+exit 0
+@DPATCH@
+--- coq-7.3.1.orig/parsing/g_prim.ml4
++++ coq-7.3.1/parsing/g_prim.ml4
+@@ -83,14 +83,14 @@
+ *)
+   (* meta-syntax entries *)
+   astpat:
+-    [ [ "<<" ; a = ast; ">>" -> Node loc "ASTPAT" [a]
+-      | a = default_action_parser -> Node loc "ASTPAT" [a] ] ]
++    [ [ "<<" ; a = ast; ">>" -> Node (loc, "ASTPAT", [a])
++      | a = default_action_parser -> Node (loc, "ASTPAT", [a]) ] ]
+   ; 
+   astact:
+-    [ [ a = action -> Node loc "ASTACT" [a] ] ]
++    [ [ a = action -> Node (loc, "ASTACT", [a]) ] ]
+   ;
+   astlist:
+-    [ [ l = LIST0 ast -> Node loc "ASTLIST" l ] ]
++    [ [ l = LIST0 ast -> Node (loc, "ASTLIST", l) ] ]
+   ;
+   action:
+     [ [ IDENT "let"; p = astlist; et = entry_type; "="; e1 = action; "in";
+--- coq-7.3.1.orig/parsing/pcoq.ml4
++++ coq-7.3.1/parsing/pcoq.ml4
+@@ -22,11 +22,11 @@
+    lexer. B.B. *)
+ 
+ let lexer = {
+-  Token.tok_func = Lexer.func;
+-  Token.tok_using = Lexer.add_token;
+-  Token.tok_removing = (fun _ -> ());
+-  Token.tok_match = Token.default_match;
+-  Token.tok_text = Lexer.token_text }
++  Token.func = Lexer.func;
++  Token.using = Lexer.add_token;
++  Token.removing = (fun _ -> ());
++  Token.tparse = Lexer.tparse;
++  Token.text = Lexer.token_text }
+ 
+ module L =
+   struct
+@@ -36,7 +36,7 @@
+ 
+ (* The parser of Coq *)
+ 
+-module G = Grammar.GMake(L)
++module G = Grammar.Make(L)
+ 
+ let grammar_delete e rls =
+   List.iter
+@@ -65,6 +65,7 @@
+     type parsable = G.parsable
+     let parsable = G.parsable
+     let tokens = G.tokens
++    let glexer = G.glexer
+     module Entry = G.Entry
+     module Unsafe = G.Unsafe
+ 
+--- coq-7.3.1.orig/parsing/pcoq.mli
++++ coq-7.3.1/parsing/pcoq.mli
+@@ -10,7 +10,7 @@
+ 
+ (* The lexer and parser of Coq. *)
+ 
+-val lexer : Token.t Token.glexer
++val lexer : Token.lexer
+ 
+ module Gram : Grammar.S with type te = Token.t
+ 
+--- coq-7.3.1.orig/parsing/q_coqast.ml4
++++ coq-7.3.1/parsing/q_coqast.ml4
+@@ -36,48 +36,48 @@
+ (* which will bind their actual ast value *)
+ 
+ let rec expr_of_ast = function
+-  | Coqast.Nmeta loc id -> anti loc id
+-  | Coqast.Id loc id when is_meta id -> <:expr< Coqast.Id loc $anti loc id$ >>
+-  | Coqast.Node _ "$VAR" [Coqast.Nmeta loc x] ->
++  | Coqast.Nmeta (loc, id) -> anti loc id
++  | Coqast.Id (loc, id) when is_meta id -> <:expr< Coqast.Id loc $anti loc id$ >>
++  | Coqast.Node (_, "$VAR", [Coqast.Nmeta (loc, x)]) ->
+       <:expr< let s = $anti loc x$ in
+       if String.length s > 0 && String.sub s 0 1 = "$" then
+ 	failwith "Wrong ast: $VAR should not be bound to a meta variable"
+       else
+-	Coqast.Nvar loc (Names.id_of_string s) >>
+-  | Coqast.Node _ "$PATH" [Coqast.Nmeta loc x] ->
++	Coqast.Nvar (loc, Names.id_of_string s) >>
++  | Coqast.Node (_, "$PATH", [Coqast.Nmeta (loc, x)]) ->
+       <:expr< Coqast.Path loc $anti loc x$ >>
+-  | Coqast.Node _ "$ID" [Coqast.Nmeta loc x] ->
++  | Coqast.Node (_, "$ID", [Coqast.Nmeta (loc, x)]) ->
+       <:expr< Coqast.Id loc $anti loc x$ >>
+-  | Coqast.Node _ "$STR" [Coqast.Nmeta loc x] ->
++  | Coqast.Node (_, "$STR", [Coqast.Nmeta (loc, x)]) ->
+       <:expr< Coqast.Str loc $anti loc x$ >>
+ (* Obsolète
+   | Coqast.Node _ "$SLAM" [Coqast.Nmeta loc idl; y] ->
+       <:expr<
+       List.fold_right (Pcoq.slam_ast loc) $anti loc idl$ $expr_of_ast y$ >>
+ *)
+-  | Coqast.Node loc "$ABSTRACT" [Coqast.Str _ s; x; y] ->
++  | Coqast.Node (loc, "$ABSTRACT", [Coqast.Str (_, s); x; y]) ->
+       <:expr<
+       Pcoq.abstract_binders_ast loc $str:s$ $expr_of_ast x$ $expr_of_ast y$ >>
+-  | Coqast.Node loc nn al ->
++  | Coqast.Node (loc, nn, al) ->
+       let e = expr_list_of_ast_list al in
+       <:expr< Coqast.Node loc $str:nn$ $e$ >>
+-  | Coqast.Nvar loc id ->
++  | Coqast.Nvar (loc, id) ->
+       <:expr< Coqast.Nvar loc (Names.id_of_string $str:Names.string_of_id id$) >>
+-  | Coqast.Slam loc None a ->
++  | Coqast.Slam (loc, None, a) ->
+       <:expr< Coqast.Slam loc None $expr_of_ast a$ >>
+-  | Coqast.Smetalam loc s a ->
++  | Coqast.Smetalam (loc, s, a) ->
+       <:expr< 
+       match $anti loc s$ with
+ 	[ Coqast.Nvar _ id -> Coqast.Slam loc (Some id) $expr_of_ast a$
+ 	| Coqast.Nmeta _ s -> Coqast.Smetalam loc s $expr_of_ast a$
+ 	| _ -> failwith "Slam expects a var or a metavar" ] >>
+-  | Coqast.Slam loc (Some s) a ->
++  | Coqast.Slam (loc, (Some s), a) ->
+       let se = <:expr< Names.id_of_string $str:Names.string_of_id s$ >> in
+       <:expr< Coqast.Slam loc (Some $se$) $expr_of_ast a$ >>
+-  | Coqast.Num loc i -> <:expr< Coqast.Num loc $int:string_of_int i$ >>
+-  | Coqast.Id loc id -> <:expr< Coqast.Id loc $str:id$ >>
+-  | Coqast.Str loc str -> <:expr< Coqast.Str loc $str:str$ >>
+-  | Coqast.Path loc qid ->
++  | Coqast.Num (loc, i) -> <:expr< Coqast.Num loc $int:string_of_int i$ >>
++  | Coqast.Id (loc, id) -> <:expr< Coqast.Id loc $str:id$ >>
++  | Coqast.Str (loc, str) -> <:expr< Coqast.Str loc $str:str$ >>
++  | Coqast.Path (loc, qid) ->
+       let l,a = Names.repr_path qid in
+       let expr_of_modid id =
+ 	<:expr< Names.id_of_string $str:Names.string_of_id id$ >> in
+@@ -85,13 +85,13 @@
+       let e = expr_list_of_var_list e in
+       <:expr< Coqast.Path loc (Names.make_path (Names.make_dirpath $e$)
+                 (Names.id_of_string $str:Names.string_of_id a$)) >> 
+-  | Coqast.Dynamic _ _ ->
++  | Coqast.Dynamic (_, _) ->
+       failwith "Q_Coqast: dynamic: not implemented"
+ 
+ and expr_list_of_ast_list al =
+   List.fold_right
+     (fun a e2 -> match a with
+-       | (Coqast.Node _ "$LIST" [Coqast.Nmeta locv pv]) ->
++       | (Coqast.Node (_, "$LIST", [Coqast.Nmeta (locv, pv)])) ->
+            let e1 = anti locv pv in
+            let loc = (fst(MLast.loc_of_expr e1), snd(MLast.loc_of_expr e2)) in
+ 	     if e2 = (let loc = dummy_loc in <:expr< [] >>)
+--- coq-7.3.1.orig/toplevel/metasyntax.ml
++++ coq-7.3.1/toplevel/metasyntax.ml
+@@ -82,7 +82,7 @@
+ 
+ (* Tokens *)
+ 
+-let cache_token (_,s) = Pcoq.lexer.Token.tok_using ("", s)
++let cache_token (_,s) = Pcoq.lexer.Token.using ("", s)
+ 
+ let (inToken, outToken) =
+   declare_object
+
+

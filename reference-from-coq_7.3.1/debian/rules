@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+# debian/rules for coq
+
+include /usr/share/dpatch/dpatch.make
+
+COQPREF=$(CURDIR)/debian/coq
+ADDPREF=COQINSTALLPREFIX=${COQPREF}
+
+MAKEQ=${MAKE} -q
+
+CONFIGUREOPTS=--prefix /usr --mandir /usr/share/man \
+	--emacslib /usr/share/emacs/site-lisp/coq
+
+configure: configure-stamp
+configure-stamp: patch
+	dh_testdir
+	if [ -e /usr/bin/ocamlc.opt ]; \
+	then \
+		./configure -opt ${CONFIGUREOPTS}; \
+	else \
+		./configure ${CONFIGUREOPTS}; \
+	fi
+	if [ `arch` = ppc ] ; then ./configure ${CONFIGUREOPTS} ; fi
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+	if grep -q BEST=opt config/Makefile; \
+	then (${MAKEQ} bin/coqmktop bin/coqc bin/coqtop.byte \
+	      && ${MAKEQ} bin/coqmktop bin/coqc bin/coqtop.byte \
+	      && ${MAKEQ} bin/coqtop.opt bin/coqtop \
+	      && ${MAKEQ} states \
+	      && ${MAKEQ} world ) \
+          ||  (echo WARNING: NATIVE CODE COMPILATION FAILED \
+	    && echo Trying to build coq in bytecode \
+	    && ${MAKE} archclean clean \
+	    && ${MAKE} BEST=byte world \
+	    && echo NATIVE CODE COMPILATION FAILED \
+	    && echo Coq was built in bytecode instead); \
+	else ${MAKE} world; \
+	fi
+	${MAKE} check
+	touch build-stamp
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	-$(MAKE) clean
+	-$(MAKE) archclean
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	$(MAKE) ${ADDPREF} install || $(MAKE) BEST=byte ${ADDPREF} install
+	-strip -R .note -R .comment ${COQPREF}/usr/bin/coqtop.opt
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installemacsen
+	dh_installchangelogs CHANGES
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure patch unpatch

@@ -1,0 +1,15 @@
+usr/bin/coqc
+usr/bin/coqdep
+usr/bin/coqdoc
+usr/bin/coq-interface*
+usr/bin/coq_makefile
+usr/bin/coqmktop
+usr/bin/coq-tex
+usr/bin/coqtop*
+usr/bin/coqwc
+usr/bin/gallina
+usr/share/emacs/site-lisp/coq
+usr/share/emacs/site-lisp/coqdoc.sty
+usr/share/man/man1/c*
+usr/share/man/man1/gallina.1
+usr/share/texmf/tex/latex/misc/*

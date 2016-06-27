@@ -1,0 +1,3 @@
+usr/bin/coqmktop*
+usr/share/man/man1/coqmktop*
+# *.cm* files will be added here

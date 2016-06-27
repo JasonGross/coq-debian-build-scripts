@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## check.dpatch by Samuel Mimram <smimram@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Suppress warnings from tests outputs.
+
+@DPATCH@
+diff -urNad coq-8.1.pl2+dfsg~/test-suite/check coq-8.1.pl2+dfsg/test-suite/check
+--- coq-8.1.pl2+dfsg~/test-suite/check	2007-11-29 14:02:40.000000000 +0000
++++ coq-8.1.pl2+dfsg/test-suite/check	2007-11-29 14:03:39.000000000 +0000
+@@ -52,7 +52,7 @@
+ 	nbtests=`expr $nbtests + 1`
+ 	printf "    "$f"..."
+         tmpoutput=`mktemp /tmp/coqcheck.XXXXXX`
+-	$command $f 2>&1 | grep -v "Welcome to Coq" | grep -v "Skipping rcfile loading" > $tmpoutput
++	$command $f 2>&1 | grep -v "Welcome to Coq" | grep -v "Skipping rcfile loading" | grep -v "some rule has been masked" > $tmpoutput
+         foutput=`dirname $f`/`basename $f .v`.out
+         diff $tmpoutput $foutput >& /dev/null
+ 	if [ $? = 0 ]; then 

@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## configure.dpatch by Pierre Letouzey <pierre.letouzey@pps.jussieu.fr>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Correctly detect whether ocamlopt is present or not.
+
+@DPATCH@
+diff -urNad coq-8.1+dfsg~/configure coq-8.1+dfsg/configure
+--- coq-8.1+dfsg~/configure	2007-02-10 08:32:28.000000000 +0000
++++ coq-8.1+dfsg/configure	2007-02-15 12:58:56.000000000 +0000
+@@ -340,7 +340,7 @@
+ # do we have a native compiler: test of ocamlopt and its version
+ 
+ if [ "$best_compiler" = "opt" ] ; then
+-  if test -e `which "$nativecamlc"` ; then
++  if test -e "`which $nativecamlc`" ; then
+       CAMLOPTVERSION=`"$nativecamlc" -v | sed -n -e 's|.*version* *\(.*\)$|\1|p' `
+       if [ "$CAMLOPTVERSION" != "$CAMLVERSION" ] ; then
+ 	  echo "native and bytecode compilers do not have the same version!"; fi

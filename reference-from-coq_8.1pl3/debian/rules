@@ -1,0 +1,144 @@
+#!/usr/bin/make -f
+# debian/rules for coq
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# We want to use dpatch
+include /usr/share/dpatch/dpatch.make
+
+COQPREF := $(CURDIR)/debian/tmp
+ADDPREF := COQINSTALLPREFIX=$(COQPREF)
+
+OCAMLABI := $(shell ocamlc -version)
+
+CONFIGUREOPTS := --arch Linux --prefix /usr --mandir /usr/share/man --emacslib /usr/share/emacs/site-lisp/coq --reals all --fsets all
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	if [ -e /usr/bin/ocamlc.opt ]; \
+	then \
+		./configure -opt $(CONFIGUREOPTS); \
+	else \
+		./configure $(CONFIGUREOPTS); \
+	fi
+	touch configure-stamp
+
+build: patch-stamp configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+	if grep -q BEST=opt config/Makefile; \
+	then \
+		($(MAKE) check \
+		   && touch opt-stamp) \
+		|| (echo WARNING: NATIVE CODE COMPILATION FAILED \
+		   && echo Trying to build coq in bytecode instead \
+		   && $(MAKE) archclean clean \
+		   && sed -i -e 's/best = "opt"/best = "byte"/' config/coq_config.ml \
+		   && $(MAKE) BEST=byte HASCOQIDE=byte check \
+		   && echo NATIVE CODE COMPILATION FAILED \
+		   && echo Coq was built in bytecode instead); \
+	else \
+		$(MAKE) BEST=byte HASCOQIDE=byte check; \
+	fi
+	if [ -e opt-stamp ]; then \
+		$(MAKE) BEST=opt glob.dump; \
+	else \
+		$(MAKE) BEST=byte HASCOQIDE=byte glob.dump; \
+	fi
+	cp tools/coqdoc/coqdoc.sty doc/stdlib/
+	$(MAKE) -C doc stdlib/html/index.html
+	touch build-stamp
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp opt-stamp
+
+	[ ! -f config/Makefile ] || $(MAKE) clean
+	[ ! -f config/Makefile ] || $(MAKE) archclean
+	rm -f bin/*
+	rm -f tools/coqdoc/*.cm[oi]
+	rm -f config/coq_config.ml config/Makefile test-suite/check.log
+	rm -f dev/ocamldebug-v7
+	rm -f ide/undo.mli glob.dump
+	rm -f test-suite/modules/*.vo
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	if [ -e opt-stamp ]; then \
+		$(MAKE) $(ADDPREF) install; \
+	else \
+		$(MAKE) BEST=byte HASCOQIDE=byte $(ADDPREF) install; \
+	fi
+
+	-for i in $(COQPREF)/usr/bin/*.opt; do \
+		echo "Stripping: $$i"; \
+		strip -R .note -R .comment $$i; \
+	done
+	if [ -e opt-stamp ]; then \
+		strip -R .note -R .comment $ $(COQPREF)/usr/bin/coqc; \
+		strip -R .note -R .comment $(COQPREF)/usr/bin/coqmktop; \
+	fi
+	cp debian/coq.xpm debian/coq/usr/share/pixmaps/coq.xpm
+	cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm
+	cp debian/coqide.desktop debian/coqide/usr/share/applications
+
+	cp ide/index_urls.txt debian/coqide/usr/lib/coq/ide/index_urls.txt
+	if [ -e opt-stamp ]; then \
+		cp debian/coq-interface.1 debian/coq/usr/share/man/man1/coq-interface.opt.1; \
+		cp debian/coqide.1 debian/coqide/usr/share/man/man1/coqide.opt.1; \
+	fi
+	cp debian/coqide.1 debian/coqide/usr/share/man/man1/coqide.1
+	cp debian/coqide.1 debian/coqide/usr/share/man/man1/coqide.byte.1
+	cp debian/coqc.1 debian/coq/usr/share/man/man1/coqc.1
+	cp debian/coq-interface.1 debian/coq/usr/share/man/man1/coq-interface.1
+	cp debian/coq_makefile.1 debian/coq/usr/share/man/man1/coq_makefile.1
+	cp debian/coqmktop.1 debian/coq/usr/share/man/man1/coqmktop.1
+	cp debian/coqtop.1 debian/coq/usr/share/man/man1/coqtop.1
+
+	cp -r doc/stdlib/html debian/coq-libs/usr/share/doc/coq-libs/
+	cd debian/coq-libs/usr/share/doc/coq; ln -s ../coq-libs/html stdlib
+
+	# These are installed as docs
+	rm -f $(COQPREF)/usr/lib/coq/ide/utf8.v $(COQPREF)/usr/lib/coq/ide/FAQ
+
+	dh_install --sourcedir=$(COQPREF) --list-missing
+
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installmenu
+	dh_installemacsen
+	dh_installman
+	dh_installchangelogs CHANGES
+	dh_installtex
+	dh_desktop
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol -- -VF:OCamlABI="$(OCAMLABI)"
+	dh_md5sums
+	dh_builddeb
+
+binary-indep: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary-common binary install configure

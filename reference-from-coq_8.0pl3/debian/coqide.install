@@ -1,0 +1,5 @@
+usr/bin/coqide*
+usr/lib/coq/ide/coq.ico
+usr/lib/coq/ide/coq2.ico
+usr/lib/coq/ide/utf8.vo
+usr/lib/coq/ide/.coqide-gtk2rc

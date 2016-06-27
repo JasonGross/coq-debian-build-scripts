@@ -1,0 +1,10 @@
+--- coq-7.3.1.orig/parsing/pcoq.ml4
++++ coq-7.3.1/parsing/pcoq.ml4
+@@ -65,6 +65,7 @@
+     type parsable = G.parsable
+     let parsable = G.parsable
+     let tokens = G.tokens
++    let glexer = G.glexer
+     module Entry = G.Entry
+     module Unsafe = G.Unsafe
+

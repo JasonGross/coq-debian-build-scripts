@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=CoqIde
+Comment=Graphical interface for the Coq proof assistant
+Exec=/usr/bin/coqide
+Type=Application
+Categories=GTK;Science;Math;
+Terminal=false
+Icon=/usr/share/pixmaps/coq.xpm

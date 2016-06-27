@@ -1,0 +1,74 @@
+From: Stephane Glondu <steph@glondu.net>
+Date: Fri, 2 Jul 2010 15:00:43 +0200
+Subject: [PATCH] Remove dependency to Unix from module Profile
+
+Applied-Upstream: https://gforge.inria.fr/scm/viewvc.php?view=rev&root=coq&revision=13234
+Signed-off-by: Stephane Glondu <steph@glondu.net>
+---
+ Makefile.build  |    4 ++--
+ lib/profile.ml  |    8 +++++---
+ lib/profile.mli |    4 +---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile.build b/Makefile.build
+index 148bb62..c4358ce 100644
+--- a/Makefile.build
++++ b/Makefile.build
+@@ -782,10 +782,10 @@ dev/printers.cma: $(PRINTERSCMO)
+ parsing/grammar.cma: $(GRAMMARCMO)
+ 	$(SHOW)'Testing $@'
+ 	@touch test.ml4
+-	$(HIDE)$(OCAMLC) $(BYTEFLAGS) -pp "$(CAMLP4O) $(CAMLP4EXTENDFLAGS) -I $(CAMLLIB) unix.cma $(GRAMMARCMO) -impl" -impl test.ml4 -o test-grammar
++	$(HIDE)$(OCAMLC) $(BYTEFLAGS) -pp "$(CAMLP4O) $(CAMLP4EXTENDFLAGS) -I $(CAMLLIB) $(GRAMMARCMO) -impl" -impl test.ml4 -o test-grammar
+ 	@rm -f test-grammar test.*
+ 	$(SHOW)'OCAMLC -a $@'   
+-	$(HIDE)$(OCAMLC) $(BYTEFLAGS) unix.cma $(GRAMMARCMO) -linkall -a -o $@
++	$(HIDE)$(OCAMLC) $(BYTEFLAGS) $(GRAMMARCMO) -linkall -a -o $@
+ 
+ # toplevel/mltop.ml4 (ifdef Byte)
+ 
+diff --git a/lib/profile.ml b/lib/profile.ml
+index dd7e977..40bfba3 100644
+--- a/lib/profile.ml
++++ b/lib/profile.ml
+@@ -17,8 +17,7 @@ let float_of_time t = float_of_int t /. 100.
+ let time_of_float f = int_of_float (f *. 100.)
+ 
+ let get_time () =
+-  let  {Unix.tms_utime = ut;Unix.tms_stime = st} = Unix.times () in
+-  time_of_float (ut +. st)
++  time_of_float (Sys.time ())
+ 
+ (* Since ocaml 3.01, gc statistics are in float *)
+ let get_alloc () =
+@@ -157,7 +156,10 @@ let merge_profile filename (curr_table, curr_outside, curr_total as new_data) =
+ (* Unix measure of time is approximative and shoitt delays are often
+    unperceivable; therefore, total times are measured in one (big)
+    step to avoid rounding errors and to get the best possible
+-   approximation *)
++   approximation.
++   Note: Sys.time is the same as:
++     Unix.(let x = times () in x.tms_utime +. x.tms_stime)
++ *)
+ 
+ (*
+ ----------        start profile for f1
+diff --git a/lib/profile.mli b/lib/profile.mli
+index 0937e9e..1e28834 100644
+--- a/lib/profile.mli
++++ b/lib/profile.mli
+@@ -10,12 +10,10 @@
+ 
+ (*s This program is a small time and allocation profiler for Objective Caml *)
+ 
+-(*i It requires the UNIX library *)
+ 
+ (* Adapted from Christophe Raffalli *)
+ 
+-(* To use it, link it with the program you want to profile (do not forget
+-"-cclib -lunix -custom unix.cma" among the link options).
++(* To use it, link it with the program you want to profile.
+ 
+ To trace a function "f" you first need to get a key for it by using :
+ 
+-- 

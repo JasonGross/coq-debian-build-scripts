@@ -52,10 +52,18 @@ for i in $VERSIONS; do
 override_dh_auto_clean:
 	dh_auto_clean || make distclean -k || make clean -k || true
 
+#override_dh_auto_install::
+#	find debian/tmp -name '*.cmxs' -printf '%P\n' \
+#	  >> debian/coq-theories.install
+EOF
+  if [ "$i" == "8.4beta" ]; then
+    cat >> debian/rules <<'EOF'
+
 override_dh_auto_install::
-	find debian/tmp -name '*.cmxs' -printf '%P\n' \
+	find debian/tmp -name '*.cma' -printf '%P\n' \
 	  >> debian/coq-theories.install
 EOF
+  fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
@@ -70,6 +78,7 @@ EOF
     sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
     sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
     sed s'/ '"$pkgname"' (/ '"${PKG/coq/${pkgname}}"' (/g' -i debian/control || exit $?
+    sed s'/ '"$pkgname"',/ '"${PKG/coq/${pkgname}}"',/g' -i debian/control || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   sed s'|\(cp debian/coq.xpm \)\(.*\)\(/coqide.xpm\)|mkdir -p \2 \&\& \1\2\3|g' -i debian/rules || exit $?

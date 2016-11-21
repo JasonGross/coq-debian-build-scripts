@@ -84,6 +84,7 @@ override_dh_auto_install::
 EOF
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
     echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
+    sed s'/^README$/README.md/g' -i debian/docs || exit $?
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?

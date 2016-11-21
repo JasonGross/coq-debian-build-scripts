@@ -134,9 +134,11 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
-  if [[ "$i" != 8.5* ]]; then
-    if [ "$TARGET" == precise ]; then
-      sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
+  if [[ "$i" != 8.6* ]]; then
+    if [[ "$i" != 8.5* ]]; then
+      if [ "$TARGET" == precise ]; then
+        sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
+      fi
     fi
   fi
   if [ -e Makefile.build ]; then

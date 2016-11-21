@@ -64,6 +64,26 @@ override_dh_auto_install::
 	  >> debian/coq-theories.install
 EOF
   fi
+  if [[ "$i" == 8.6* ]]; then
+    sed s'/^override_dh_auto_install:/override_dh_auto_install_old:/g' -i debian/rules || exit $?
+    cat >> debian/rules <<'EOF'
+override_dh_auto_install::
+	$(MAKE) $(ADDPREF) install
+	find debian/tmp -regextype posix-awk \
+	  -regex '.*\.(cmi|cmx|cmxa|[ao])$$' \
+	  | grep -v toploop/ | grep -v coq-native \
+	  >> debian/libcoq-ocaml-dev.install
+	find debian/tmp -name '*.vo' -printf '%P\n' \
+	  >> debian/coq-theories.install
+	find debian/tmp -name '*.v' -printf '%P\n' \
+	  >> debian/coq-theories.install
+	find debian/tmp -name '*.glob' -printf '%P\n' \
+	  >> debian/coq-theories.install
+	find debian/tmp -name '.coq-native' -printf '%P\n' \
+	  >> debian/coq-theories.install
+EOF
+    sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
+  fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
@@ -112,9 +132,9 @@ EOF
     fi
   fi
   if [ -e configure.ml ]; then
-    if [ "$(grep -c -- '-no-native-compiler' configure.ml)" -ne 0]; then
+    if [ "$(grep -c -- '-no-native-compiler' configure.ml)" -ne 0 ]; then
       sed s'|-native-compiler no|-no-native-compiler|g' -i debian/rules
-    elif [ "$(grep -c -- '-native-compiler' configure.ml)" -eq 0]; then
+    elif [ "$(grep -c -- '-native-compiler' configure.ml)" -eq 0 ]; then
       sed s'|-native-compiler no||g' -i debian/rules
     fi
   else

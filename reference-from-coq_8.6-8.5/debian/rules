@@ -85,17 +85,13 @@ override_dh_auto_test:
 override_dh_auto_install:
 	$(MAKE) $(ADDPREF) install
 	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cmi|cmx|cmxa|[ao])$$' \
-	  | grep -v toploop/ | grep -v coq-native \
+	  -regex '.*\.(cm[xio]|cmx[as]|[ao])$$' \
 	  >> debian/libcoq-ocaml-dev.install
-	find debian/tmp -name '*.vo' -printf '%P\n' \
+	find debian/tmp -regextype posix-awk \
+	  -regex '.*\.(vo|v|glob)$$' -printf '%P\n' \
 	  >> debian/coq-theories.install
-	find debian/tmp -name '*.v' -printf '%P\n' \
-	  >> debian/coq-theories.install
-	find debian/tmp -name '*.glob' -printf '%P\n' \
-	  >> debian/coq-theories.install
-	find debian/tmp -name '.coq-native' -printf '%P\n' \
-	  >> debian/coq-theories.install
+	find debian/tmp -name '*.cma' -printf '%P\n' \
+	  >> debian/libcoq-ocaml.install
 
 .PHONY: override_dh_install
 override_dh_install:

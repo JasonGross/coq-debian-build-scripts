@@ -25,7 +25,9 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if [[ "$i" == 8.4* ]]; then
+  if [[ "$i" == 8.5* ]]; then
+    cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
+
     cp -a ../../../reference-from-coq_8.4pl3/debian ./ || exit $?
   elif [[ "$i" == 8.3* ]]; then
     cp -a ../../../reference-from-coq_8.3p4/debian ./ || exit $?
@@ -38,7 +40,7 @@ for i in $VERSIONS; do
   elif [[ "$i" == 7.3* ]]; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
-    cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
+    cp -a ../../../reference-from-coq_8.6-8.5/debian ./ || exit $?
   fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
@@ -83,9 +85,9 @@ override_dh_auto_install::
 	  >> debian/coq-theories.install
 EOF
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
-    echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
-    cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
-    grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
+    #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
+    #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
+    #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
     sed s'/^README$/README.md/g' -i debian/docs || exit $?
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?

@@ -83,6 +83,8 @@ override_dh_auto_install::
 	  >> debian/coq-theories.install
 	find debian/tmp -name '.coq-native' -printf '%P\n' \
 	  >> debian/coq-theories.install
+	find debian/tmp -name '*.cma' -printf '%P\n' \
+	  >> debian/libcoq-ocaml.install
 EOF
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
     #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?

@@ -85,7 +85,7 @@ EOF
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
     echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
     cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
-    grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp >> debian/libcoq-ocaml.install.in
+    grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
     sed s'/^README$/README.md/g' -i debian/docs || exit $?
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?

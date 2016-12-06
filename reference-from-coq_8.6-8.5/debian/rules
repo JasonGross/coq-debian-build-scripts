@@ -79,7 +79,8 @@ endif
 
 .PHONY: override_dh_auto_test
 override_dh_auto_test:
-	$(MAKE) test-suite COMPLEXITY=
+	true
+#	$(MAKE) test-suite COMPLEXITY=
 
 .PHONY: override_dh_auto_install
 override_dh_auto_install:

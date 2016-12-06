@@ -87,6 +87,7 @@ override_dh_auto_install:
 	$(MAKE) $(ADDPREF) install
 	find debian/tmp -regextype posix-awk \
 	  -regex '.*\.(cm[xio]|cmx[as]|[ao])$$' \
+	  | grep -v 'grammar/compat5.cmo' \
 	  >> debian/libcoq-ocaml-dev.install
 	find debian/tmp -regextype posix-awk \
 	  -regex '.*\.(vo|v|glob)$$' -printf '%P\n' \

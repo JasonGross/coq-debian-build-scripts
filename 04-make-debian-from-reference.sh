@@ -73,6 +73,9 @@ EOF
     #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
     sed s'/^README$/README.md/g' -i debian/docs || exit $?
   fi
+  if [[ "$i" == 8.6beta1 ]]; then
+    sed s'/..MAKE. test-suite COMPLEXITY=/#/g' -i debian/rules || exit $?
+  fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do

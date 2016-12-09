@@ -95,7 +95,7 @@ override_dh_auto_install:
 	  -regex '.*\.(cma)$$' -printf '%P\n' \
 	  >> debian/libcoq-ocaml.install
 	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cmxs)$$' -printf 'DYN: %P\n' \
+	  -regex '.*\.(cmxs)$$' -printf '%P\n' \
 	  >> debian/libcoq-ocaml.install
 
 .PHONY: override_dh_install

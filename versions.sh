@@ -8,14 +8,18 @@ if [ "$TARGET" != trusty -a "$TARGET" != precise ]; then
   TARGET=trusty # precise #
 fi
 
-PPA_EXT="-1~${TARGET}~ppa54"
+PPA_EXT="-1~${TARGET}~ppa55"
 
 function to_debian_version() {
   echo "$1" | sed s'/-\(rc\)/\1/g' | sed s'/-\(beta\)/\1/g' | sed s'/-\(alpha\)/\1/g' | sed s'/\(rc\)/~\1/g' | sed s'/\(beta\)/~\1/g' | sed s'/\(alpha\)/~\1/g'
 }
 
 function to_package_name() {
-  echo "coq-$1"
+  if [ ! -z "$2" ]; then
+    echo "${1/coq/coq-$2}"
+  else
+    echo "coq-$1"
+  fi
 }
 
 function to_folder_name() {

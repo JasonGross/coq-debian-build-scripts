@@ -79,18 +79,19 @@ EOF
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
   for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
+    new_pkgname="$(to_package_name "${pkgname}" "$i")"
     for f in "debian/${pkgname}".*; do
       if [ -e "$f" ]; then
         if [ "$f" != "debian/coqvars.mk.in" -a "$f" != "debian/coq.xpm" -a "$f" != "debian/coqide.desktop" ]; then
-          mv "$f" "${f/${pkgname}/${PKG/coq/${pkgname}}}" || exit $?
+          mv "$f" "${f/${pkgname}/${new_pkgname}}" || exit $?
         fi
       fi
     done
-    sed s'|Recommends: '"$pkgname"' |Recommends: '"${PKG/coq/${pkgname}}"' |g' -i debian/control || exit $?
-    sed s'/^Package: '"$pkgname"'$/Package: '"${PKG/coq/${pkgname}}"'/g' -i debian/control || exit $?
-    sed s'|debian/'"$pkgname"'.install|debian/'"${PKG/coq/${pkgname}}"'.install|g' -i debian/rules || exit $?
-    sed s'/ '"$pkgname"' (/ '"${PKG/coq/${pkgname}}"' (/g' -i debian/control || exit $?
-    sed s'/ '"$pkgname"',/ '"${PKG/coq/${pkgname}}"',/g' -i debian/control || exit $?
+    sed s'|Recommends: '"$pkgname"' |Recommends: '"${new_pkgname}"' |g' -i debian/control || exit $?
+    sed s'/^Package: '"$pkgname"'$/Package: '"${new_pkgname}"'/g' -i debian/control || exit $?
+    sed s'|debian/'"$pkgname"'.install|debian/'"${new_pkgname}"'.install|g' -i debian/rules || exit $?
+    sed s'/ '"$pkgname"' (/ '"${new_pkgname}"' (/g' -i debian/control || exit $?
+    sed s'/ '"$pkgname"',/ '"${new_pkgname}"',/g' -i debian/control || exit $?
   done
   sed s'/^\(\s*\)coq\( (= \${binary:Version})\)$/\1'"$PKG"'\2/g' -i debian/control || exit $?
   sed s'|\(cp debian/coq.xpm \)\(.*\)\(/coqide.xpm\)|mkdir -p \2 \&\& \1\2\3|g' -i debian/rules || exit $?

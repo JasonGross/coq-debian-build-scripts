@@ -27,7 +27,7 @@ for i in $VERSIONS; do
   mv debian debian-orig
   if [[ "$i" == 8.5* ]]; then
     cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
-
+  elif [[ "$i" == 8.4* ]]; then
     cp -a ../../../reference-from-coq_8.4pl3/debian ./ || exit $?
   elif [[ "$i" == 8.3* ]]; then
     cp -a ../../../reference-from-coq_8.3p4/debian ./ || exit $?

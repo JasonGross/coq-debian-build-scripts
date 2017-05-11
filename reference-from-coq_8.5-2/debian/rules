@@ -86,7 +86,7 @@ override_dh_auto_install:
 	$(MAKE) $(ADDPREF) install
 	find debian/tmp -regextype posix-awk \
 	  -regex '.*\.(cmi|cmx|cmxa|[ao])$$' \
-	  | grep -v toploop/ | grep -v coq-native \
+	  | grep -v coq-native \
 	  >> debian/libcoq-ocaml-dev.install
 	find debian/tmp -name '*.vo' -printf '%P\n' \
 	  >> debian/coq-theories.install

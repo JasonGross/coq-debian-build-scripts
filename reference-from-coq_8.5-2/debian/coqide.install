@@ -4,5 +4,5 @@ usr/share/coq/*.lang
 usr/share/coq/*_style.xml
 usr/share/doc/coq/FAQ-CoqIde usr/share/doc/coqide
 usr/share/man/man1/coqide*
-DYN: usr/lib/coq/toploop/coqidetop.cmxs
 debian/coqide.desktop    usr/share/applications
+

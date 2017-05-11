@@ -23,9 +23,11 @@ usr/lib/coq/plugins/syntax/z_syntax_plugin.cma
 usr/lib/coq/toploop/proofworkertop.cma
 usr/lib/coq/toploop/tacworkertop.cma
 usr/lib/coq/toploop/queryworkertop.cma
+usr/lib/coq/toploop/coqidetop.cma
 DYN: usr/lib/coq/toploop/proofworkertop.cmxs
 DYN: usr/lib/coq/toploop/tacworkertop.cmxs
 DYN: usr/lib/coq/toploop/queryworkertop.cmxs
+DYN: usr/lib/coq/toploop/coqidetop.cmxs
 DYN: usr/lib/coq/plugins/quote/quote_plugin.cmxs
 DYN: usr/lib/coq/plugins/rtauto/rtauto_plugin.cmxs
 DYN: usr/lib/coq/plugins/extraction/extraction_plugin.cmxs

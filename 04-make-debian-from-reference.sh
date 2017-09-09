@@ -25,7 +25,9 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if [[ "$i" == 8.5* ]]; then
+  if [[ "$i" == 8.6* ]]; then
+    cp -a ../../../reference-from-coq_8.6-8.5/debian ./ || exit $?
+  elif [[ "$i" == 8.5* ]]; then
     cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
   elif [[ "$i" == 8.4* ]]; then
     cp -a ../../../reference-from-coq_8.4pl3/debian ./ || exit $?
@@ -40,7 +42,7 @@ for i in $VERSIONS; do
   elif [[ "$i" == 7.3* ]]; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
-    cp -a ../../../reference-from-coq_8.6-8.5/debian ./ || exit $?
+    cp -a ../../../reference-from-coq_8.7-8.5/debian ./ || exit $?
   fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
@@ -65,6 +67,13 @@ override_dh_auto_install::
 	find debian/tmp -name '*.cma' -printf '%P\n' \
 	  >> debian/coq-theories.install
 EOF
+  fi
+  if [[ "$i" == 8.7* ]]; then
+    sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
+    #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
+    #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
+    #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
+    sed s'/^README$/README.md/g' -i debian/docs || exit $?
   fi
   if [[ "$i" == 8.6* ]]; then
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
@@ -147,10 +156,12 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
-  if [[ "$i" != 8.6* ]]; then
-    if [[ "$i" != 8.5* ]]; then
-      if [ "$TARGET" == precise ]; then
-        sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
+  if [[ "$i" != 8.7* ]]; then
+    if [[ "$i" != 8.6* ]]; then
+      if [[ "$i" != 8.5* ]]; then
+        if [ "$TARGET" == precise ]; then
+          sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
+        fi
       fi
     fi
   fi

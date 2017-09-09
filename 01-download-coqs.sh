@@ -7,11 +7,16 @@ set -ex
 mkdir -p coq-source
 cd coq-source
 
+for i in $GITHUB_PLUS_TO_MINUS_VERSIONS; do
+  wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+  cp -f V$i.tar.gz coq-${i//+/-}.tar.gz || exit $?
+done
+
 for i in $NORMAL_VERSIONS; do
   wget -N https://coq.inria.fr/distrib/V$i/files/coq-$i.tar.gz || exit $?
 done
 
-for i in trunk v8.6 v8.5 v8.4 v8.3 v8.2 v8.1 v8.0; do
+for i in master v8.7 v8.6 v8.5 v8.4 v8.3 v8.2 v8.1 v8.0; do
   if [ ! -d coq-$i ]; then
     git clone https://github.com/coq/coq.git --branch=$i coq-$i
   else

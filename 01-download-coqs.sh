@@ -7,9 +7,16 @@ set -ex
 mkdir -p coq-source
 cd coq-source
 
-for i in $GITHUB_PLUS_TO_MINUS_VERSIONS; do
+#for i in $GITHUB_PLUS_TO_MINUS_VERSIONS; do
+#  wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+#  cp -f V$i.tar.gz coq-${i//+/-}.tar.gz || exit $?
+#done
+
+for i in $GITHUB_MINUS_TO_PLUS_VERSIONS; do
   wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
-  cp -f V$i.tar.gz coq-${i//+/-}.tar.gz || exit $?
+  rm -rf coq-${i//+/-} coq-$ && tar -xzf V$i.tar.gz || exit $?
+  mv coq-${i//+/-} coq-$i || exit $?
+  rm -rf coq-$i.tar.gz && tar -czf coq-$i.tar.gz coq-$i || exit $?
 done
 
 for i in $NORMAL_VERSIONS; do

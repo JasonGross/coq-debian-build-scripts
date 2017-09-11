@@ -69,7 +69,14 @@ override_dh_auto_install::
 EOF
   fi
   if [[ "$i" == 8.7* ]]; then
-    sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
+    sed s',usr/lib/coq/tools/compat5.cmo,,g' -i debian/*.install* || exit $?
+    cat >> debian/coq.install.in <<EOF
+usr/lib/coq/tools/TimeFileMaker.py
+usr/lib/coq/tools/make-both-time-files.py
+usr/lib/coq/tools/make-one-time-file.py
+usr/lib/coq/tools/make-both-single-timing-files.py
+EOF
+    sed s'/Build-Depends:/Build-Depends: rsync,/g' -i debian/control || exit $?
     #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
     #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
     #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in

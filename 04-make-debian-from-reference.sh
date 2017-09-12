@@ -71,16 +71,22 @@ EOF
   if [[ "$i" == 8.7* ]]; then
     sed s',usr/lib/coq/tools/compat5.cmo,,g' -i debian/*.install* || exit $?
     cat >> debian/coq.install.in <<EOF
+usr/lib/coq/tools/CoqMakefile.in
 usr/lib/coq/tools/TimeFileMaker.py
 usr/lib/coq/tools/make-both-time-files.py
 usr/lib/coq/tools/make-one-time-file.py
 usr/lib/coq/tools/make-both-single-timing-files.py
 EOF
     sed s'/Build-Depends:/Build-Depends: rsync,/g' -i debian/control || exit $?
+    sed s'/\(coq-theories (= \${binary:Version}),\)/\1 libcoq-ocaml (= ${binary:Version}),/g' -i debian/control || exit $?
+    sed s',usr/share/emacs/site-lisp/coqdoc.sty\s*usr/share/texmf/tex/latex/misc/,usr/share/texmf/tex/latex/misc/coqdoc.sty,g' -i debian/*.install* || exit $?
+    sed s',usr/lib/coq/dllcoqrun.so,usr/lib/coq/kernel/byterun/dllcoqrun.so,g' -i debian/*.install* || exit $?
+    sed s",| grep -v 'grammar/compat5.cmo',,g" -i debian/rules || exit $?
     #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
     #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
     #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
     sed s'/^README$/README.md/g' -i debian/docs || exit $?
+    sed s'/test-suite /test-suite APPVEYOR=1 /g' -i debian/rules || exit $?
   fi
   if [[ "$i" == 8.6* ]]; then
     sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?

@@ -84,6 +84,8 @@ EOF
     sed s'/\(coq-theories (= \${binary:Version}),\)/\1 libcoq-ocaml (= ${binary:Version}),/g' -i debian/control || exit $?
     sed s',usr/share/emacs/site-lisp/coqdoc.sty\s*usr/share/texmf/tex/latex/misc/,usr/share/texmf/tex/latex/misc/coqdoc.sty,g' -i debian/*.install* || exit $?
     sed s',usr/lib/coq/dllcoqrun.so,usr/lib/coq/kernel/byterun/dllcoqrun.so,g' -i debian/*.install* || exit $?
+    sed s',usr/lib/coq/tools/compat5.cmo,usr/lib/coq/grammar/compat5.cmo,g' -i debian/*.install* || exit $?
+    sed s',usr/lib/coq/grammar/compat5.cmo,,g' -i debian/*.install* || exit $?
     sed s",| grep -v 'grammar/compat5.cmo',,g" -i debian/rules || exit $?
     #echo 'usr/lib/coq/META' >> debian/libcoq-ocaml.install.in || exit $?
     #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp

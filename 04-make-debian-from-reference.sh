@@ -68,6 +68,9 @@ override_dh_auto_install::
 	  >> debian/coq-theories.install
 EOF
   fi
+  if [[ "$i" == 8.6beta1 ]]; then
+    sed s'/..MAKE. test-suite COMPLEXITY=/#/g' -i debian/rules || exit $?
+  fi
   if [[ "$i" == 8.7* ]]; then
     sed s',usr/lib/coq/tools/compat5.cmo,,g' -i debian/*.install* || exit $?
     cat >> debian/coq.install.in <<EOF
@@ -94,9 +97,6 @@ EOF
     #cp debian/libcoq-ocaml.install.in debian/libcoq-ocaml.install.in.tmp
     #grep -v quote_plugin debian/libcoq-ocaml.install.in.tmp > debian/libcoq-ocaml.install.in
     sed s'/^README$/README.md/g' -i debian/docs || exit $?
-  fi
-  if [[ "$i" == 8.6beta1 ]]; then
-    sed s'/..MAKE. test-suite COMPLEXITY=/#/g' -i debian/rules || exit $?
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
@@ -169,13 +169,9 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
-  if [[ "$i" != 8.7* ]]; then
-    if [[ "$i" != 8.6* ]]; then
-      if [[ "$i" != 8.5* ]]; then
-        if [ "$TARGET" == precise ]; then
+  if [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || [[ "$i" == 8.1* ]] || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
+    if [ "$TARGET" == precise ]; then
           sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
-        fi
-      fi
     fi
   fi
   if [ -e Makefile.build ]; then
@@ -224,6 +220,9 @@ EOF
     rm -rf debian/patches
   elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then
     rm -rf debian/patches
+  fi
+  if [[ "$i" == "8.7+beta1" ]]; then # test-suite is broken without git
+    sed s'/\(..MAKE. test-suite .*\)/\1 || true/g' -i debian/rules || exit $?
   fi
   if [ "$i" == "8.5beta1" -o \( "$i" == "8.5beta2" -a "$TARGET" == "precise" \) -o "$i" == "8.4pl6" ]; then # test-suite is broken
     sed s'/\(\$(MAKE) test-suite COMPLEXITY=\)/\1 || true/g' -i debian/rules

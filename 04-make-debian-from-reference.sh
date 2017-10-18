@@ -223,7 +223,7 @@ EOF
   elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then
     rm -rf debian/patches
   fi
-  if [[ "$i" == "8.7+beta1" ]] || [[ "$i" == "8.7+beta2" ]]; then # test-suite is broken without git
+  if [[ "$i" == "8.7+beta1" ]] || [[ "$i" == "8.7+beta2" ]] || [[ "$i" == 8.7.0 ]]; then # test-suite is broken without git
     sed s'/\(..MAKE. test-suite .*\)/\1 || true/g' -i debian/rules || exit $?
   fi
   if [ "$i" == "8.5beta1" -o \( "$i" == "8.5beta2" -a "$TARGET" == "precise" \) -o "$i" == "8.4pl6" ]; then # test-suite is broken

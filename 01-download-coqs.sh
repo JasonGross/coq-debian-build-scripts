@@ -13,13 +13,17 @@ cd coq-source
 #done
 
 for i in $GITHUB_VERSIONS; do
-  wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+  if [ ! -f V$i.tar.gz ]; then
+    wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+  fi
   tar -xzf V$i.tar.gz || exit $?
   rm -rf coq-$i.tar.gz && tar -czf coq-$i.tar.gz coq-$i || exit $?
 done
 
 for i in $GITHUB_MINUS_TO_PLUS_VERSIONS; do
-  wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+  if [ ! -f V$i.tar.gz ]; then
+    wget -N https://github.com/coq/coq/archive/V$i.tar.gz || exit $?
+  fi
   rm -rf coq-${i//+/-} coq-$i && tar -xzf V$i.tar.gz || exit $?
   mv coq-${i//+/-} coq-$i || exit $?
   rm -rf coq-$i.tar.gz && tar -czf coq-$i.tar.gz coq-$i || exit $?

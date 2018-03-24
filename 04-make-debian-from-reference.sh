@@ -171,6 +171,10 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
+  if [[ "$i" == 8.7* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.5* ]] || [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || [[ "$i" == 8.1* ]] || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
+  else
+    sed s'|-debug ||g' -i debian/rules
+  fi
   if [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || [[ "$i" == 8.1* ]] || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
     if [ "$TARGET" == precise ]; then
           sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?

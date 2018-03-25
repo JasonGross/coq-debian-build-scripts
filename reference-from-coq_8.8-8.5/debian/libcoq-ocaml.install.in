@@ -1,0 +1,4 @@
+usr/lib/coq/dllcoqrun.so @OCamlDllDir@
+usr/lib/coq/grammar/compat5.cmo
+usr/lib/coq/META
+# *.cma files will be added here

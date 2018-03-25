@@ -1,3 +1,1 @@
-usr/bin/coqmktop*
-usr/share/man/man1/coqmktop*
 # other *.cm* files will be added here by debian/rules

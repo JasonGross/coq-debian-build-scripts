@@ -15,7 +15,7 @@ Build-Depends:
  ocaml-best-compilers,
  ocaml-findlib (>= 1.4),
  camlp5 (>= 5.12-2~),
- liblablgtk2-ocaml-dev (>= 2.14),
+ liblablgtk2-ocaml-dev (>= 2.18.3),
  liblablgtksourceview2-ocaml-dev,
  texlive-latex-extra,
  hevea (>= 1.10-7)
@@ -30,7 +30,7 @@ Depends:
  emacsen-common,
  ${ocaml:Depends},
  ${shlibs:Depends},
- ${misc:Depends}, 
+ ${misc:Depends},
  ocaml-best-compilers
 Provides: coq-${F:CoqABI}
 Recommends: coqide | proofgeneral

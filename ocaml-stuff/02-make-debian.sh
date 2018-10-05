@@ -12,6 +12,11 @@ for i in $DSCS; do
     dpkg-source -x "$i" || exit $?
     cd "${FOLDER}"
     sed 's/debhelper ([^)]*)/debhelper (>= 9)/g' -i debian/control
+    sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
+    sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control
+    if [ -f debian/control.in ]; then
+        sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control.in
+    fi
     echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
     if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi
     if [ -z "$DEBEMAIL" ]; then export DEBEMAIL="jgross@mit.edu"; fi

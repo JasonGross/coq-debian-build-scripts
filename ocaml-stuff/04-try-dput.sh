@@ -12,3 +12,5 @@ for i in $DSCS; do
     dput ppa:jgross-h/$PPA "$CHANGES"
     #sleep 2m
 done
+
+extra_uploads

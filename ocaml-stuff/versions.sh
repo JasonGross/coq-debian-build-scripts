@@ -8,12 +8,46 @@ LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 
-DSCS="${OCAML_BASE}.dsc" # needed only for removing versioned provides
+PRECISE_PKGS=""
+PKGS=""
+
+#PRECISE_PKGS="libiberty"
+
+#DSCS="${OCAML_BASE}.dsc" # needed only for removing versioned provides
+
+#PKGS="findlib"
+
+PKGS="ocamlbuild"
+
+#PKGS="labltk camlp4"
 #DSCS="${HEVEA_BASE}.dsc ${CAMLP5_BASE}.dsc"
+
 ### DSCS="${LABLTK_BASE}.dsc" # doesn't need this
+
 #DSCS="${LABLGL_BASE}.dsc"
+
+#PKGS="lablgtk2"
+
+#PKGS="ocamlgraph"
+
 ### DSCS="${LABLGTK2_BASE}.dsc" # doesn't need this
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
+
+PPA="coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa4"
+PPA_EXT=".1~${TARGET}${SUFFIX}"
+
+function extra_uploads() {
+    for i in ${PKGS}; do
+        backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX
+    done
+    if [ "${TARGET}" == "precise" ]; then
+        for i in ${PRECISE_PKGS}; do
+            backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX
+        done
+    fi
+}
+
 
 function make_urls() {
     for i in ${DSCS}; do
@@ -34,8 +68,6 @@ URLS="$(make_urls)"
 if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
-
-PPA_EXT=".1~${TARGET}~ppa1"
 
 function to_folder_name() {
     FOLDER="$1"
@@ -63,5 +95,3 @@ function to_changes() {
     CHANGES="${CHANGES}${PPA_EXT}_source.changes"
     echo "${CHANGES}"
 }
-
-PPA="test-coq-new-ocaml-temp1"

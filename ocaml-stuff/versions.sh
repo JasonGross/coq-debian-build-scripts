@@ -8,7 +8,10 @@ LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 
+NEW_SOURCE="cosmic"
+
 PRECISE_PKGS=""
+FROM_NEW_PKGS=""
 PKGS=""
 
 #PRECISE_PKGS="libiberty"
@@ -17,7 +20,7 @@ PKGS=""
 
 #PKGS="findlib"
 
-PKGS="ocamlbuild"
+#PKGS="ocamlbuild"
 
 #PKGS="labltk camlp4"
 #DSCS="${HEVEA_BASE}.dsc ${CAMLP5_BASE}.dsc"
@@ -29,6 +32,9 @@ PKGS="ocamlbuild"
 #PKGS="lablgtk2"
 
 #PKGS="ocamlgraph"
+
+FROM_NEW_PKGS="opam"
+
 
 ### DSCS="${LABLGTK2_BASE}.dsc" # doesn't need this
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
@@ -46,6 +52,9 @@ function extra_uploads() {
             backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX
         done
     fi
+    for i in ${FROM_NEW_PKGS}; do
+        backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX -s "${NEW_SOURCE}"
+    done
 }
 
 

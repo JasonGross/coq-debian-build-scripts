@@ -7,14 +7,27 @@ LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
+DUNE_BASE="dune_1.0~beta20-1"
+#OCAML_RE_BASE="ocaml-re_1.7.3-2"
+CMDLINER_BASE="cmdliner_1.0.2-1"
+UUTF_BASE="uutf_1.0.1-2"
+CAMLBZ2_BASE="camlbz2_0.6.0-7build2"
+CAMLZIP_BASE="camlzip_1.07-2"
+CPPO_BASE="cppo_1.5.0-2build2"
+LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
+RPM_BASE="rpm_4.14.1+dfsg1-4"
 
-NEW_SOURCE="cosmic"
+NEW_SOURCE_EXTRA="-s cosmic"
 
 PRECISE_PKGS=""
-FROM_NEW_PKGS=""
+XENIAL_PKGS=""
 PKGS=""
 
-#PRECISE_PKGS="libiberty"
+#PRECISE_PKGS="libiberty lz4"
+
+#DSCS="${LIBZSTD_BASE}.dsc" # might actually only need to be on precise; is only needed for rpm, I think
+
+DSCS="${RPM_BASE}.dsc"
 
 #DSCS="${OCAML_BASE}.dsc" # needed only for removing versioned provides
 
@@ -31,30 +44,44 @@ PKGS=""
 
 #PKGS="lablgtk2"
 
-#PKGS="ocamlgraph"
+#PKGS="ocamlgraph
 
-FROM_NEW_PKGS="opam"
+#PKGS="ocaml-result ounit"
+#DSCS="${DUNE_BASE}.dsc"
+
+#PKGS="ocaml-re"
+#DSCS="${CMDLINER_BASE}.dsc ${UUTF_BASE}.dsc ${CAMLBZ2_BASE}.dsc ${CAMLZIP_BASE}.dsc ${CPPO_BASE}.dsc"
+
+#PKGS="extlib"
+
+#PKGS="jsonm cudf"
+
+#PKGS="dose3"
+
+#PKGS="opam"
 
 
 ### DSCS="${LABLGTK2_BASE}.dsc" # doesn't need this
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa4"
+SUFFIX="~ppa5"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
     for i in ${PKGS}; do
-        backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX
+        backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX ${NEW_SOURCE_EXTRA}
     done
     if [ "${TARGET}" == "precise" ]; then
         for i in ${PRECISE_PKGS}; do
-            backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX
+            backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX ${NEW_SOURCE_EXTRA}
         done
     fi
-    for i in ${FROM_NEW_PKGS}; do
-        backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX -s "${NEW_SOURCE}"
-    done
+    if [ "${TARGET}" == "xenial" ]; then
+        for i in ${XENIAL_PKGS}; do
+            backportpackage -y -u ppa:jgross-h/${PPA} $i -d $TARGET -S $SUFFIX ${NEW_SOURCE_EXTRA}
+        done
+    fi
 }
 
 
@@ -62,12 +89,17 @@ function make_urls() {
     for i in ${DSCS}; do
         BASE="${i%.dsc}"
         URL_BASE="http://archive.ubuntu.com/ubuntu/pool/universe/${i:0:1}/${i%%_*}/"
+        if [[ "${i}" == "libzstd_"* ]]; then
+            URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/libz/${i%%_*}/"
+        fi
         echo "${URL_BASE}${BASE}.dsc"
         echo "${URL_BASE}${BASE}.debian.tar.xz"
-        if [[ "${i}" == "ocaml_"* ]]; then
-            echo "${URL_BASE}${BASE%%-*}.orig.tar.xz"
+        if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]]; then
+            echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
+        elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]]; then
+            echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"
         else
-            echo "${URL_BASE}${BASE%%-*}.orig.tar.gz"
+            echo "${URL_BASE}${BASE%-*}.orig.tar.gz"
         fi
     done
 }
@@ -81,7 +113,7 @@ fi
 function to_folder_name() {
     FOLDER="$1"
     #FOLDER="${FOLDER%.debian.tar.xz}"
-    FOLDER="${FOLDER%%-*}"
+    FOLDER="${FOLDER%-*}"
     FOLDER="${FOLDER//_/-}"
     echo "${FOLDER}"
 }

@@ -5,8 +5,11 @@ usr/bin/coq_makefile*
 usr/bin/coq-tex*
 usr/bin/coqtop*
 usr/bin/coqwc*
-usr/bin/gallina*
 usr/bin/coqworkmgr*
+usr/bin/coqproofworker*
+usr/bin/coqqueryworker*
+usr/bin/coqtacticworker*
+usr/bin/coqpp*
 usr/lib/coq/plugins/micromega/csdpcert
 usr/lib/coq/tools/coqdoc/coqdoc.css
 usr/lib/coq/tools/coqdoc/coqdoc.sty
@@ -15,7 +18,6 @@ usr/lib/coq/tools/TimeFileMaker.py
 usr/lib/coq/tools/make-both-time-files.py
 usr/lib/coq/tools/make-one-time-file.py
 usr/lib/coq/tools/make-both-single-timing-files.py
-usr/share/emacs/site-lisp/coq/
 usr/share/man/man1/coqc*
 usr/share/man/man1/coqdep*
 usr/share/man/man1/coqdoc*
@@ -23,7 +25,6 @@ usr/share/man/man1/coq_makefile*
 usr/share/man/man1/coq-tex*
 usr/share/man/man1/coqtop*
 usr/share/man/man1/coqwc*
-usr/share/man/man1/gallina*
 usr/share/texmf/tex/latex/misc/coqdoc.sty
 debian/coq.xpm                          usr/share/pixmaps
 debian/coqvars.mk                       usr/share/coq

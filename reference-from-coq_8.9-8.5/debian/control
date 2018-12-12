@@ -28,7 +28,6 @@ Architecture: any
 Depends:
  coq-theories (= ${binary:Version}),
  libcoq-ocaml (= ${binary:Version}),
- emacsen-common,
  ${ocaml:Depends},
  ${shlibs:Depends},
  ${misc:Depends},

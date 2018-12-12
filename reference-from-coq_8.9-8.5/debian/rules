@@ -22,7 +22,7 @@ ADDPREF := COQINSTALLPREFIX=$(COQPREF) OLDROOT=
 
 PACKAGES := $(shell dh_listpackages)
 
-COQ_VERSION := 8.5
+COQ_VERSION := 8.9
 COQ_ABI := $(COQ_VERSION)+$(OCAML_ABI)
 
 ARCH := $(shell dpkg-architecture -q DEB_TARGET_ARCH)
@@ -34,7 +34,6 @@ endif
 
 CONFIGUREOPTS := -arch Linux -prefix /usr -mandir /usr/share/man \
   -configdir /etc/xdg/coq \
-  -emacslib /usr/share/emacs/site-lisp/coq \
   -browser "/usr/bin/x-www-browser %s &" \
   -with-doc no \
   -debug \

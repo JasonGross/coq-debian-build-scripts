@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+CURDIR=`pwd`
+ORIG=$1
+WORKDIR=`dirname $ORIG`
+ORIGFILE=`basename $ORIG`
+VERSION=`echo "$ORIGFILE" | sed "s/^coq-\([0-9\.a-z-]\+\)\.tar\.gz$/\1/"`
+
+cd $WORKDIR
+
+tar zxf $ORIGFILE
+
+mv coq-$VERSION/doc/common/styles/html/simple/{style.css,header.html,footer.html} coq-$VERSION
+rm -rf coq-$VERSION/doc/common
+mkdir -p coq-$VERSION/doc/common/styles/html/simple
+mv coq-$VERSION/{style.css,header.html,footer.html} coq-$VERSION/doc/common/styles/html/simple
+rm -rf coq-$VERSION/doc/faq
+rm -rf coq-$VERSION/doc/RecTutorial
+rm -rf coq-$VERSION/doc/refman
+rm -rf coq-$VERSION/doc/rt
+rm -rf coq-$VERSION/doc/tools
+rm -rf coq-$VERSION/doc/tutorial
+find coq-$VERSION -name '*~' -delete
+
+tar zcf coq_$VERSION+dfsg.orig.tar.gz coq-$VERSION/
+rm -rf coq-$VERSION
+
+cd $CURDIR

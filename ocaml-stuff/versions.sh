@@ -6,6 +6,8 @@ CAMLP5_BASE="camlp5_7.01-1build1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
+LABLGTK3_BASE="lablgtk3_3.0~beta3-1"
+GTK3SPELL_BASE="gtkspell3_3.0.4-1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 DUNE_BASE="dune_1.0~beta20-1"
 #OCAML_RE_BASE="ocaml-re_1.7.3-2"
@@ -23,11 +25,12 @@ PRECISE_PKGS=""
 XENIAL_PKGS=""
 PKGS=""
 
-#PRECISE_PKGS="libiberty lz4"
+#PRECISE_PKGS="libiberty"
+#PRECISE_PKGS="lz4"
 
 #DSCS="${LIBZSTD_BASE}.dsc" # might actually only need to be on precise; is only needed for rpm, I think
 
-DSCS="${RPM_BASE}.dsc"
+#DSCS="${RPM_BASE}.dsc"
 
 #DSCS="${OCAML_BASE}.dsc" # needed only for removing versioned provides
 
@@ -43,6 +46,8 @@ DSCS="${RPM_BASE}.dsc"
 #DSCS="${LABLGL_BASE}.dsc"
 
 #PKGS="lablgtk2"
+#DSCS="${GTK3SPELL_BASE}.dsc"
+DSCS="${LABLGTK3_BASE}.dsc"
 
 #PKGS="ocamlgraph
 
@@ -64,8 +69,8 @@ DSCS="${RPM_BASE}.dsc"
 ### DSCS="${LABLGTK2_BASE}.dsc" # doesn't need this
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
-PPA="coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa5"
+PPA="coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa6"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -91,9 +96,15 @@ function make_urls() {
         URL_BASE="http://archive.ubuntu.com/ubuntu/pool/universe/${i:0:1}/${i%%_*}/"
         if [[ "${i}" == "libzstd_"* ]]; then
             URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/libz/${i%%_*}/"
+        elif [[ "${i}" == "gtkspell3"* ]]; then
+            URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/${i:0:1}/${i%%_*}/"
         fi
         echo "${URL_BASE}${BASE}.dsc"
-        echo "${URL_BASE}${BASE}.debian.tar.xz"
+        if [[ "${i}" == "gtkspell3"* ]]; then
+            echo "${URL_BASE}${BASE}.debian.tar.gz"
+        else
+            echo "${URL_BASE}${BASE}.debian.tar.xz"
+        fi
         if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
         elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]]; then

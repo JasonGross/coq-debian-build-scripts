@@ -15,7 +15,7 @@ for i in $VERSIONS; do
     fi
     dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
   elif [ "$TARGET" == precise ]; then
-    if [[ "$i" == 8.* ]] && [[ "$i" != 8.4* ]] && [[ "$i" != 8.3* ]] && [[ "$i" != 8.2* ]] && [[ "$i" != 8.1* ]] && [[ "$i" != 8.0* ]]; then
+    if [[ "$i" == 8.* ]] && [[ "$i" != 8.4* ]] && [[ "$i" != 8.3* ]] && [[ "$i" != 8.2* ]] && ( [[ "$i" == 8.10* ]] || [[ "$i" != 8.1* ]]) && [[ "$i" != 8.0* ]]; then
       dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
     else
       dput ppa:jgross-h/$OCAML3_PPA "${ARCHIVE}${PPA_EXT}_source.changes"

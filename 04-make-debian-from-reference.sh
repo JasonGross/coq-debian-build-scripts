@@ -25,7 +25,9 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if [[ "$i" == 8.9* ]]; then
+  if [[ "$i" == 8.10* ]]; then
+    cp -a ../../../reference-from-coq_8.10-8.5/debian ./ || exit $?
+  elif [[ "$i" == 8.9* ]]; then
     cp -a ../../../reference-from-coq_8.9-8.5/debian ./ || exit $?
   elif [[ "$i" == 8.8* ]]; then
     cp -a ../../../reference-from-coq_8.8-8.5/debian ./ || exit $?
@@ -48,7 +50,7 @@ for i in $VERSIONS; do
   elif [[ "$i" == 7.3* ]]; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
-    cp -a ../../../reference-from-coq_8.9-8.5/debian ./ || exit $?
+    cp -a ../../../reference-from-coq_8.10-8.5/debian ./ || exit $?
   fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
@@ -177,12 +179,12 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
-  if [[ "$i" == 8.7* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.5* ]] || [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || [[ "$i" == 8.1* ]] || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
+  if [[ "$i" == 8.7* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.5* ]] || [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || ([[ "$i" != 8.10* ]] && [[ "$i" == 8.1* ]]) || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
     true
   else
     sed s'|-debug ||g' -i debian/rules
   fi
-  if [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || [[ "$i" == 8.1* ]] || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
+  if [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || ([[ "$i" != 8.10* ]] && [[ "$i" == 8.1* ]]) || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
     if [ "$TARGET" == precise ]; then
           sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
     fi
@@ -234,7 +236,7 @@ EOF
   elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then
     rm -rf debian/patches
   fi
-  if [[ "$i" == "8.7+beta1" ]] || [[ "$i" == "8.7+beta2" ]] || [[ "$i" == 8.7.* ]] || [[ "$i" == "8.8+beta1" ]] || [[ "$i" == "8.8+beta2" ]] || [[ "$i" == 8.8.* ]] || [[ "$i" == "8.9+beta1" ]] || [[ "$i" == 8.9.* ]]; then # test-suite is broken without git
+  if [[ "$i" == "8.7+beta1" ]] || [[ "$i" == "8.7+beta2" ]] || [[ "$i" == 8.7.* ]] || [[ "$i" == "8.8+beta1" ]] || [[ "$i" == "8.8+beta2" ]] || [[ "$i" == 8.8.* ]] || [[ "$i" == "8.9+beta1" ]] || [[ "$i" == 8.9.* ]] || [[ "$i" == "8.10+beta"* ]] || [[ "$i" == 8.10.* ]]; then # test-suite is broken without git
     sed s'/\(..MAKE. test-suite .*\)/\1 || true/g' -i debian/rules || exit $?
   fi
   if [ "$i" == "8.5beta1" -o \( "$i" == "8.5beta2" -a "$TARGET" == "precise" \) -o "$i" == "8.4pl6" ]; then # test-suite is broken

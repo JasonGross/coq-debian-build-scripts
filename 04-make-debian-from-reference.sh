@@ -54,8 +54,8 @@ for i in $VERSIONS; do
   fi
   sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
   if ([[ "$i" == 8.10* ]]) && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then
-    sed s'/liblablgtk3-ocaml-dev,//g' -i debian/control || exit $?
-    sed s'/liblablgtksourceview3-ocaml-dev,//g' -i debian/control || exit $?
+    sed s'/liblablgtk3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
+    sed s'/liblablgtksourceview3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
     rm -f debian/coqide*
     sed s',cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm,#,g' -i debian/rules || exit $?
     cat >> debian/rules <<'EOF'

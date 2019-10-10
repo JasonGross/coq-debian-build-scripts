@@ -14,7 +14,6 @@ Build-Depends:
  ocaml-nox (>= 4.05.0),
  ocaml-best-compilers,
  ocaml-findlib (>= 1.4.1),
- camlp5 (>= 6.06),
  liblablgtk3-ocaml-dev,
  liblablgtksourceview3-ocaml-dev,
  texlive-latex-extra,

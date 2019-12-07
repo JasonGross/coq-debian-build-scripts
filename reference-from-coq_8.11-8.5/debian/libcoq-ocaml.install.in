@@ -1,0 +1,3 @@
+usr/lib/coq/kernel/byterun/dllcoqrun.so @OCamlDllDir@
+usr/lib/coq/META
+# *.cma files will be added here

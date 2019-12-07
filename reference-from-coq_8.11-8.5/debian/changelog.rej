@@ -1,0 +1,14 @@
+--- debian/changelog
++++ debian/changelog
+@@ -1,8 +1,8 @@
+-coq (8.9~git) experimental; urgency=medium
++coq (8.10~git) experimenta; urgency=medium
+ 
+-  * Make it 8.9 for numbering
++  * Make it 8.10 for numbering
+ 
+- -- Jason Gross <jgross@mit.edu>  Mon, 15 Apr 2019 13:53:13 -0400
++ -- Jason Gross <jgross@mit.edu>  Mon, 15 Apr 2019 13:52:03 -0400
+ 
+ coq (8.master~git) experimental; urgency=medium
+ 

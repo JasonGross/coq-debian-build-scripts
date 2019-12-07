@@ -1,0 +1,11 @@
+--- debian/rules
++++ debian/rules
+@@ -22,7 +22,7 @@ ADDPREF := COQINSTALLPREFIX=$(COQPREF) OLDROOT=
+ 
+ PACKAGES := $(shell dh_listpackages)
+ 
+-COQ_VERSION := v8.9
++COQ_VERSION := v8.10
+ COQ_ABI := $(COQ_VERSION)+$(OCAML_ABI)
+ 
+ CONFIGUREOPTS := -arch Linux -prefix /usr -mandir /usr/share/man \

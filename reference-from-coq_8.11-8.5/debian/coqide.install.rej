@@ -1,0 +1,15 @@
+--- debian/coqide.install
++++ debian/coqide.install
+@@ -1,8 +1,9 @@
+ usr/bin/coqide*
++usr/share/man/man1/coqide*
+ usr/share/coq/coq.png
++usr/share/coq/default.bindings
++usr/share/coq/coq_style.xml
+ usr/share/coq/coq.lang
+ usr/share/coq/coq-ssreflect.lang
+-usr/share/coq/coq_style.xml
+-usr/share/doc/coq/FAQ-CoqIde usr/share/doc/coqide
+-usr/share/man/man1/coqide*
++usr/share/doc/coq/FAQ-CoqIde
+ debian/coqide.desktop    usr/share/applications

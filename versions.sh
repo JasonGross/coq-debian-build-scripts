@@ -18,6 +18,24 @@ function to_debian_version() {
   echo "$1" | sed s'/-\(rc\)/\1/g' | sed s'/+\(beta\)/\1/g' | sed s'/-\(beta\)/\1/g' | sed s'/-\(alpha\)/\1/g' | sed s'/+\(alpha\)/\1/g' | sed s'/\(rc\)/~\1/g' | sed s'/\(beta\)/~\1/g' | sed s'/\(alpha\)/~\1/g'
 }
 
+function vercmp() {
+    CMP="$2"
+    if [[ "$CMP" == "<"  ]]; then CMP="lt"; fi
+    if [[ "$CMP" == "<=" ]]; then CMP="le"; fi
+    if [[ "$CMP" == ">"  ]]; then CMP="gt"; fi
+    if [[ "$CMP" == ">=" ]]; then CMP="ge"; fi
+    if [[ "$CMP" == "="  ]]; then CMP="eq"; fi
+    if [[ "$CMP" == "==" ]]; then CMP="eq"; fi
+    V1="$(to_debian_version "$1")"
+    V2="$(to_debian_version "$3")"
+    if [[ "$CMP" == "eq" && "$V2" == *"*" ]]; then
+        V2="${V2::-1}" # strip the trailing star
+        (dpkg --compare-versions "${V2}~" "le" "$V1" && dpkg --compare-versions "$V1" "le" "${V2}+") || return $?
+    else
+        dpkg --compare-versions "$V1" "$CMP" "$V2" || return $?
+    fi
+}
+
 function to_package_name() {
   if [ ! -z "$2" ]; then
     echo "${1/coq/coq-$2}"

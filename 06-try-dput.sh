@@ -13,14 +13,14 @@ for i in $VERSIONS; do
   if [ "$TARGET" == trusty ]; then
     if [[ "$i" == 8.4* ]]; then
       dput ppa:jgross-h/$OCAML3_PPA "${ARCHIVE}${PPA_EXT}_source.changes"
-    elif [[ "$i" == 8.5* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.7* ]] || [[ "$i" == 8.8* ]] || [[ "$i" == 8.9* ]]; then
+    elif vercmp "$i" >= 8.5~ && vercmp "$i" < 8.10~; then
       dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
     else
       dput ppa:jgross-h/$OCAML4_05_PPA "${ARCHIVE}${PPA_EXT}_source.changes"
     fi
   elif [ "$TARGET" == precise ]; then
-      if [[ "$i" == 8.* ]] && [[ "$i" != 8.4* ]] && [[ "$i" != 8.3* ]] && [[ "$i" != 8.2* ]] && ( [[ "$i" == 8.12* ]] || [[ "$i" == 8.11* ]] || [[ "$i" == 8.10* ]] || [[ "$i" != 8.1* ]]) && [[ "$i" != 8.0* ]]; then
-        if [[ "$i" == 8.5* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.7* ]] || [[ "$i" == 8.8* ]] || [[ "$i" == 8.9* ]]; then
+      if vercmp "$i" >= 8.5~; then
+        if vercmp "$i" < 8.10~; then
           dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
         else
           dput ppa:jgross-h/$OCAML4_05_PPA "${ARCHIVE}${PPA_EXT}_source.changes"
@@ -29,7 +29,7 @@ for i in $VERSIONS; do
       dput ppa:jgross-h/$OCAML3_PPA "${ARCHIVE}${PPA_EXT}_source.changes"
     fi
   else
-    if [[ "$i" == 8.5* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.7* ]] || [[ "$i" == 8.8* ]] || [[ "$i" == 8.9* ]]; then
+    if vercmp "$i" >= 8.5~ && vercmp "$i" < 8.10~; then
       dput ppa:jgross-h/many-coq-versions "${ARCHIVE}${PPA_EXT}_source.changes"
     else
       dput ppa:jgross-h/$OCAML4_05_PPA "${ARCHIVE}${PPA_EXT}_source.changes"

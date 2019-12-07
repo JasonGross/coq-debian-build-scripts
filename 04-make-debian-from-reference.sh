@@ -25,37 +25,37 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if [[ "$i" == 8.11* ]]; then
+  if vercmp "$i" == 8.11*; then
     cp -a ../../../reference-from-coq_8.11-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.10* ]]; then
+  elif vercmp "$i" == 8.10*; then
     cp -a ../../../reference-from-coq_8.10-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.9* ]]; then
+  elif vercmp "$i" == 8.9*; then
     cp -a ../../../reference-from-coq_8.9-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.8* ]]; then
+  elif vercmp "$i" == 8.8*; then
     cp -a ../../../reference-from-coq_8.8-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.7* ]]; then
+  elif vercmp "$i" == 8.7*; then
     cp -a ../../../reference-from-coq_8.7-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.6* ]]; then
+  elif vercmp "$i" == 8.6*; then
     cp -a ../../../reference-from-coq_8.6-8.5/debian ./ || exit $?
-  elif [[ "$i" == 8.5* ]]; then
+  elif vercmp "$i" == 8.5*; then
     cp -a ../../../reference-from-coq_8.5-2/debian ./ || exit $?
-  elif [[ "$i" == 8.4* ]]; then
+  elif vercmp "$i" == 8.4*; then
     cp -a ../../../reference-from-coq_8.4pl3/debian ./ || exit $?
-  elif [[ "$i" == 8.3* ]]; then
+  elif vercmp "$i" == 8.3*; then
     cp -a ../../../reference-from-coq_8.3p4/debian ./ || exit $?
-  elif [[ "$i" == 8.2* ]]; then
+  elif vercmp "$i" == 8.2*; then
     cp -a ../../../reference-from-coq_8.2pl2/debian ./ || exit $?
-  elif [[ "$i" == 8.1* ]]; then
+  elif vercmp "$i" == 8.1*; then
     cp -a ../../../reference-from-coq_8.1pl3/debian ./ || exit $?
-  elif [[ "$i" == 8.0* ]]; then
+  elif vercmp "$i" == 8.0*; then
     cp -a ../../../reference-from-coq_8.0pl3/debian ./ || exit $?
-  elif [[ "$i" == 7.3* ]]; then
+  elif vercmp "$i" == 7.3*; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
     cp -a ../../../reference-from-coq_8.11-8.5/debian ./ || exit $?
   fi
   sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
-  if ([[ "$i" == 8.10* ]]) && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then
+  if (vercmp "8.9" < "$i") && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then
     sed s'/liblablgtk3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
     sed s'/liblablgtksourceview3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
     rm -f debian/coqide*
@@ -192,12 +192,10 @@ EOF
       sed s'|camlp5 (>= 5.12-2~)|camlp4|g' -i debian/control
     fi
   fi
-  if [[ "$i" == 8.7* ]] || [[ "$i" == 8.6* ]] || [[ "$i" == 8.5* ]] || [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || ([[ "$i" != 8.12* ]] && [[ "$i" != 8.11* ]] && [[ "$i" != 8.10* ]] && [[ "$i" == 8.1* ]]) || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
-    true
-  else
+  if vercmp "$i" >= 8.8~; then
     sed s'|-debug ||g' -i debian/rules
   fi
-  if [[ "$i" == 8.4* ]] || [[ "$i" == 8.3* ]] || [[ "$i" == 8.2* ]] || ([[ "$i" != 8.12* ]] && [[ "$i" != 8.11* ]] && [[ "$i" != 8.10* ]] && [[ "$i" == 8.1* ]]) || [[ "$i" == 8.0* ]] || [[ "$i" == 7.* ]] || [[ "$i" == 6.* ]] || [[ "$i" == 5.* ]]; then
+  if vercmp "$i" < 8.5~; then
     if [ "$TARGET" == precise ]; then
           sed s'|ocaml-findlib (>= 1.4),|ocaml-findlib (>= 1.2),|g' -i debian/control || exit $?
     fi
@@ -249,7 +247,7 @@ EOF
   elif [ "$(grep -c 'Lemma Ceva' test-suite/success/Nsatz.v)" -eq 0 ]; then
     rm -rf debian/patches
   fi
-  if [[ "$i" == "8.7+beta1" ]] || [[ "$i" == "8.7+beta2" ]] || [[ "$i" == 8.7.* ]] || [[ "$i" == "8.8+beta1" ]] || [[ "$i" == "8.8+beta2" ]] || [[ "$i" == 8.8.* ]] || [[ "$i" == "8.9+beta1" ]] || [[ "$i" == 8.9.* ]] || [[ "$i" == "8.10+beta"* ]] || [[ "$i" == 8.10.* ]] || [[ "$i" == "8.11+beta"* ]] || [[ "$i" == 8.11.* ]] || [[ "$i" == "8.12+beta"* ]] || [[ "$i" == 8.12.* ]]; then # test-suite is broken without git
+  if vercmp "$i" >= 8.7~; then # test-suite is broken without git
     sed s'/\(..MAKE. test-suite .*\)/\1 || true/g' -i debian/rules || exit $?
   fi
   if [ "$i" == "8.5beta1" -o \( "$i" == "8.5beta2" -a "$TARGET" == "precise" \) -o "$i" == "8.4pl6" ]; then # test-suite is broken

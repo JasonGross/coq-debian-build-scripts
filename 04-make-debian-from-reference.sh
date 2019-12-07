@@ -55,7 +55,7 @@ for i in $VERSIONS; do
     cp -a ../../../reference-from-coq_8.11-8.5/debian ./ || exit $?
   fi
   sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
-  if (vercmp "8.9" < "$i") && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then
+  if (vercmp "8.9" "<" "$i") && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then
     sed s'/liblablgtk3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
     sed s'/liblablgtksourceview3-ocaml-dev,/debhelper,/g' -i debian/control || exit $?
     rm -f debian/coqide*

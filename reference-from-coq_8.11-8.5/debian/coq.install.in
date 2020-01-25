@@ -10,6 +10,8 @@ usr/bin/coqproofworker*
 usr/bin/coqqueryworker*
 usr/bin/coqtacticworker*
 usr/bin/coqpp*
+usr/bin/doc_grammar*
+usr/bin/votour*
 usr/lib/coq/revision
 usr/lib/coq/plugins/micromega/csdpcert
 usr/lib/coq/tools/coqdoc/coqdoc.css

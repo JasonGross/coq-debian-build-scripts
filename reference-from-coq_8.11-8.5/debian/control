@@ -10,7 +10,7 @@ Uploaders:
 Standards-Version: 3.9.5
 Build-Depends:
  rsync,
- tips,
+ tipa,
  python3,
  debhelper (>= 9),
  dh-ocaml (>= 0.9.5~),

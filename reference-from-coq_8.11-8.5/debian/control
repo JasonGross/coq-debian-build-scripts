@@ -20,6 +20,7 @@ Build-Depends:
  liblablgtk3-ocaml-dev,
  liblablgtksourceview3-ocaml-dev,
  texlive-latex-extra,
+ texlive-fonts-recommended,
  tipa,
  hevea (>= 1.10-7)
 Homepage: http://coq.inria.fr/

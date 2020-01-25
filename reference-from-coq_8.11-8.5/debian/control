@@ -10,6 +10,8 @@ Uploaders:
 Standards-Version: 3.9.5
 Build-Depends:
  rsync,
+ tips,
+ python3,
  debhelper (>= 9),
  dh-ocaml (>= 0.9.5~),
  ocaml-nox (>= 4.05.0),

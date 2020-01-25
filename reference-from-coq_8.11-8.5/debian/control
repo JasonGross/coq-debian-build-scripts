@@ -9,18 +9,18 @@ Uploaders:
  Enrico Tassi <gareuselesinge@debian.org>
 Standards-Version: 3.9.5
 Build-Depends:
- rsync,
- tipa,
- python,
- python3,
  debhelper (>= 9),
  dh-ocaml (>= 0.9.5~),
  ocaml-nox (>= 4.05.0),
  ocaml-best-compilers,
  ocaml-findlib (>= 1.4.1),
+ rsync,
+ python,
+ python3,
  liblablgtk3-ocaml-dev,
  liblablgtksourceview3-ocaml-dev,
  texlive-latex-extra,
+ tipa,
  hevea (>= 1.10-7)
 Homepage: http://coq.inria.fr/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-ocaml-maint/packages/coq.git

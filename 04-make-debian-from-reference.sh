@@ -92,6 +92,9 @@ EOF
   if [[ "$i" == 8.6beta1 ]]; then
     sed s'/..MAKE. test-suite COMPLEXITY=/#/g' -i debian/rules || exit $?
   fi
+  if [[ "$i" == 8.11* ]] && [[ "$i" != 8.11.0 ]] && [[ "$i" != "8.11+beta1" ]] && [[ "$i" != "8.11+alpha" ]]; then
+    sed s',usr/bin/doc_grammar[^ ]*,,g' -i debian/*.install* || exit $?
+  fi
   if [[ "$i" == 8.7* ]]; then
     sed s',usr/lib/coq/tools/compat5.cmo,,g' -i debian/*.install* || exit $?
     cat >> debian/coq.install.in <<EOF

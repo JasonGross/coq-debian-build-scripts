@@ -1,0 +1,4 @@
+?package(coq):command="/usr/bin/coqtop" \
+  icon="/usr/share/pixmaps/coq.xpm" \
+  needs="text" \
+  section="Applications/Science/Mathematics" title="Coq"

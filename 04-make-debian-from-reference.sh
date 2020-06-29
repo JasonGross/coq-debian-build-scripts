@@ -25,7 +25,9 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if vercmp "$i" "==" "8.11*"; then
+  if vercmp "$i" "==" "8.12*"; then
+    cp -a ../../../reference-from-coq_8.12-8.5/debian ./ || exit $?
+  elif vercmp "$i" "==" "8.11*"; then
     cp -a ../../../reference-from-coq_8.11-8.5/debian ./ || exit $?
   elif vercmp "$i" "==" "8.10*"; then
     cp -a ../../../reference-from-coq_8.10-8.5/debian ./ || exit $?
@@ -52,7 +54,7 @@ for i in $VERSIONS; do
   elif vercmp "$i" "==" "7.3*"; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
-    cp -a ../../../reference-from-coq_8.11-8.5/debian ./ || exit $?
+    cp -a ../../../reference-from-coq_8.12-8.5/debian ./ || exit $?
   fi
   sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
   if (vercmp "8.9" "<" "$i") && ([[ "$TARGET" == disco ]] || [[ "$TARGET" == bionic ]] || [[ "$TARGET" == xenial ]] || [[ "$TARGET" == trusty ]] || [[ "$TARGET" == precise ]]); then

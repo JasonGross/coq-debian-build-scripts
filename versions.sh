@@ -12,10 +12,16 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA_EXT="-1~${TARGET}~ppa127"
+PPA_EXT="-1~${TARGET}~ppa128"
 
 function to_debian_version() {
   echo "$1" | sed s'/-\(rc\)/\1/g' | sed s'/+\(beta\)/\1/g' | sed s'/-\(beta\)/\1/g' | sed s'/-\(alpha\)/\1/g' | sed s'/+\(alpha\)/\1/g' | sed s'/\(rc\)/~\1/g' | sed s'/\(beta\)/~\1/g' | sed s'/\(alpha\)/~\1/g'
+}
+
+
+function increment_version() {
+    # https://stackoverflow.com/questions/8653126/how-to-increment-version-number-in-a-shell-script#comment65908962_8653732
+    echo "$1" | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{$NF=sprintf("%0*d", length($NF), ($NF+1)); print}'
 }
 
 function vercmp() {
@@ -30,7 +36,8 @@ function vercmp() {
     V2="$(to_debian_version "$3")"
     if [[ "$CMP" == "eq" && "$V2" == *"*" ]]; then
         V2="${V2::-1}" # strip the trailing star
-        (dpkg --compare-versions "${V2}~" "le" "$V1" && dpkg --compare-versions "$V1" "le" "${V2}+") || return $?
+        V3="$(increment_version "$V2")"
+        (dpkg --compare-versions "${V2}~" "le" "$V1" && dpkg --compare-versions "$V1" "lt" "${V3}") || return $?
     else
         dpkg --compare-versions "$V1" "$CMP" "$V2" || return $?
     fi

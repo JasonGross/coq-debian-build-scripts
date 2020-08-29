@@ -9,6 +9,7 @@ for i in $DSCS; do
     PREVERSION="$(to_preversion "$i")"
     VERSION="$(to_version "$i")"
     pushd "debian-sources"
+    rm -rf "${FOLDER}"
     dpkg-source -x "$i" || exit $?
     cd "${FOLDER}"
     sed 's/debhelper ([^)]*)/debhelper (>= 9)/g' -i debian/control

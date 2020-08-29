@@ -18,12 +18,13 @@ CAMLZIP_BASE="camlzip_1.07-2"
 CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
+OCAML_ZARITH_BASE="ocaml-zarith_1.8-1"
 
-NEW_SOURCE_EXTRA="-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
-PKGS="ocaml-zarith"
+PKGS="" # "ocaml-zarith"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -47,7 +48,9 @@ PKGS="ocaml-zarith"
 
 #PKGS="lablgtk2"
 #DSCS="${GTK3SPELL_BASE}.dsc"
-DSCS="" # "${LABLGTK3_BASE}.dsc"
+#DSCS="" # "${LABLGTK3_BASE}.dsc"
+
+DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="ocamlgraph
 
@@ -70,7 +73,7 @@ DSCS="" # "${LABLGTK3_BASE}.dsc"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa6"
+SUFFIX="~ppa8"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

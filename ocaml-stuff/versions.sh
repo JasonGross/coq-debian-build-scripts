@@ -18,7 +18,7 @@ CAMLZIP_BASE="camlzip_1.07-2"
 CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
-OCAML_ZARITH_BASE="ocaml-zarith_1.8-1"
+OCAML_ZARITH_BASE="ocaml-zarith_1.9.1-1build1"
 
 NEW_SOURCE_EXTRA="-s xenial" # "-s eoan" # "-s cosmic"
 

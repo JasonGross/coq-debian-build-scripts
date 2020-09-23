@@ -26,7 +26,7 @@ PRECISE_PKGS=""
 XENIAL_PKGS=""
 PKGS="" # "ocaml-zarith"
 
-DEBUILD_SA_DSCS="" # "${DEBUILD_SA_DSCS}.dsc"
+DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -77,7 +77,7 @@ DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa10"
+SUFFIX="~ppa11"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

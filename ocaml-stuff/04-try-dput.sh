@@ -6,7 +6,7 @@ set -ex
 
 cd debian-sources
 
-for i in $DSCS; do
+for i in ${DSCS} ${DEBIAN_DSCS}; do
     FOLDER="$(to_folder_name "$i")"
     CHANGES="$(to_changes "$i")"
     dput ppa:jgross-h/$PPA "$CHANGES"

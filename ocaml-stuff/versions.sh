@@ -18,7 +18,7 @@ CAMLZIP_BASE="camlzip_1.07-2"
 CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
-OCAML_ZARITH_BASE="ocaml-zarith_1.9.1-1build1"
+OCAML_ZARITH_BASE="ocaml-zarith_1.10-1"
 
 NEW_SOURCE_EXTRA="-s xenial" # "-s eoan" # "-s cosmic"
 
@@ -50,7 +50,9 @@ PKGS="" # "ocaml-zarith"
 #DSCS="${GTK3SPELL_BASE}.dsc"
 #DSCS="" # "${LABLGTK3_BASE}.dsc"
 
-DSCS="${OCAML_ZARITH_BASE}.dsc"
+DSCS=""
+
+DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="ocamlgraph
 
@@ -115,6 +117,13 @@ function make_urls() {
         else
             echo "${URL_BASE}${BASE%-*}.orig.tar.gz"
         fi
+    done
+    for i in ${DEBIAN_DSCS}; do
+        BASE="${i%.dsc}"
+        URL_BASE="http://deb.debian.org/debian/pool/main/${i:0:1}/${i%%_*}/"
+        echo "${URL_BASE}${BASE}.dsc"
+        echo "${URL_BASE}${BASE}.debian.tar.xz"
+        echo "${URL_BASE}${BASE%-*}.orig.tar.gz"
     done
 }
 

@@ -4,7 +4,7 @@ set -ex
 
 . versions.sh
 
-for i in $DSCS; do
+for i in ${DSCS} ${DEBIAN_DSCS}; do
     FOLDER="$(to_folder_name "$i")"
     PREVERSION="$(to_preversion "$i")"
     VERSION="$(to_version "$i")"

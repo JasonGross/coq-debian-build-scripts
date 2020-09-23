@@ -4,7 +4,7 @@ set -ex
 
 . versions.sh
 
-for i in $DSCS; do
+for i in ${DSCS} ${DEBIAN_DSCS}; do
     FOLDER="$(to_folder_name "$i")"
     pushd "debian-sources/$FOLDER" || exit $?
     debuild --prepend-path "$(dirname "$(which jbuilder)")" -S || exit $? # -us -uc

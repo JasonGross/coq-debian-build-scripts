@@ -75,7 +75,7 @@ DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa8"
+SUFFIX="~ppa9"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

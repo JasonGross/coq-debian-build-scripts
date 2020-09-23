@@ -7,13 +7,7 @@ set -ex
 for i in ${DSCS}; do
     FOLDER="$(to_folder_name "$i")"
     pushd "debian-sources/$FOLDER" || exit $?
-    debuild --prepend-path "$(dirname "$(which jbuilder)")" -S || exit $? # -us -uc
-    popd
-done
-
-for i in ${DEBIAN_DSCS}; do
-    FOLDER="$(to_folder_name "$i")"
-    pushd "debian-sources/$FOLDER" || exit $?
-    debuild --prepend-path "$(dirname "$(which jbuilder)")" -sa -S || exit $? # -us -uc
+    EXTRA_ARGS="$(extra_debuild_args_for "$i")"
+    debuild --prepend-path "$(dirname "$(which jbuilder)")" ${EXTRA_ARGS} -S || exit $? # -us -uc
     popd
 done

@@ -26,6 +26,8 @@ PRECISE_PKGS=""
 XENIAL_PKGS=""
 PKGS="" # "ocaml-zarith"
 
+DEBUILD_SA_DSCS="" # "${DEBUILD_SA_DSCS}.dsc"
+
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
 
@@ -75,7 +77,7 @@ DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa9"
+SUFFIX="~ppa10"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -125,6 +127,12 @@ function make_urls() {
         echo "${URL_BASE}${BASE}.debian.tar.xz"
         echo "${URL_BASE}${BASE%-*}.orig.tar.gz"
     done
+}
+
+function extra_debuild_args_for() {
+    if [[ "$i" == *"${DEBUILD_SA_DSCS}"* ]]; then
+        echo "-sa"
+    fi
 }
 
 URLS="$(make_urls)"

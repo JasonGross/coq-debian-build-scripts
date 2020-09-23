@@ -13,7 +13,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     dpkg-source -x "$i" || exit $?
     cd "${FOLDER}"
     sed 's/debhelper ([^)]*)/debhelper (>= 9)/g' -i debian/control
-    sed 's/debhelper-compat ([^)]*)/debhelper-compat (>= 9)/g' -i debian/control
+    sed 's/debhelper-compat ([^)]*)/debhelper (>= 9)/g' -i debian/control
     sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
     sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control
     if [ -f debian/control.in ]; then

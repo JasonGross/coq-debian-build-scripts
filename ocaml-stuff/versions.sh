@@ -20,11 +20,11 @@ LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.10-1"
 
-NEW_SOURCE_EXTRA="-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
-PKGS="" # "ocaml-zarith"
+PKGS="" # "lablgtk3" # "ocaml-zarith"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
@@ -54,7 +54,7 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DSCS=""
 
-DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
+DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="ocamlgraph
 

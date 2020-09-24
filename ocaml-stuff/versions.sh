@@ -6,7 +6,7 @@ CAMLP5_BASE="camlp5_7.01-1build1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
-LABLGTK3_BASE="lablgtk3_3.0~beta3-1"
+LABLGTK3_BASE="lablgtk3_3.1.1-1build2"
 GTK3SPELL_BASE="gtkspell3_3.0.4-1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 DUNE_BASE="dune_1.0~beta20-1"
@@ -20,7 +20,7 @@ LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.10-1"
 
-NEW_SOURCE_EXTRA="-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
@@ -50,9 +50,10 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="lablgtk2"
 #DSCS="${GTK3SPELL_BASE}.dsc"
+DSCS="${LABLGTK3_BASE}.dsc"
 #DSCS="" # "${LABLGTK3_BASE}.dsc"
 
-DSCS=""
+#DSCS=""
 
 DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
@@ -112,7 +113,7 @@ function make_urls() {
         else
             echo "${URL_BASE}${BASE}.debian.tar.xz"
         fi
-        if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]]; then
+        if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]] || [[ "${i}" == "lablgtk3"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
         elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"
@@ -130,8 +131,11 @@ function make_urls() {
 }
 
 function extra_debuild_args_for() {
-    if [[ "$i" == *"${DEBUILD_SA_DSCS}"* ]]; then
+    if [ ! -z "${DEBUILD_SA_DSCS}" ] && [[ "$i" == *"${DEBUILD_SA_DSCS}"* ]]; then
         echo "-sa"
+    fi
+    if [[ "$i" == *"${LABLGTK3_BASE}"* ]]; then
+        echo "-nc"
     fi
 }
 

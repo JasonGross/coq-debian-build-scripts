@@ -6,7 +6,7 @@ CAMLP5_BASE="camlp5_7.01-1build1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
-LABLGTK3_BASE="lablgtk3_3.1.1-1build2"
+LABLGTK3_BASE="lablgtk3_3.1.1+official-1"
 GTK3SPELL_BASE="gtkspell3_3.0.4-1"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 DUNE_BASE="dune_1.0~beta20-1"
@@ -19,6 +19,7 @@ CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.10-1"
+FINDLIB_BASE="findlib_1.8.1-1build3"
 
 NEW_SOURCE_EXTRA="-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
@@ -30,6 +31,9 @@ DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
+# DSCS="${FINDLIB_BASE}.dsc"
+DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
 
@@ -39,7 +43,7 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #DSCS="${OCAML_BASE}.dsc" # needed only for removing versioned provides
 
-PKGS="findlib"
+#PKGS="findlib"
 
 #PKGS="ocamlbuild"
 
@@ -78,7 +82,7 @@ PKGS="findlib"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa11"
+SUFFIX="~ppa12"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

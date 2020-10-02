@@ -33,6 +33,7 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 # DSCS="${FINDLIB_BASE}.dsc"
 DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -82,7 +83,7 @@ DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
 PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa12"
+SUFFIX="~ppa13"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

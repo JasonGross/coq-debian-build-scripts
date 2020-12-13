@@ -18,7 +18,7 @@ CAMLZIP_BASE="camlzip_1.07-2"
 CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
-OCAML_ZARITH_BASE="ocaml-zarith_1.10-1"
+OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-1build3"
 
 NEW_SOURCE_EXTRA="-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
@@ -26,12 +26,12 @@ NEW_SOURCE_EXTRA="-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial
 PRECISE_PKGS=""
 XENIAL_PKGS=""
 PKGS="" # "lablgtk3" # "ocaml-zarith"
-DSCS=""
+DSCS="${OCAML_ZARITH_BASE}.dsc"
 DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
-PKGS="lablgtk3"
+PKGS="" # lablgtk3"
 
 
 

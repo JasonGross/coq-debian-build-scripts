@@ -21,7 +21,7 @@ RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-1build3"
 
-NEW_SOURCE_EXTRA="-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""

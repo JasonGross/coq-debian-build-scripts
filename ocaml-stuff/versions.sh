@@ -86,7 +86,7 @@ PKGS="" # lablgtk3"
 ### DSCS="${LABLGTK2_BASE}.dsc" # doesn't need this
 ### DSCS="${OCAMLGRAPH_BASE}.dsc" # doesn't need this
 
-PPA="coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+PPA="coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
 SUFFIX="~ppa13"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 

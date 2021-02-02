@@ -12,7 +12,7 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA_EXT="-1~${TARGET}~ppa145"
+PPA_EXT="-1~${TARGET}~ppa147"
 
 function to_debian_version() {
   echo "$1" | sed s'/-\(rc\)/\1/g' | sed s'/+\(beta\)/\1/g' | sed s'/-\(beta\)/\1/g' | sed s'/-\(alpha\)/\1/g' | sed s'/+\(alpha\)/\1/g' | sed s'/\(rc\)/~\1/g' | sed s'/\(beta\)/~\1/g' | sed s'/\(alpha\)/~\1/g'

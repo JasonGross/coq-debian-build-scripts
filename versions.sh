@@ -6,13 +6,34 @@ export GITHUB_VERSIONS="8.13.0 8.12.2 8.12.1 8.12.0 8.11.2 8.11.1 8.11.0 8.10.2 
 
 export NORMAL_VERSIONS="8.6.1 8.6 8.6rc1 8.6beta1 8.5pl3 8.5pl2 8.5pl1 8.5 8.5rc1 8.5beta3 8.5beta2 8.5beta1 8.4pl6 8.4pl5 8.4pl4 8.4pl3 8.4pl2 8.4pl1 8.4 8.4rc1 8.4beta2 8.4beta 8.3pl5 8.3pl4 8.3pl3 8.3pl2 8.3pl1 8.3 8.3-rc1 8.2pl3 8.2pl2 8.2pl1 8.2beta2 8.2alpha 8.1pl6 8.1pl4 8.1pl3 8.1pl2 8.1pl1 8.1 8.0pl3 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1"
 
-export VERSIONS="8.11+beta1 8.10.2 8.10.1 8.10.0 8.10+beta3 8.10+beta2 8.10+beta1" # "8.13.0 8.13+beta1 8.13+alpha" # "8.14+alpha 8.13.0 8.13+beta1 8.13+alpha 8.12.2 8.12.1 8.12.0 8.12+beta1 8.11.2 8.11.1 8.11.0 8.11+beta1 8.10.2 8.10.1 8.10.0 8.10+beta3 8.10+beta2 8.10+beta1 8.9.1 8.9.0 8.9+beta1 8.8.2 8.8.1 8.8.0 8.8+beta1 8.7.2 8.7.1 8.7.0 8.7+beta2 8.7+beta1 8.6.1 8.6 8.6rc1 8.6beta1 8.5pl3 8.5pl2 8.5pl1 8.5 8.5rc1 8.5beta3 8.5beta2 8.5beta1 8.4pl6 8.4pl5 8.4pl4 8.4pl3 8.4pl2 8.4pl1 8.4 8.4rc1 8.4beta2 8.4beta 8.3pl5 8.3pl4 8.3pl3 8.3pl2 8.3pl1 8.3 8.3-rc1 8.3-beta0 8.2pl3 8.2pl2 8.2pl1 8.2 8.2beta2 8.2alpha 8.1pl6 8.1pl5 8.1pl4 8.1pl3 8.1pl2 8.1pl1 8.1 8.0pl3 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1 6.1 5.8.3 5.8.2 5.6"
+export VERSIONS="8.12.1 8.12.0 8.12+beta1 8.11.2 8.11.1 8.11.0 8.11+beta1 8.10.2 8.10.1 8.10.0 8.10+beta3 8.10+beta2 8.10+beta1" # "8.13.0 8.13+beta1 8.13+alpha" # "8.14+alpha 8.13.0 8.13+beta1 8.13+alpha 8.12.2 8.12.1 8.12.0 8.12+beta1 8.11.2 8.11.1 8.11.0 8.11+beta1 8.10.2 8.10.1 8.10.0 8.10+beta3 8.10+beta2 8.10+beta1 8.9.1 8.9.0 8.9+beta1 8.8.2 8.8.1 8.8.0 8.8+beta1 8.7.2 8.7.1 8.7.0 8.7+beta2 8.7+beta1 8.6.1 8.6 8.6rc1 8.6beta1 8.5pl3 8.5pl2 8.5pl1 8.5 8.5rc1 8.5beta3 8.5beta2 8.5beta1 8.4pl6 8.4pl5 8.4pl4 8.4pl3 8.4pl2 8.4pl1 8.4 8.4rc1 8.4beta2 8.4beta 8.3pl5 8.3pl4 8.3pl3 8.3pl2 8.3pl1 8.3 8.3-rc1 8.3-beta0 8.2pl3 8.2pl2 8.2pl1 8.2 8.2beta2 8.2alpha 8.1pl6 8.1pl5 8.1pl4 8.1pl3 8.1pl2 8.1pl1 8.1 8.0pl3 7.4 7.3 7.3.1 7.2 7.1 7.0 6.3 6.3.1 6.2 6.2.4 6.2.3 6.2.2 6.2.1 6.1 5.8.3 5.8.2 5.6"
 
 if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA_EXT="-1~${TARGET}~ppa150"
+PPA_COMMON="-1~${TARGET}~"
+PPA_EXT="${PPA_COMMON}ppa152"
+
+function ppa_wget_ext_of_version() {
+    # don't let bump-versions
+    PREFIX="${PPA_COMMON}ppa"
+    if false; then :
+    elif [[ "$1" == 8.12.1 ]]; then echo "${PREFIX}134"
+    elif [[ "$1" == 8.12.0 ]]; then echo "${PREFIX}133"
+    elif [[ "$1" == "8.12+beta"* ]]; then echo "${PREFIX}129"
+    elif [[ "$1" == 8.11.2 ]]; then echo "${PREFIX}129"
+    elif [[ "$1" == 8.11.1 ]]; then echo "${PREFIX}124"
+    elif [[ "$1" == 8.11.0 ]]; then echo "${PREFIX}122"
+    elif [[ "$1" == "8.11+beta"* ]]; then echo "${PREFIX}129"
+    elif [[ "$1" == 8.10.2 ]]; then echo "${PREFIX}110"
+    elif [[ "$1" == 8.10.1 ]]; then echo "${PREFIX}109"
+    elif [[ "$1" == 8.10.0 ]]; then echo "${PREFIX}107"
+    elif [[ "$1" == "8.10+beta"* ]]; then echo "${PREFIX}107"
+    else
+        echo "${PPA_EXT}"
+    fi
+}
 
 function to_debian_version() {
   echo "$1" | sed s'/-\(rc\)/\1/g' | sed s'/+\(beta\)/\1/g' | sed s'/-\(beta\)/\1/g' | sed s'/-\(alpha\)/\1/g' | sed s'/+\(alpha\)/\1/g' | sed s'/\(rc\)/~\1/g' | sed s'/\(beta\)/~\1/g' | sed s'/\(alpha\)/~\1/g'
@@ -40,6 +61,17 @@ function vercmp() {
         (dpkg --compare-versions "${V2}~" "le" "$V1" && dpkg --compare-versions "$V1" "lt" "${V3}") || return $?
     else
         dpkg --compare-versions "$V1" "$CMP" "$V2" || return $?
+    fi
+}
+
+function ppa_of_version_target() {
+    # ppa_of_version_target $VERSION $TARGET
+    if vercmp "$1" "<" "8.5~"; then
+        echo "many-coq-versions-ocaml-3"
+    elif vercmp "$i" "<" "8.10~"; then
+        echo "many-coq-versions"
+    else
+        echo "many-coq-versions-ocaml-4-05"
     fi
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -ex
 
@@ -9,7 +9,7 @@ for i in $VERSIONS; do
   ARCHIVE="$(to_archive_name "$i")"
   pushd "debian-sources/$FOLDER" || exit $?
   PPA="$(ppa_of_version_target "$i" "$TARGET")"
-  dput ppa:jgross-h/$PPA "${ARCHIVE}${PPA_EXT}_source.changes"
+  wget "https://launchpad.net/~jgross-h/+archive/ubuntu/$PPA/+sourcefiles/$(to_package_name "$i")/$(to_debian_version "$i")$(ppa_wget_ext_of_version "$i")/${ARCHIVE}.orig.tar.gz" -O "${ARCHIVE}.orig.tar.gz"
   #sleep 2m
   popd
 done

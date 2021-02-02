@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CUR_VERSION="$(grep -o 'ppa\([0-9]*\)' versions.sh | sed s'/^ppa//g')"
+CUR_VERSION="$(grep -o 'ppa\([0-9]\+\)' versions.sh | sed s'/^ppa//g')"
 NEW_VERSION="$(($CUR_VERSION+1))"
 
 set -ex

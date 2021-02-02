@@ -21,17 +21,17 @@ RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-1build3"
 
-NEW_SOURCE_EXTRA="-s xenial" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
 PKGS="" # "lablgtk3" # "ocaml-zarith"
-DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
+DSCS="${OCAML_ZARITH_BASE}.dsc"
 DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
-PKGS="gmp"
+#PKGS="gmp"
 
 
 # DSCS="${FINDLIB_BASE}.dsc"

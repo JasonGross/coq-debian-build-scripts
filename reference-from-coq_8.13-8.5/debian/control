@@ -12,7 +12,7 @@ Build-Depends:
  debhelper (>= 9),
  dh-ocaml (>= 0.9.5~),
  ocaml-nox (>= 4.05.0),
- ocaml-nox (< 4.06) | libnum-ocaml-dev,
+ ocaml-nox (<< 4.06) | libnum-ocaml-dev,
  ocaml-best-compilers,
  ocaml-findlib (>= 1.8.0),
  libzarith-ocaml-dev (>= 1.10),

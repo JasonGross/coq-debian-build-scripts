@@ -73,6 +73,17 @@ override_dh_auto_install::
 	rm -f debian/tmp/usr/bin/coqidetop debian/tmp/usr/bin/coqidetop.opt debian/tmp/usr/share/man/man1/coqide.1 # https://github.com/coq/coq/issues/9820
 EOF
   fi
+  if (vercmp "$i" "<" "8.10~") && ([[ "$TARGET" == hirsute ]] || [[ "$TARGET" == groovy ]]); then
+    sed s'/liblablgtk2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
+    sed s'/liblablgtksourceview2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
+    rm -f debian/coqide*
+    sed s',cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm,#,g' -i debian/rules || exit $?
+    cat >> debian/rules <<'EOF'
+
+override_dh_auto_install::
+	rm -f debian/tmp/usr/bin/coqidetop debian/tmp/usr/bin/coqidetop.opt debian/tmp/usr/share/man/man1/coqide.1 # https://github.com/coq/coq/issues/9820
+EOF
+  fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
   if [ -e debian/coq.install.in -a "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then

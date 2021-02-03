@@ -13,7 +13,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA_COMMON="-1~${TARGET}~"
-PPA_EXT="${PPA_COMMON}ppa155"
+PPA_EXT="${PPA_COMMON}ppa157"
 
 function ppa_wget_ext_of_version() {
     # don't let bump-versions

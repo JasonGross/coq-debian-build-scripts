@@ -11,6 +11,7 @@ Build-Depends:
  debhelper (>= 7.2.11~),
  dh-ocaml (>= 0.9.5~),
  ocaml-nox (>= 4),
+ ocaml-nox (<< 4.06) | libnum-ocaml-dev,
  ocaml-best-compilers,
  ocaml-findlib (>= 1.4),
  camlp5 (>= 5.12-2~),

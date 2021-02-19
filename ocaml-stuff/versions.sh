@@ -21,6 +21,7 @@ LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-1build3"
+GCC_DEFAULTS_BASE="gcc-defaults_1.150ubuntu1"
 
 NEW_SOURCE_EXTRA="-s focal" # "-s xenial" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
@@ -56,6 +57,8 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
+
+#DSCS="${GCC_DEFAULTS_BASE}.dsc"
 
 #DSCS="${LIBZSTD_BASE}.dsc" # might actually only need to be on precise; is only needed for rpm, I think
 
@@ -106,7 +109,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA="many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa15"
+SUFFIX="~ppa16"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -132,12 +135,14 @@ function make_urls() {
         URL_BASE="http://archive.ubuntu.com/ubuntu/pool/universe/${i:0:1}/${i%%_*}/"
         if [[ "${i}" == "libzstd_"* ]]; then
             URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/libz/${i%%_*}/"
-        elif [[ "${i}" == "gtkspell3"* ]]; then
+        elif [[ "${i}" == "gtkspell3"* ]] || [[ "${i}" == "gcc-defaults_"* ]]; then
             URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/${i:0:1}/${i%%_*}/"
         fi
         echo "${URL_BASE}${BASE}.dsc"
         if [[ "${i}" == "gtkspell3"* ]]; then
             echo "${URL_BASE}${BASE}.debian.tar.gz"
+        elif [[ "${i}" == "gcc-defaults_"* ]]; then
+            echo "${URL_BASE}${BASE}.tar.gz"
         else
             echo "${URL_BASE}${BASE}.debian.tar.xz"
         fi
@@ -145,6 +150,8 @@ function make_urls() {
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
         elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"
+        elif [[ "${i}" == "gcc-defaults_"* ]]; then
+            :
         else
             echo "${URL_BASE}${BASE%-*}.orig.tar.gz"
         fi
@@ -172,8 +179,12 @@ URLS="$(make_urls)"
 function to_folder_name() {
     FOLDER="$1"
     #FOLDER="${FOLDER%.debian.tar.xz}"
-    FOLDER="${FOLDER%-*}"
-    FOLDER="${FOLDER//_/-}"
+    BEFORE_UNDERSCORE="${FOLDER%%_*}"
+    AFTER_UNDERSCORE="${FOLDER#*_}"
+    AFTER_UNDERSCORE="${AFTER_UNDERSCORE%.dsc}"
+    AFTER_UNDERSCORE="${AFTER_UNDERSCORE%-*}"
+    FOLDER="${BEFORE_UNDERSCORE}-${AFTER_UNDERSCORE}"
+    #FOLDER="${FOLDER//_/-}"
     echo "${FOLDER}"
 }
 
@@ -184,14 +195,23 @@ function to_preversion() {
     echo "${VERSION}"
 }
 
+function get_ppa_ext() {
+    AFTER_UNDERSCORE="${1#*_}"
+    if [[ "${VERSION}" == *"-"* ]]; then
+        echo "${PPA_EXT}"
+    else
+        echo "-1${PPA_EXT}"
+    fi
+}
+
 function to_version() {
     VERSION="$(to_preversion "$1")"
-    echo "${VERSION}${PPA_EXT}"
+    echo "${VERSION}$(get_ppa_ext "$1")"
 }
 
 function to_changes() {
     CHANGES="$1"
     CHANGES="${CHANGES%.dsc}"
-    CHANGES="${CHANGES}${PPA_EXT}_source.changes"
+    CHANGES="${CHANGES}$(get_ppa_ext "$1")_source.changes"
     echo "${CHANGES}"
 }

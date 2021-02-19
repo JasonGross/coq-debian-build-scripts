@@ -14,6 +14,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     cd "${FOLDER}"
     sed 's/debhelper ([^)]*)/debhelper (>= 9)/g' -i debian/control
     sed 's/debhelper-compat ([^)]*)/debhelper (>= 9)/g' -i debian/control
+    sed 's/dpkg-dev ([^)]*)/dpkg-dev/g' -i debian/control
     sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
     sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control
     if [ "$TARGET" == "xenial" ] || [ "$TARGET" == "trusty" ] || [ "$TARGET" == "precise" ]; then

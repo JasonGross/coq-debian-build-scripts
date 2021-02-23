@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BINUTILS_BASE="binutils_2.26.1-1ubuntu1~16.04.8"
+BINUTILS_BASE="binutils_2.24-5ubuntu3" # "binutils_2.26.1-1ubuntu1~16.04.8"
 OCAML_BASE="ocaml_4.08.1-8" # "ocaml_4.05.0-10ubuntu2"
 HEVEA_BASE="hevea_2.32-3build1"
 CAMLP5_BASE="camlp5_7.01-1build1"
@@ -110,8 +110,8 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA="many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa2" # "~ppa16"
+PPA="test-coq-new-ocaml-temp1" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa1" # "~ppa16"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

@@ -35,7 +35,7 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gcc-defaults"
 #PKGS="gcc-5"
-#DSCS="${OCAML_BASE}.dsc"
+DSCS="${OCAML_BASE}.dsc"
 
 #PKGS="ocamlbuild"
 
@@ -109,7 +109,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA="many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa16"
+SUFFIX="~ppa15" # "~ppa16"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

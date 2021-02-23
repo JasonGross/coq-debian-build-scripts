@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+BINUTILS_BASE="binutils_2.26.1-1ubuntu1~16.04.8"
 OCAML_BASE="ocaml_4.08.1-8" # "ocaml_4.05.0-10ubuntu2"
 HEVEA_BASE="hevea_2.32-3build1"
 CAMLP5_BASE="camlp5_7.01-1build1"
@@ -23,7 +24,7 @@ OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-1build3"
 GCC_DEFAULTS_BASE="gcc-defaults_1.150ubuntu1"
 
-NEW_SOURCE_EXTRA="-s focal" # "-s xenial" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s xenial" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
@@ -35,9 +36,10 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gcc-defaults"
 #PKGS="gcc-5"
-DSCS="${OCAML_BASE}.dsc"
+#DSCS="${OCAML_BASE}.dsc"
 
 #PKGS="ocamlbuild"
+DSCS="${BINUTILS_BASE}.dsc"
 
 #DSCS="${OCAMLBUILD_BASE}.dsc"
 
@@ -109,7 +111,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA="many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa15" # "~ppa16"
+SUFFIX="~ppa2" # "~ppa16"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -135,7 +137,7 @@ function make_urls() {
         URL_BASE="http://archive.ubuntu.com/ubuntu/pool/universe/${i:0:1}/${i%%_*}/"
         if [[ "${i}" == "libzstd_"* ]]; then
             URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/libz/${i%%_*}/"
-        elif [[ "${i}" == "gtkspell3"* ]] || [[ "${i}" == "gcc-defaults_"* ]]; then
+        elif [[ "${i}" == "gtkspell3"* ]] || [[ "${i}" == "gcc-defaults_"* ]] || [[ "${i}" == "binutils_"* ]]; then
             URL_BASE="http://archive.ubuntu.com/ubuntu/pool/main/${i:0:1}/${i%%_*}/"
         fi
         echo "${URL_BASE}${BASE}.dsc"
@@ -143,6 +145,8 @@ function make_urls() {
             echo "${URL_BASE}${BASE}.debian.tar.gz"
         elif [[ "${i}" == "gcc-defaults_"* ]]; then
             echo "${URL_BASE}${BASE}.tar.gz"
+        elif [[ "${i}" == "binutils_"* ]]; then
+            echo "${URL_BASE}${BASE}.diff.gz"
         else
             echo "${URL_BASE}${BASE}.debian.tar.xz"
         fi

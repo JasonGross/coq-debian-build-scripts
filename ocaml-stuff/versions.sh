@@ -197,7 +197,7 @@ function to_preversion() {
 
 function get_ppa_ext() {
     AFTER_UNDERSCORE="${1#*_}"
-    if [[ "${VERSION}" == *"-"* ]]; then
+    if [[ "${AFTER_UNDERSCORE}" == *"-"* ]]; then
         echo "${PPA_EXT}"
     else
         echo "-1${PPA_EXT}"

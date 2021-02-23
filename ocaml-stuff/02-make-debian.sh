@@ -16,7 +16,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     sed 's/debhelper-compat ([^)]*)/debhelper (>= 9)/g' -i debian/control
     sed 's/dpkg-dev ([^)]*)/dpkg-dev/g' -i debian/control
     if [[ "$i" == "${OCAML_BASE}.dsc" ]]; then
-        sed 's/(binutils-dev[^,]*),/\1, gcc (>= 4:5) | gcc-5,/g' -i debian/control
+        sed 's/\(binutils-dev[^,]*\),/\1, gcc (>= 4:5) | gcc-5,/g' -i debian/control
     fi
     sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
     sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control

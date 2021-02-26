@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 BINUTILS_BASE="binutils_2.24-5ubuntu3" # "binutils_2.26.1-1ubuntu1~16.04.8"
-OCAML_BASE="ocaml_4.08.1-8" # "ocaml_4.05.0-10ubuntu2"
+OCAML_BASE="ocaml_4.11.1-4" # "ocaml_4.08.1-8" # "ocaml_4.05.0-10ubuntu2"
 HEVEA_BASE="hevea_2.32-3build1"
 CAMLP5_BASE="camlp5_7.01-1build1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
@@ -21,10 +21,11 @@ CPPO_BASE="cppo_1.5.0-2build2"
 LIBZSTD_BASE="libzstd_1.3.5+dfsg-1ubuntu1"
 RPM_BASE="rpm_4.14.1+dfsg1-4"
 OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
-FINDLIB_BASE="findlib_1.8.1-1build3"
+FINDLIB_BASE="findlib_1.8.1-2" # "findlib_1.8.1-1build3"
 GCC_DEFAULTS_BASE="gcc-defaults_1.150ubuntu1"
+OCAML_GRAPHICS_BASE="ocaml-graphics_5.1.0-2"
 
-NEW_SOURCE_EXTRA="-s xenial" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
@@ -39,13 +40,19 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 #DSCS="${OCAML_BASE}.dsc"
 
 #PKGS="ocamlbuild"
-DSCS="${BINUTILS_BASE}.dsc"
+#DSCS="${BINUTILS_BASE}.dsc"
 
 #DSCS="${OCAMLBUILD_BASE}.dsc"
 
-#DSCS="${FINDLIB_BASE}.dsc"
+DSCS="${FINDLIB_BASE}.dsc"
 
 #DSCS="${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc"
+
+#DSCS="${FINDLIB_BASE}.dsc"
+
+#DSCS="${OCAML_GRAPHICS_BASE}.dsc" # PKGS="ocaml-graphics"
+
+#DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
 
 #DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 #DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
@@ -110,8 +117,8 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA="test-coq-new-ocaml-temp1" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa1" # "~ppa16"
+PPA="many-coq-versions-ocaml-4-11" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa18"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -152,7 +159,7 @@ function make_urls() {
         fi
         if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]] || [[ "${i}" == "lablgtk3"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
-        elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]]; then
+        elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]] || [[ "${i}" == "ocaml-graphics_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"
         elif [[ "${i}" == "gcc-defaults_"* ]]; then
             :

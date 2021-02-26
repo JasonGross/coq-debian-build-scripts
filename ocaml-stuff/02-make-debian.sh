@@ -18,6 +18,12 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     if [[ "$i" == "${OCAML_BASE}.dsc" ]]; then
         sed 's/\(binutils-dev\)[^,]*,/\1 (>= 2.23),/g' -i debian/control
     fi
+    if [[ "$i" == "${FINDLIB_BASE}.dsc" ]]; then
+        sed 's/ocaml-nox (>= 4.03.0),/ocaml-nox (>= 4.03.0), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control
+    fi
+    if [[ "$i" == "${OCAML_ZARITH_BASE}.dsc" ]]; then
+        sed 's/libgmp3-dev,/libgmp3-dev (>= 2:6),/g' -i debian/control
+    fi
     sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
     sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control
     if [ "$TARGET" == "xenial" ] || [ "$TARGET" == "trusty" ] || [ "$TARGET" == "precise" ]; then

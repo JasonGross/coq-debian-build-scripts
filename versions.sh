@@ -13,7 +13,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA_COMMON="-1~${TARGET}~"
-PPA_EXT="${PPA_COMMON}ppa164"
+PPA_EXT="${PPA_COMMON}ppa165"
 
 function ppa_wget_ext_of_version() {
     # don't let bump-versions
@@ -87,7 +87,8 @@ function ppa_of_version_target() {
         echo "many-coq-versions"
     else
         #echo "many-coq-versions-ocaml-4-05"
-        echo "many-coq-versions-ocaml-4-08"
+        #echo "many-coq-versions-ocaml-4-08"
+        echo "many-coq-versions-ocaml-4-11"
     fi
 }
 

@@ -36,12 +36,12 @@ DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
-if [ "${TARGET}" == "hirsute" ] || [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
-    NEW_SOURCE_EXTRA="-s ${TARGET}"
-    PKGS="ocaml-num"
-else
-    DSCS="${OCAML_NUM_BASE}.dsc"
-fi
+#if [ "${TARGET}" == "hirsute" ] || [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+#    NEW_SOURCE_EXTRA="-s ${TARGET}"
+#    PKGS="ocaml-num"
+#else
+#    DSCS="${OCAML_NUM_BASE}.dsc"
+#fi
 
 #PKGS="gcc-defaults"
 #PKGS="gcc-5"
@@ -62,8 +62,8 @@ fi
 
 #DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
 
-#DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
-#DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
+DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
+DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gmp"
 #PKGS="ocaml-dune"
@@ -125,8 +125,8 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA="many-coq-versions-ocaml-4-11" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa3" # "~ppa19"
+PPA="many-coq-versions-ocaml-4-08" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa17" # "~ppa3" # "~ppa19"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

@@ -17,6 +17,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     sed 's/dpkg-dev ([^)]*)/dpkg-dev/g' -i debian/control
     if [[ "$i" == "${OCAML_BASE}.dsc" ]]; then
         sed 's/\(binutils-dev\)[^,]*,/\1 (>= 2.23),/g' -i debian/control
+        cp -f fixes/0006-Disable-DT_TEXTREL-warnings-on-Linux-i386.patch debian/patches/
     fi
     if [[ "$i" == "${FINDLIB_BASE}.dsc" ]]; then
         sed 's/ocaml-nox (>= 4.03.0),/ocaml-nox (>= 4.03.0), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control

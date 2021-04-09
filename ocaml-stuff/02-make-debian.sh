@@ -22,7 +22,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
         sed 's/ocaml-nox (>= 4.03.0),/ocaml-nox (>= 4.03.0), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control
     fi
     if [[ "$i" == "${OCAML_ZARITH_BASE}.dsc" ]]; then
-        sed 's/libgmp3-dev,/libgmp3-dev (>= 2:6),/g' -i debian/control
+        sed 's/libgmp3-dev,/libgmp3-dev (>= 2:5.1),/g' -i debian/control
     fi
     sed 's/ocaml-native-compilers .= $${binary:Version}./ocaml-native-compilers/g' -i debian/rules
     sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control

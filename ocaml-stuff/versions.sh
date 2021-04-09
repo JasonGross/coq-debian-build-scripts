@@ -24,8 +24,9 @@ OCAML_ZARITH_BASE="ocaml-zarith_1.11-1"
 FINDLIB_BASE="findlib_1.8.1-2" # "findlib_1.8.1-1build3"
 GCC_DEFAULTS_BASE="gcc-defaults_1.150ubuntu1"
 OCAML_GRAPHICS_BASE="ocaml-graphics_5.1.0-2"
+OCAML_NUM_BASE="ocaml-num_1.3-1"
 
-NEW_SOURCE_EXTRA="-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
+NEW_SOURCE_EXTRA="-s focal" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
 PRECISE_PKGS=""
 XENIAL_PKGS=""
@@ -34,6 +35,13 @@ DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 DEBIAN_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
+
+if [ "${TARGET}" == "hirsute" ] || [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+    NEW_SOURCE_EXTRA="-s ${TARGET}"
+    PKGS="ocaml-num"
+else
+    DSCS="${OCAML_NUM_BASE}.dsc"
+fi
 
 #PKGS="gcc-defaults"
 #PKGS="gcc-5"
@@ -54,8 +62,8 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
 
-DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
-DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
+#DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
+#DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gmp"
 #PKGS="ocaml-dune"
@@ -118,7 +126,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA="many-coq-versions-ocaml-4-11" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa19"
+SUFFIX="~ppa3" # "~ppa19"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

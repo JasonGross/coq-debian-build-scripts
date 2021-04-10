@@ -41,7 +41,7 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
         sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control.in
     fi
     if [ -f debian/liblablgtk3-ocaml-dev.docs ]; then
-        sed 's,^/,,g' -i debian/liblablgtk3-ocaml-dev.docs
+        grep -q '^/' debian/liblablgtk3-ocaml-dev.docs && (echo > debian/liblablgtk3-ocaml-dev.docs)
     fi
     echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
     if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi

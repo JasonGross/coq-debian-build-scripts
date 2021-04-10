@@ -109,15 +109,15 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
 
-#DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
-#DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
+DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
+DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gmp"
 #PKGS="ocaml-dune"
 
 # DSCS="${FINDLIB_BASE}.dsc"
-DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
-DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
+#DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+#DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -172,8 +172,8 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA="many-coq-versions-ocaml-4-11" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa15" # "~ppa21" # "~ppa14" # "~ppa3" # "~ppa2" # "~ppa17" # "~ppa3" # "~ppa19"
+PPA="many-coq-versions-ocaml-4-08" # "many-coq-versions-ocaml-4-11" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa18" # "~ppa21" # "~ppa14" # "~ppa3" # "~ppa2" # "~ppa17" # "~ppa3" # "~ppa19"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

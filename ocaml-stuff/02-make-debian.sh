@@ -26,6 +26,9 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     if [[ "$i" == "${FINDLIB_BASE}.dsc" ]]; then
         sed 's/ocaml-nox (>= 4.03.0),/ocaml-nox (>= 4.03.0), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control
     fi
+    if [[ "$i" == "ocaml-cairo2"* ]]; then
+        sed 's/ocaml (>= 4.02),/ocaml (>= 4.02), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control
+    fi
     if [[ "$i" == "${OCAML_ZARITH_BASE}.dsc" ]]; then
         sed 's/libgmp3-dev,/libgmp3-dev (>= 2:5.1),/g' -i debian/control
     fi
@@ -36,6 +39,9 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     fi
     if [ -f debian/control.in ]; then
         sed 's/ocaml-best-compilers .= ${binary:Version}./ocaml-best-compilers/g' -i debian/control.in
+    fi
+    if [ -f debian/liblablgtk3-ocaml-dev.docs ]; then
+        sed 's,^/,,g' -i debian/liblablgtk3-ocaml-dev.docs
     fi
     echo '9' > debian/compat # magic number from https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
     if [ -z "$DEBFULLNAME" ]; then export DEBFULLNAME="Jason Gross"; fi

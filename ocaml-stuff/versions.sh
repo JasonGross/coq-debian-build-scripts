@@ -3,13 +3,16 @@
 BINUTILS_BASE="binutils_2.24-5ubuntu3" # "binutils_2.26.1-1ubuntu1~16.04.8"
 OCAML_BASE="ocaml_4.11.1-4" # "ocaml_4.08.1-8" # "ocaml_4.05.0-10ubuntu2"
 HEVEA_BASE="hevea_2.32-3build1"
+HEVEA_groovy_BASE="hevea_2.34-2build2"
 CAMLP5_BASE="camlp5_7.01-1build1"
+CAMLP5_4_11_BASE="camlp5_7.13-1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
 LABLGTK3_BASE="lablgtk3_3.1.1+official-1"
 GTK3SPELL_BASE="gtkspell3_3.0.4-1"
 OCAMLBUILD_BASE="ocamlbuild_0.14.0-1build3"
+OCAMLBUILD_groovy_BASE="ocamlbuild_0.14.0-2"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 OCAML_DUNE_BASE="ocaml-dune_2.7.0-1"
 #OCAML_RE_BASE="ocaml-re_1.7.3-2"
@@ -25,6 +28,8 @@ FINDLIB_BASE="findlib_1.8.1-2" # "findlib_1.8.1-1build3"
 GCC_DEFAULTS_BASE="gcc-defaults_1.150ubuntu1"
 OCAML_GRAPHICS_BASE="ocaml-graphics_5.1.0-2"
 OCAML_NUM_BASE="ocaml-num_1.3-1"
+OCAML_CAIRO2_focal_BASE="ocaml-cairo2_0.6.1+dfsg-3"
+OCAML_CAIRO2_groovy_BASE="ocaml-cairo2_0.6.1+dfsg-5build1"
 
 NEW_SOURCE_EXTRA="-s focal" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
@@ -43,9 +48,38 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 #    DSCS="${OCAML_NUM_BASE}.dsc"
 #fi
 
+#if [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+#    dsc1="OCAML_CAIRO2_${TARGET}_BASE"
+#    DSCS="${CAMLP5_4_11_BASE}.dsc ${!dsc1}.dsc ${OCAML_GRAPHICS_BASE}.dsc"
+#else
+#    DSCS="${CAMLP5_BASE}.dsc ${OCAML_GRAPHICS_BASE}.dsc"
+#fi
+
+#if [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+#    dsc="OCAML_CAIRO2_${TARGET}_BASE"
+#    DSCS="${!dsc}.dsc"
+#else
+#    :
+#fi
+
+#if [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+#    DSCS="${CAMLP5_4_11_BASE}.dsc"
+#else
+#    DSCS="${CAMLP5_BASE}.dsc"
+#fi
+
+#DSCS="${OCAML_NUM_BASE}.dsc"
+
+#if [ "${TARGET}" == "groovy" ] || [ "${TARGET}" == "focal" ]; then
+#    NEW_SOURCE_EXTRA="-s ${TARGET}"
+#    PKGS="camlp5 ocaml-cairo2"
+#else
+#    DSCS="${CAMLP5_BASE}.dsc"
+#fi
+
 #PKGS="gcc-defaults"
 #PKGS="gcc-5"
-DSCS="${OCAML_BASE}.dsc"
+#DSCS="${OCAML_BASE}.dsc"
 
 #PKGS="ocamlbuild"
 #DSCS="${BINUTILS_BASE}.dsc"
@@ -55,6 +89,19 @@ DSCS="${OCAML_BASE}.dsc"
 #DSCS="${FINDLIB_BASE}.dsc"
 
 #DSCS="${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc"
+
+#if [ "${TARGET}" == "groovy" ]; then
+#    DSCS="${OCAMLBUILD_groovy_BASE}.dsc ${HEVEA_groovy_BASE}.dsc"
+#else
+#    DSCS="${OCAMLBUILD_BASE}.dsc ${HEVEA_BASE}.dsc"
+#fi
+
+#if [ "${TARGET}" == "groovy" ]; then
+#    NEW_SOURCE_EXTRA="-s ${TARGET}"
+#    PKGS="ocamlbuild hevea"
+#else
+#    DSCS="${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
+#fi
 
 #DSCS="${FINDLIB_BASE}.dsc"
 
@@ -69,8 +116,8 @@ DSCS="${OCAML_BASE}.dsc"
 #PKGS="ocaml-dune"
 
 # DSCS="${FINDLIB_BASE}.dsc"
-#DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
-#DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
+DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -126,7 +173,7 @@ if [ -z "$TARGET" ]; then
 fi
 
 PPA="many-coq-versions-ocaml-4-11" # "many-coq-versions-ocaml-4-08" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa2" # "~ppa17" # "~ppa3" # "~ppa19"
+SUFFIX="~ppa15" # "~ppa21" # "~ppa14" # "~ppa3" # "~ppa2" # "~ppa17" # "~ppa3" # "~ppa19"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {

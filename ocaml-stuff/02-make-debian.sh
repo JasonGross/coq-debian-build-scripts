@@ -2,6 +2,8 @@
 
 set -ex
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 . versions.sh
 
 for i in ${DSCS} ${DEBIAN_DSCS}; do
@@ -17,7 +19,9 @@ for i in ${DSCS} ${DEBIAN_DSCS}; do
     sed 's/dpkg-dev ([^)]*)/dpkg-dev/g' -i debian/control
     if [[ "$i" == "${OCAML_BASE}.dsc" ]]; then
         sed 's/\(binutils-dev\)[^,]*,/\1 (>= 2.23),/g' -i debian/control
-        cp -f fixes/0006-Disable-DT_TEXTREL-warnings-on-Linux-i386.patch debian/patches/
+        patch -p1 -R < debian/patches/0006-Disable-DT_TEXTREL-warnings-on-Linux-i386.patch
+        cp -f "${DIR}/fixes/0006-Disable-DT_TEXTREL-warnings-on-Linux-i386.patch" debian/patches/
+        patch -p1 < debian/patches/0006-Disable-DT_TEXTREL-warnings-on-Linux-i386.patch
     fi
     if [[ "$i" == "${FINDLIB_BASE}.dsc" ]]; then
         sed 's/ocaml-nox (>= 4.03.0),/ocaml-nox (>= 4.03.0), ocaml-nox (<< 4.09~) | libgraphics-ocaml-dev,/g' -i debian/control

@@ -15,10 +15,8 @@ export VERBOSE=1
 
 include /usr/share/ocaml/ocamlvars.mk
 
-HTMLDOC := doc/stdlib/html/index.html
-
-COQPREF := $(CURDIR)/debian/tmp
-ADDPREF := COQINSTALLPREFIX=$(COQPREF) OLDROOT=
+DESTDIR := $(CURDIR)/debian/tmp
+ADDPREF := DESTDIR=$(DESTDIR)
 
 PACKAGES := $(shell dh_listpackages)
 
@@ -65,7 +63,7 @@ ifeq ($(BUILDCACHE),)
 # timeout because of lack of output)
 
 	$(MAKE) world STRIP=true
-	$(MAKE) DOC_TARGETS=$(HTMLDOC) $(HTMLDOC)
+	$(MAKE) doc-stdlib-html
 else
 	rsync -a --exclude=debian --exclude=.git $(BUILDCACHE)/ .
 endif
@@ -84,16 +82,14 @@ override_dh_auto_test:
 override_dh_auto_install:
 	$(MAKE) $(ADDPREF) install
 	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cm[xio]|cmxa|[ao])$$' \
+	  -regex '.*\.(cm[xiot]|cmxa|cmti|mli|ml|[ao])$$' \
 	  >> debian/libcoq-ocaml-dev.install
 	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(vo|v|vos|vok|glob)$$' -printf '%P\n' \
+	  -regex '.*\.(vo|vos|v|glob)$$' -printf '%P\n' \
 	  >> debian/coq-theories.install
-	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cma)$$' -printf '%P\n' \
+	find debian/tmp -name '*.cma' -printf '%P\n' \
 	  >> debian/libcoq-ocaml.install
-	find debian/tmp -regextype posix-awk \
-	  -regex '.*\.(cmxs)$$' -printf '%P\n' \
+	find debian/tmp -name '*.cmxs' -printf '%P\n' \
 	  >> debian/libcoq-ocaml.install
 
 .PHONY: override_dh_install

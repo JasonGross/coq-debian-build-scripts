@@ -26,6 +26,8 @@ for i in $VERSIONS; do
   fi
   mv debian debian-orig
   if vercmp "$i" "==" "8.14*"; then
+    cp -a ../../../reference-from-coq_8.15-8.5/debian ./ || exit $?
+  elif vercmp "$i" "==" "8.14*"; then
     cp -a ../../../reference-from-coq_8.14-8.5/debian ./ || exit $?
   elif vercmp "$i" "==" "8.13*"; then
     cp -a ../../../reference-from-coq_8.13-8.5/debian ./ || exit $?
@@ -58,7 +60,7 @@ for i in $VERSIONS; do
   elif vercmp "$i" "==" "7.3*"; then
     cp -a ../../../reference-from-coq_7.3.1/debian ./ || exit $?
   else
-    cp -a ../../../reference-from-coq_8.14-8.5/debian ./ || exit $?
+    cp -a ../../../reference-from-coq_8.15-8.5/debian ./ || exit $?
   fi
   sed s'|^override_dh_auto_install:$|override_dh_auto_install::|g' -i debian/rules
   if ((vercmp "8.13~" "<=" "$i") && [[ "$TARGET" == focal ]]) \
@@ -73,7 +75,7 @@ override_dh_auto_install::
 	rm -f debian/tmp/usr/bin/coqidetop debian/tmp/usr/bin/coqidetop.opt debian/tmp/usr/share/man/man1/coqide.1 # https://github.com/coq/coq/issues/9820
 EOF
   fi
-  if (vercmp "$i" "<" "8.10~") && ([[ "$TARGET" == hirsute ]] || [[ "$TARGET" == groovy ]]); then
+  if (vercmp "$i" "<" "8.10~") && ([[ "$TARGET" != focal ]] && [[ "$TARGET" != bionic ]] && [[ "$TARGET" != xenial ]] && [[ "$TARGET" != trusty ]] && [[ "$TARGET" != precise ]]); then
     sed s'/liblablgtk2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
     sed s'/liblablgtksourceview2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
     rm -f debian/coqide*

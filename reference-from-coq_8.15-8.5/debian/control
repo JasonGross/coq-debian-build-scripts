@@ -14,15 +14,11 @@ Build-Depends:
  ocaml-nox (>= 4.05.0),
  ocaml-best-compilers,
  ocaml-findlib (>= 1.8.0),
+ dune (>= 2.5.1),
  libzarith-ocaml-dev (>= 1.10),
- rsync,
- python,
- python3,
  liblablgtk3-ocaml-dev (>= 3.1.0),
  liblablgtksourceview3-ocaml-dev (>= 3.1.0),
  texlive-latex-extra,
- texlive-fonts-recommended,
- tipa,
  hevea (>= 1.10-7)
 Homepage: http://coq.inria.fr/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-ocaml-maint/packages/coq.git

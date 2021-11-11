@@ -25,7 +25,7 @@ for i in $VERSIONS; do
     sed -i s'/UNRELEASED/'"$TARGET"'/g' debian/changelog || exit $?
   fi
   mv debian debian-orig
-  if vercmp "$i" "==" "8.14*"; then
+  if vercmp "$i" "==" "8.15*"; then
     cp -a ../../../reference-from-coq_8.15-8.5/debian ./ || exit $?
   elif vercmp "$i" "==" "8.14*"; then
     cp -a ../../../reference-from-coq_8.14-8.5/debian ./ || exit $?

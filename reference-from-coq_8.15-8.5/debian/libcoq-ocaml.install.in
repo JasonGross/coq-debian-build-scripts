@@ -1,3 +1,8 @@
-usr/lib/coq/kernel/byterun/dllcoqrun.so @OCamlDllDir@
-usr/lib/coq/META
+usr/lib/stublibs/dllcoqrun_stubs.so @OCamlDllDir@
+usr/lib/coq-core/META
+usr/lib/coq-core/opam
+usr/lib/coq-core/dune-package
+usr/lib/coqide-server/META
+usr/lib/coqide-server/opam
+usr/lib/coqide-server/dune-package
 # *.cma files will be added here

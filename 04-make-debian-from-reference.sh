@@ -75,6 +75,9 @@ override_dh_auto_install::
 	rm -f debian/tmp/usr/bin/coqidetop debian/tmp/usr/bin/coqidetop.opt debian/tmp/usr/share/man/man1/coqide.1 # https://github.com/coq/coq/issues/9820
 EOF
   fi
+  if [[ "$TARGET" != impish ]] && [[ "$TARGET" != hirsute ]] && [[ "$TARGET" != focal ]] && [[ "$TARGET" != bionic ]] && [[ "$TARGET" != xenial ]] && [[ "$TARGET" != trusty ]] && [[ "$TARGET" != precise ]]; then
+      sed s'/python,/debhelper,/g' -i debian/control || exit $?
+  fi
   if (vercmp "$i" "<" "8.10~") && ([[ "$TARGET" != focal ]] && [[ "$TARGET" != bionic ]] && [[ "$TARGET" != xenial ]] && [[ "$TARGET" != trusty ]] && [[ "$TARGET" != precise ]]); then
     sed s'/liblablgtk2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
     sed s'/liblablgtksourceview2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?

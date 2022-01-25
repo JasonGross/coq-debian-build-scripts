@@ -23,10 +23,10 @@ usr/lib/coq-core/tools/TimeFileMaker.py
 usr/lib/coq-core/tools/make-both-time-files.py
 usr/lib/coq-core/tools/make-one-time-file.py
 usr/lib/coq-core/tools/make-both-single-timing-files.py
-usr/doc/coq-core/README.md
-usr/doc/coq-core/LICENSE
-usr/doc/coqide-server/README.md
-usr/doc/coqide-server/LICENSE
+usr/doc/coq-core/README.md              usr/share/doc/coq-core/README.md
+usr/doc/coq-core/LICENSE                usr/share/doc/coq-core/LICENSE
+usr/doc/coqide-server/README.md         usr/share/doc/coqide-server/README.md
+usr/doc/coqide-server/LICENSE           usr/share/doc/coqide-server/LICENSE
 usr/share/man/man1/coqc*
 usr/share/man/man1/coqdep*
 usr/share/man/man1/coqdoc*

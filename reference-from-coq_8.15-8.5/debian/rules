@@ -32,6 +32,7 @@ endif
 
 CONFIGUREOPTS := -arch Linux -prefix /usr -mandir /usr/share/man \
   -configdir /etc/xdg/coq \
+  -docdir /usr/doc \
   -browser "/usr/bin/x-www-browser %s &" \
   -with-doc no \
   -debug \

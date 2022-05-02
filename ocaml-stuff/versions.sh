@@ -9,7 +9,7 @@ CAMLP5_4_11_BASE="camlp5_7.13-1"
 LABLTK_BASE="labltk_8.06.2+dfsg-1"
 LABLGL_BASE="lablgl_1.05-3"
 LABLGTK2_BASE="lablgtk2_2.18.5+dfsg-1build1"
-LABLGTK3_BASE="lablgtk3_3.1.1+official-1"
+LABLGTK3_BASE="lablgtk3_3.1.2-1"
 GTK3SPELL_BASE="gtkspell3_3.0.4-1"
 OCAMLBUILD_BASE="ocamlbuild_0.14.0-1build3"
 OCAMLBUILD_groovy_BASE="ocamlbuild_0.14.0-2"
@@ -109,15 +109,15 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 
 #DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
 
-DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
-DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
+#DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
+#DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
 
 #PKGS="gmp"
 #PKGS="ocaml-dune"
 
 # DSCS="${FINDLIB_BASE}.dsc"
-#DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
-#DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
+DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"
@@ -172,8 +172,8 @@ if [ -z "$TARGET" ]; then
   TARGET=trusty # precise #
 fi
 
-PPA="many-coq-versions-ocaml-4-08" # "many-coq-versions-ocaml-4-11" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
-SUFFIX="~ppa18" # "~ppa21" # "~ppa14" # "~ppa3" # "~ppa2" # "~ppa17" # "~ppa3" # "~ppa19"
+PPA="coq-master-daily" # "many-coq-versions-ocaml-4-08" # "many-coq-versions-ocaml-4-11" # "coq-master-daily" #"coq-8.13-daily" #"coq-master-daily" #"coq-8.10-daily" #"coq-master-daily" # "test-coq-new-ocaml-temp1"
+SUFFIX="~ppa19"
 PPA_EXT=".1~${TARGET}${SUFFIX}"
 
 function extra_uploads() {
@@ -212,7 +212,7 @@ function make_urls() {
         else
             echo "${URL_BASE}${BASE}.debian.tar.xz"
         fi
-        if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]] || [[ "${i}" == "lablgtk3"* ]]; then
+        if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]]; then # || [[ "${i}" == "lablgtk3"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
         elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]] || [[ "${i}" == "ocaml-graphics_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"

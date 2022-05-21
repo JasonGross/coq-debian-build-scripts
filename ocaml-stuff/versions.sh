@@ -30,6 +30,7 @@ OCAML_GRAPHICS_BASE="ocaml-graphics_5.1.0-2"
 OCAML_NUM_BASE="ocaml-num_1.3-1"
 OCAML_CAIRO2_focal_BASE="ocaml-cairo2_0.6.1+dfsg-3"
 OCAML_CAIRO2_groovy_BASE="ocaml-cairo2_0.6.1+dfsg-5build1"
+CAMLP_STREAMS_BASE="camlp-streams_5.0-1"
 
 NEW_SOURCE_EXTRA="-s focal" # "-s hirsute" # "-s sid" # "-s groovy" # "-s xenial" # "-s groovy" # "-s xenial" # "-s eoan" # "-s cosmic"
 
@@ -116,8 +117,9 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 #PKGS="ocaml-dune"
 
 # DSCS="${FINDLIB_BASE}.dsc"
-DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
-DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
+#DEBIAN_DSCS="${LABLGTK3_BASE}.dsc"
+#DEBUILD_SA_DSCS="${LABLGTK3_BASE}.dsc"
+DSCS="${CAMLP_STREAMS_BASE}.dsc"
 
 #PRECISE_PKGS="libiberty"
 #PRECISE_PKGS="lz4"

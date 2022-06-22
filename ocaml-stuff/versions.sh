@@ -15,6 +15,7 @@ OCAMLBUILD_BASE="ocamlbuild_0.14.0-1build3"
 OCAMLBUILD_groovy_BASE="ocamlbuild_0.14.0-2"
 OCAMLGRAPH_BASE="ocamlgraph_1.8.6-1build5"
 OCAML_DUNE_BASE="ocaml-dune_2.9.1-1build1"
+OCAML_CSEXP_BASE="ocaml-csexp_1.5.1-1build1"
 #OCAML_RE_BASE="ocaml-re_1.7.3-2"
 CMDLINER_BASE="cmdliner_1.0.2-1"
 UUTF_BASE="uutf_1.0.1-2"
@@ -109,7 +110,8 @@ DEBUILD_SA_DSCS="" # "${OCAML_ZARITH_BASE}.dsc"
 #DSCS="${OCAML_GRAPHICS_BASE}.dsc" # PKGS="ocaml-graphics"
 
 #DSCS="${FINDLIB_BASE}.dsc ${OCAML_DUNE_BASE}.dsc ${HEVEA_BASE}.dsc ${OCAMLBUILD_BASE}.dsc"
-DSCS="${OCAML_DUNE_BASE}.dsc"
+#DSCS="${OCAML_DUNE_BASE}.dsc"
+DSCS="${OCAML_CSEXP_BASE}.dsc"
 
 #DEBIAN_DSCS="${OCAML_ZARITH_BASE}.dsc"
 #DEBUILD_SA_DSCS="${OCAML_ZARITH_BASE}.dsc"
@@ -217,7 +219,7 @@ function make_urls() {
         fi
         if [[ "${i}" == "ocaml_"* ]] || [[ "${i}" == "libzstd_"* ]]; then # || [[ "${i}" == "lablgtk3"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.xz"
-        elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]] || [[ "${i}" == "ocaml-graphics_"* ]]; then
+        elif [[ "${i}" == "dune_"* ]] || [[ "${i}" == "ocaml-dune_"* ]] || [[ "${i}" == "ocaml-csexp_"* ]] || [[ "${i}" == "cmdliner_"* ]] || [[ "${i}" == "rpm_"* ]] || [[ "${i}" == "ocaml-graphics_"* ]]; then
             echo "${URL_BASE}${BASE%-*}.orig.tar.bz2"
         elif [[ "${i}" == "gcc-defaults_"* ]]; then
             :

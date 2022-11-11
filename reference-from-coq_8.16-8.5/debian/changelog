@@ -1,48 +1,32 @@
-coq (8.5-2) unstable; urgency=medium
+coq (8.16~git) UNRELEASED; urgency=medium
 
-  * patch: disable test 4429 (timeout too strict for slow architectures) 
+  * Make it 8.16 for numbering
 
- -- Enrico Tassi <gareuselesinge@debian.org>  Thu, 28 Jan 2016 11:47:07 +0100
+ -- Jason Gross <jgross@mit.edu>  Sat, 22 Jan 2022 12:19:09 -0800
 
-coq (8.5-1) unstable; urgency=medium
+coq (8.master~git) experimental; urgency=medium
 
-  * New upstream release 
-  * patch: disable test 4366 (timeout too strict for slow architectures)
+  * Make it master for numbering
 
- -- Enrico Tassi <gareuselesinge@debian.org>  Tue, 26 Jan 2016 16:59:05 +0100
+ -- Jason Gross <jgross@mit.edu>  Thu, 06 Jul 2017 17:33:30 -0400
 
-coq (8.5~beta3+dfsg-2) experimental; urgency=medium
+coq (8.trunk~git) experimental; urgency=low
 
-  * Option -no-native-compiler now called -native-compiler no 
+  * Make it trunk for numbering.
 
- -- Enrico Tassi <gareuselesinge@debian.org>  Sat, 14 Nov 2015 14:59:04 +0100
+ -- Jason S. Gross <jgross@mit.edu>  Thu, 17 Nov 2016 12:59:09 -0500
 
-coq (8.5~beta3+dfsg-1) experimental; urgency=medium
+coq (8.6~git) experimental; urgency=low
 
-  * New upstream release
+  * Make it 8.6 for numbering.
 
- -- Enrico Tassi <gareuselesinge@debian.org>  Fri, 13 Nov 2015 11:27:35 +0100
+ -- Jason S. Gross <jgross@mit.edu>  Thu, 11 Nov 2016 12:27:09 -0500
 
-coq (8.5~beta2+dfsg-2) experimental; urgency=medium
+coq (8.5~git) experimental; urgency=low
 
-  * Enable native compiler only on amd64 and i386
-  * Enable 'make test-suite' target
+  * Make it 8.5 for numbering.
 
- -- Enrico Tassi <gareuselesinge@debian.org>  Mon, 20 Jul 2015 09:51:21 +0200
-
-coq (8.5~beta2+dfsg-1) experimental; urgency=medium
-
-  * New upstream release
-  * Add Enrico Tassi to uploaders
-  * Disable patch for lockf on Hurd (not needed anymore)
-  * coq-theories is now arch any, since it contains .coq-native/ directories
-    (i.e. cmxs files for native compute)
-  * coq depends on coq-theories binary:Version
-  * lintian-overrides for coq-native/*cmx* and plugins/*cmxs files
-    (hardening-no-relro)
-  * Build depend on liblablgtksourceview2-ocaml-dev 
-
- -- Enrico Tassi <gareuselesinge@debian.org>  Wed, 15 Jul 2015 11:36:30 +0200
+ -- Edward Z. Yang <ezyang@cs.stanford.edu>  Wed, 02 Apr 2014 02:22:43 -0700
 
 coq (8.4pl4dfsg-1) unstable; urgency=medium
 
@@ -514,7 +498,7 @@ coq (8.0pl3+8.1beta.2-1) experimental; urgency=low
 coq (8.0pl3+8.1beta-1) experimental; urgency=low
 
   * New upstream release.
-  * Added --fsets all option to configure to build the theory of finite sets. 
+  * Added --fsets all option to configure to build the theory of finite sets.
   * Updated coqdoc_stdlib.dpatch, partly integrated upstream.
   * Removed failing_tests.dpath, all the tests should succeed now.
   * We don't need to remove rpaths anymore.
@@ -683,7 +667,7 @@ coq (7.3.1-1) unstable; urgency=low
 coq (7.3-1) unstable; urgency=low
 
   * New upstream version.
- 
+
  -- Judicael Courant <Judicael.Courant@lri.fr>  Wed, 22 May 2002 14:48:21 +0200
 
 coq (7.2-9) unstable; urgency=low
@@ -733,7 +717,7 @@ coq (7.2-4) unstable; urgency=low
 coq (7.2-3) unstable; urgency=low
   * Workaround for problems with buildd/apt trying to install camlp4
     (closes: Bug#130046).
-  
+
  -- Judicaël Courant <Judicael.Courant@lri.fr>  Mon, 21 Jan 2002 09:46:16 +0100
 
 coq (7.2-2) unstable; urgency=low
@@ -771,7 +755,7 @@ coq (7.0-1) unstable; urgency=low
   * Emacs mode installation now follows Emacs policy.
   * Made compilation non-interactive (closes: Bug#92461).
   * Added Suggests cle.
-  
+
 
  -- Judicaël Courant <Judicael.Courant@lri.fr>  Tue,  17 Apr 2001 19:24:34 +0200
 

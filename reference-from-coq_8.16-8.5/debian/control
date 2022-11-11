@@ -5,8 +5,7 @@ Maintainer: Debian OCaml Maintainers <debian-ocaml-maint@lists.debian.org>
 Uploaders:
  Ralf Treinen <treinen@debian.org>,
  Samuel Mimram <smimram@debian.org>,
- Stéphane Glondu <glondu@debian.org>,
- Enrico Tassi <gareuselesinge@debian.org>
+ Stéphane Glondu <glondu@debian.org>
 Standards-Version: 3.9.5
 Build-Depends:
  debhelper (>= 9),
@@ -14,7 +13,8 @@ Build-Depends:
  ocaml-nox (>= 4.05.0),
  ocaml-best-compilers,
  ocaml-findlib (>= 1.8.0),
- dune (>= 2.5.1),
+ libfindlib-ocaml-dev (>= 1.8.0),
+ ocaml-dune (>= 2.9),
  libzarith-ocaml-dev (>= 1.10),
  liblablgtk3-ocaml-dev (>= 3.1.0),
  liblablgtksourceview3-ocaml-dev (>= 3.1.0),
@@ -31,8 +31,7 @@ Depends:
  libcoq-ocaml (= ${binary:Version}),
  ${ocaml:Depends},
  ${shlibs:Depends},
- ${misc:Depends},
- ocaml-best-compilers
+ ${misc:Depends}
 Provides: coq-${F:CoqABI}
 Recommends: coqide | proofgeneral
 Suggests:
@@ -74,7 +73,7 @@ Description: proof assistant for higher-order logic (gtk interface)
 
 Package: coq-theories
 Architecture: any
-Depends: coq-${F:CoqABI}, ${misc:Depends}, ${shlibs:Depends}
+Depends: coq-${F:CoqABI}, ${misc:Depends}
 Recommends: coq (>= 8.0)
 Breaks: coq-doc (<= 8.0pl1.0-2), coq-libs (<< 8.2.pl1)
 Replaces: coq-libs (<< 8.2.pl1)
@@ -119,5 +118,5 @@ Description: development libraries and tools for Coq
  development of computer programs consistent with their formal
  specification. It is developed using Objective Caml and Camlp5.
  .
- This package provides coqmktop, and libraries needed to develop
- OCaml-side extensions to Coq.
+ This package provide libraries needed to develop OCaml-side
+ extensions to Coq.

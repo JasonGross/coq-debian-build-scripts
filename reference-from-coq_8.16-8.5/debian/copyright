@@ -4,7 +4,7 @@ Packaged-Date: Fri, 03 Dec 1999 22:06:04 +0100
 Source: http://coq.inria.fr/
 
 Files: *
-Copyright: 1999-2015 The Coq development team, INRIA, CNRS, University Paris Sud, University Paris 7, Ecole Polytechnique
+Copyright: 1999-2014 The Coq development team, INRIA, CNRS, University Paris Sud, University Paris 7, Ecole Polytechnique
 License: LGPL-2.1
 
 Files: debian/*

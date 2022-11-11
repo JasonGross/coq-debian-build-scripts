@@ -8,10 +8,10 @@ This lemma uses too much memory for many buildds...
  1 file changed, 2 insertions(+)
 
 diff --git a/test-suite/success/Nsatz.v b/test-suite/success/Nsatz.v
-index e38affd..040169e 100644
+index d316e4a..d783b2a 100644
 --- a/test-suite/success/Nsatz.v
 +++ b/test-suite/success/Nsatz.v
-@@ -462,6 +462,7 @@ idtac "chords".
+@@ -461,6 +461,7 @@ idtac "chords".
  (*Finished transaction in 4. secs (3.959398u,0.s)*)
  Qed.
  
@@ -19,7 +19,7 @@ index e38affd..040169e 100644
  Lemma Ceva: forall A B C D E F M:point,
    collinear M A D -> collinear M B E -> collinear M C F ->
    collinear B C D -> collinear E A C -> collinear F A B ->
-@@ -473,6 +474,7 @@ idtac "Ceva".
+@@ -472,6 +473,7 @@ idtac "Ceva".
  Time nsatz.
  (*Finished transaction in 105. secs (104.121171u,0.474928s)*)
  Qed.
@@ -27,3 +27,4 @@ index e38affd..040169e 100644
  
  Lemma bissectrices: forall A B C M:point,
    equaltangente C A M M A B ->
+-- 

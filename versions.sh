@@ -28,7 +28,7 @@ if [ -z "${VER_LT_8_11_1_PPA}" ]; then
 fi
 
 PPA_COMMON="-1~${TARGET}~"
-PPA_EXT="${PPA_COMMON}ppa186"
+PPA_EXT="${PPA_COMMON}ppa187"
 
 function ppa_wget_ext_of_version() {
     # don't let bump-versions

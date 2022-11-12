@@ -10,7 +10,7 @@ Standards-Version: 3.9.5
 Build-Depends:
  debhelper (>= 9),
  dh-ocaml (>= 0.9.5~),
- ocaml-nox (>= 4.05.0),
+ ocaml-nox (>= 4.09.0),
  ocaml-best-compilers,
  ocaml-findlib (>= 1.8.0),
  libfindlib-ocaml-dev (>= 1.8.0),

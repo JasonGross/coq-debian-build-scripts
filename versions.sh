@@ -13,8 +13,12 @@ if [ -z "$TARGET" ]; then
 fi
 
 if [ -z "${NEW_PPA}" ]; then
-    NEW_PPA="many-coq-versions-ocaml-4-08"
-    #NEW_PPA="many-coq-versions-ocaml-4-11"
+    NEW_PPA="many-coq-versions-ocaml-4-11"
+fi
+
+if [ -z "${VER_LT_8_16_PPA}" ]; then
+    VER_LT_8_16_PPA="many-coq-versions-ocaml-4-08"
+    #VER_LT_8_16_PPA="many-coq-versions-ocaml-4-11"
 fi
 
 if [ -z "${VER_LT_8_14_PPA}" ]; then
@@ -104,6 +108,8 @@ function ppa_of_version_target() {
         echo "${VER_LT_8_11_1_PPA}"
     elif vercmp "$i" "<" "8.14~"; then
         echo "${VER_LT_8_14_PPA}"
+    elif vercmp "$i" "<" "8.16~"; then
+        echo "${VER_LT_8_16_PPA}"
     else
         echo "${NEW_PPA}"
     fi

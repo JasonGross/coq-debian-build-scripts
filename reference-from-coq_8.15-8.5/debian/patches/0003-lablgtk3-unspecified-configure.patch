@@ -8,7 +8,7 @@ index 9f1aecdadc..7026c05b49 100644
    let v, _ = tryrun ocamlfind ["query"; "-format"; "%v"; "lablgtk3"] in
 -  try
 -    let vn = generic_version_nums ~name:"lablgtk3" v in
--    if vn < [3; 1; 2] then
+-    if vn < [3; 1; 0] then
 -      (false, v)
 -    else
 -      (true, v)
@@ -18,7 +18,7 @@ index 9f1aecdadc..7026c05b49 100644
 +  else
 +    try
 +      let vn = generic_version_nums ~name:"lablgtk3" v in
-+      if vn < [3; 1; 2] then
++      if vn < [3; 1; 0] then
 +        (false, v)
 +      else
 +        (true, v)

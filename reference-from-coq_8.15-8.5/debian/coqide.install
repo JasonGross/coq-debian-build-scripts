@@ -1,4 +1,4 @@
-usr/bin/coqide*
+usr/bin/coqide
 usr/share/man/man1/coqide*
 usr/share/coq/coq.png
 usr/share/coq/default.bindings

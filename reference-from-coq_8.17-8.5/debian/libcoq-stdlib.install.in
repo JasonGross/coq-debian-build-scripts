@@ -1,0 +1,4 @@
+usr/doc/coq-stdlib/html usr/share/doc/libcoq-stdlib/
+usr/doc/coq-stdlib/README.md usr/share/doc/libcoq-stdlib/
+usr/lib/ocaml/coq-stdlib/
+# *.vo files will be added here

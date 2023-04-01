@@ -1,0 +1,16 @@
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_abbreviation_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_axiom_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_binder_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_constructor_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_definition_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_global_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_inductive_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_instance_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_lemma_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_library_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_module_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_notation_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_projection_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_record_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_section_*.html
+libcoq-stdlib: file-name-contains-wildcard-character usr/share/doc/libcoq-stdlib/html/index_variable_*.html

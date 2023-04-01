@@ -1,4 +1,7 @@
-version=3
-opts=dversionmangle=s/\+?(debian|dfsg|ds|deb)\d*$// \
-http://coq.inria.fr/download .*/coq-(\d.*)\.(?:tgz|tbz2|txz|tar\.(?:gz|bz2|xz))
-# Bart Martens <bartm@debian.org>  Sun, 30 Dec 2012 20:22:30 +0000
+version=4
+opts="\
+dversionmangle=s/\+dfsg.*$//,\
+filenamemangle=s/.+\/[vV]?(\d\S+)\.tar\.gz/coq-$1\.tar\.gz/,\
+repack,repacksuffix=+dfsg,\
+" \
+https://github.com/coq/coq/tags .*/[vV]?(\d[^\s+]+)\.tar\.gz

@@ -1,32 +1,433 @@
-coq (8.16~git) UNRELEASED; urgency=medium
+coq (8.17~git) UNRELEASED; urgency=medium
 
-  * Make it 8.16 for numbering
+  * Make it 8.17 for numbering
 
- -- Jason Gross <jgross@mit.edu>  Sat, 22 Jan 2022 12:19:09 -0800
+ -- Jason Gross <jgross@mit.edu>  Sat, 01 Apr 2023 11:09:35 -0700
 
-coq (8.master~git) experimental; urgency=medium
+coq (8.15.2+dfsg-2) unstable; urgency=medium
 
-  * Make it master for numbering
+  * Use dh-coq.
 
- -- Jason Gross <jgross@mit.edu>  Thu, 06 Jul 2017 17:33:30 -0400
+ -- Julien Puydt <jpuydt@debian.org>  Sat, 11 Jun 2022 16:16:14 +0200
 
-coq (8.trunk~git) experimental; urgency=low
+coq (8.15.2+dfsg-1) unstable; urgency=medium
 
-  * Make it trunk for numbering.
+  * New upstream release.
 
- -- Jason S. Gross <jgross@mit.edu>  Thu, 17 Nov 2016 12:59:09 -0500
+ -- Julien Puydt <jpuydt@debian.org>  Tue, 31 May 2022 21:39:53 +0200
 
-coq (8.6~git) experimental; urgency=low
+coq (8.15.1+dfsg-2) unstable; urgency=medium
 
-  * Make it 8.6 for numbering.
+  * Don't strip everything!
+  * Add a patch to fix a typo.
+  * Bump standards-version to 4.6.1.
 
- -- Jason S. Gross <jgross@mit.edu>  Thu, 11 Nov 2016 12:27:09 -0500
+ -- Julien Puydt <jpuydt@debian.org>  Fri, 20 May 2022 15:53:07 +0200
 
-coq (8.5~git) experimental; urgency=low
+coq (8.15.1+dfsg-1) unstable; urgency=medium
 
-  * Make it 8.5 for numbering.
+  * Better d/watch.
+  * New upstream release.
+  * Refresh patches.
 
- -- Edward Z. Yang <ezyang@cs.stanford.edu>  Wed, 02 Apr 2014 02:22:43 -0700
+ -- Julien Puydt <jpuydt@debian.org>  Tue, 22 Mar 2022 18:05:26 +0100
+
+coq (8.15.0+dfsg-2) unstable; urgency=medium
+
+  * Rework binary packages so they follow more closely
+  upstream's view of its "packages".
+
+ -- Julien Puydt <jpuydt@debian.org>  Fri, 04 Feb 2022 08:54:41 +0100
+
+coq (8.15.0+dfsg-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #1003586)
+  * Refresh patches.
+  * Refresh lintian overrides.
+
+ -- Julien Puydt <jpuydt@debian.org>  Mon, 17 Jan 2022 12:26:54 +0100
+
+coq (8.14.1+dfsg-2) unstable; urgency=medium
+
+  * Make the ocaml libraries available in /usr/lib/ocaml
+   (so ocamlfind sees them)
+
+ -- Julien Puydt <jpuydt@debian.org>  Mon, 17 Jan 2022 08:54:23 +0100
+
+coq (8.14.1+dfsg-1) unstable; urgency=medium
+
+  * Ship META in the right package and hence Suggest: ocaml-findlib
+   (following OCaml Packaging Policy).
+  * New upstream release.
+
+ -- Julien Puydt <jpuydt@debian.org>  Sat, 11 Dec 2021 11:46:49 +0100
+
+coq (8.14.0+dfsg-6) unstable; urgency=medium
+
+  * Still missed bytecode-only architectures for some packages...
+
+ -- Julien Puydt <jpuydt@debian.org>  Tue, 16 Nov 2021 08:35:39 +0100
+
+coq (8.14.0+dfsg-5) unstable; urgency=medium
+
+  * Missed two bytecode-only architectures.
+
+ -- Julien Puydt <jpuydt@debian.org>  Tue, 16 Nov 2021 07:33:35 +0100
+
+coq (8.14.0+dfsg-4) unstable; urgency=medium
+
+  * Strip libraries.
+  * Build using dune directly.
+  * Make the html doc point to a local logo file.
+  * Make the html doc point to local css files.
+  * Disable the bytecode-only architectures (Closes: #999651).
+
+ -- Julien Puydt <jpuydt@debian.org>  Mon, 15 Nov 2021 06:59:19 +0100
+
+coq (8.14.0+dfsg-3) unstable; urgency=medium
+
+  * Add bash to the build-deps and generalize
+  avoid-usr-bin-env.patch into a fix_debian_paths.patch ;
+  made the other patches cope with it.
+  * Add a patch to handle the timing scripts correctly.
+  * Add a lintian override for false positive ocaml-dangling-cmi.
+  * Add a lintian override for false positive
+    shared-library-lacks-prerequisites.
+  * Add a lintian override for maintainer-desktop-entry.
+
+ -- Julien Puydt <jpuydt@debian.org>  Sat, 13 Nov 2021 12:23:41 +0100
+
+coq (8.14.0+dfsg-2) experimental; urgency=medium
+
+  * Add myself to uploaders.
+  * Bump standards-version to 4.6.0.
+  * Rewrite avoid-usr-bin-env.patch.
+  * Drop python-scripts-libraries.patch.
+  * Drop skip-dot-pc.patch.
+  * Make the whole patch stack work.
+  * Update lintian overrides about wildcard in HTML filenames.
+  * Point coq-theories.doc-base to the new path.
+  * Enable hardening flags in d/rules.
+  * Add keywords to coqide.desktop.
+  * Remove debian-shipped coqide.1 -- now upstream.
+  * Add lintian overrides for long lines is source code.
+
+ -- Julien Puydt <jpuydt@debian.org>  Thu, 11 Nov 2021 17:40:04 +0100
+
+coq (8.14.0+dfsg-1) experimental; urgency=medium
+
+  * Non-maintainer upload.
+  * Drop retired Enrico Tassi from uploaders (Closes: #995543).
+  * Rework d/copyright, d/gbp.conf, d/README.source and d/watch
+    so updating to a new upstream is cleaner and simpler.
+  * New upstream release (update patches, d/rules...).
+
+ -- Julien Puydt <jpuydt@debian.org>  Mon, 08 Nov 2021 07:43:58 +0100
+
+coq (8.12.0-3) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Ralf Treinen <treinen@debian.org>  Wed, 09 Sep 2020 21:16:07 +0200
+
+coq (8.12.0-2) experimental; urgency=medium
+
+  * Patch remove-heavy-tests: also remove test bugs/closed/bug_4544.v
+    as it is a complexity test that tends to timeout on slow architectures.
+
+ -- Ralf Treinen <treinen@debian.org>  Sun, 06 Sep 2020 09:59:04 +0200
+
+coq (8.12.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Refresh patches:
+    - remove-tests-that-need-coqlib
+    - remove-bytecode-failing-tests
+    - avoid-usr-bin-env
+    - python-scripts-libraries
+    - skip-dot-pc
+    - testsuite-bytecode
+  * d/rules: update COQ_VERSION
+  * Update versions of build-dependencies, according to INSTALL.md
+  * d/*.install.in files:
+    - install ssrsearch plugin in the libcoq-ocaml package
+    - install ocamllibdep binary in the coq package
+  * Debhelper compatibility level 13
+    - drop override of dh_missing
+  * Set Rules-Requires-Root=no
+
+ -- Ralf Treinen <treinen@debian.org>  Fri, 21 Aug 2020 20:24:43 +0200
+
+coq (8.11.1~pre1-1) experimental; urgency=medium
+
+  * New upstream pre-release (tagged on github, but not yet officially
+    announced).
+  * Dropped patches:
+    - votour-linking (fixed by upstream)
+    - restore_g_ssrmatching.mli (fixed by upstream)
+    - verbose-build (no longer useful as we are running the test-suite
+      with PRINT_LOGS=1)
+  * New patch testsuite-bytecode by Hugo Herbelin (thanks!): fixes failure
+    of tests using locally generated makefiles on bytecode architectures.
+  * Refreshed patches:
+    - install-coqide-bytecode
+    - remove-bytecode-failing-tests.patch
+  * Extended patch remove-bytecode-failing-tests to also disable the test
+    coq-makefile/findlib-package-unpacked
+  * Dropped build-dependency hevea as we are not building the documentation
+  * Replaced build-dependency on texlive-latex-extra by tex-common as we are
+    not building the documentation, and just installing some tex files
+  * Drop /usr/bin/doc_grammar from coq.install
+
+ -- Ralf Treinen <treinen@debian.org>  Thu, 16 Apr 2020 18:34:27 +0200
+
+coq (8.11.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Updated patches:
+     - remove-heavy-tests: also remove success/Nia.v
+     - avoid-usr-bin-env.patch: also patch dev/tools/update-compat.py.
+       Thanks to the Gianfranco Costamagna for the hint (closes: #952454)
+  * Refreshed patches:
+    - remove-tests-that-need-coqlib
+    - python-scripts-libraries
+    - skip-dot-pc
+    - verbose-build
+    - remove-bytecode-failing-tests
+  * Removed patches:
+    - ssrmatching-license: fixed by upstream
+    - use-changelog-date: fixed by upstream
+  * New patch:
+    - restore_g_ssrmatching.mli
+    - votour-linking: patch by Hugo Herbelin (thanks!) fixes linking of
+      votour on bytecode architectures
+  * invoke "make test" with PRINT_LOGS=1 as suggested by SkySkimmer (thanks)
+  * disable building of the VM on s390x, as suggested by ejgallego (thanks)
+    This should fix a test failure on s390x
+    (https://github.com/coq/coq/issues/11395)
+  * Dispatch into different binary packages:
+    - simplify find invocation in debian/rules
+    - add *.vos files, new *.cmo, *.cmxs files
+    - add votour and doc_grammar binaries
+  * Add an as-installed test for the compiler and the toplevel
+  * Renamed debian/TODO.Debian to debian/TODO
+  * Bump build-dependency on ocaml to >= 4.05, as indicated by INSTALL
+
+ -- Ralf Treinen <treinen@debian.org>  Thu, 05 Mar 2020 21:37:30 +0100
+
+coq (8.10.2-1) experimental; urgency=medium
+
+  * New upstream release
+    - update COQ_VERSION in debian/rules
+  * Refreshed patches:
+    - remove-heavy-tests.patch: drop removal of test-suite/bugs/closed/5127.v
+      as this file is no longer distributed by upstream
+    - avoid-usr-bin-env
+    - python-scripts-libraries
+    - verbose-build
+    - remove-bytecode-failing-tests
+    - remove-tests-that-need-coqlib.patch
+  * Dropped patches:
+    - remove-time-sensitive-tests, as none of these tests is distributed
+      by upstream any more
+    - 0013-Remove-test-failing-with-OCaml-4.08.0 as that test is no longer
+      distributed by upstream
+    - 0012-ocaml-4.08-does-not-allow-dynamic-loading-of-already
+  * New patch use-changelog-date: use the date from the debian changelog
+    entry, instead of the real time of compilation, in order to improve
+    reproducibility. Based on a patch by Valentin Lorentz  (thanks!)
+    (closes: #794130).
+  * Reactivate building of coqide (closes: #920589, #946580)
+    - put back the coqide paragraph in debian/control
+    - bump build-dependencies on lablgtk to version 3
+    - coq suggests coqide as an alternative to proofgeneral
+    - mention coqide in the long description of coq
+    - put back debian/coqide.{1,desktop,dirs,install,links.in} from version
+      8.6-5
+    - update debian/*.install and debian/not-installed files
+  * Build-Conflicts with libcoq-ocaml. This seems to be necessary to avoid
+    that coq depends on two versions of libcoq-ocaml: the one being build,
+    and the one currently installed.
+  * Update libcoq-ocaml{-dev}.install.in
+  * Move coqidetop from the coqide package to the coq package, following advice
+    by upstream
+  * Update docs
+  * Generate html pages for the stdlib using HTMLSTYLE=simple, to avoid
+    linking to external stylesheets
+  * Build-depend on debhelper-compat, drop file debian/compat
+  * Debhelper compatibility level 11
+    - debian/rules: use "dh_missing --fail-missing" instead of
+      "dh_install --fail-missing"
+  * Standards-Version 4.4.1 (no change)
+  * debian/copyright: updates of copyright holders in many files.
+  * Add lintian-overrides for filenames containing wildcard characters
+    in package coq-theories
+  * debian/gbp.conf:
+    - add doc/whodidwhat to the filter as this is part of the non-free
+      reference manual
+    - drop plugins/ssrmatching/g_ssrmatching.mli from the filter as
+      upstream has fixed its license.
+
+ -- Ralf Treinen <treinen@debian.org>  Wed, 01 Jan 2020 20:25:21 +0100
+
+coq (8.9.1-5) unstable; urgency=medium
+
+  * Be more precise in install files to avoid that usr/bin/coqidetop.{opt,byte}
+    gets installed in both the coq and coqide packages (closes: #949975)
+  * Add an as-installed test for the compiler and the toplevel.
+  * Build-Conflicts with libcoq-ocaml. This seems to be necessary to avoid
+    that coq depends on two versions of libcoq-ocaml: the one being build,
+    and the one that is installed on the system.
+
+ -- Ralf Treinen <treinen@debian.org>  Tue, 28 Jan 2020 20:23:39 +0100
+
+coq (8.9.1-4) unstable; urgency=medium
+
+  * Patch install-coqide-bytecode: fix installation of ide on bytecode-only
+    architectures.
+  * Fix coqide.install for bytecode-only architectures
+  * Remove coqide and coqidetop stuff from debian/not-installed
+
+ -- Ralf Treinen <treinen@debian.org>  Mon, 27 Jan 2020 03:29:33 +0100
+
+coq (8.9.1-3) unstable; urgency=medium
+
+  * Reactive building of coqide (closes: #920589)
+    - put back the coqide paragraph in debian/control
+    - coq suggests coqide as an alternative to proofgeneral
+    - mention coqide in the long description of coq
+    - put back debian/coqide.{1,desktop,dirs,install,links.in} from version
+      8.6-5
+  * Move coqidetop from the coqide package to the coq package (closes: #946580)
+  * Generate html pages for the stdlib using HTMLSTYLE=simple, to avoid
+    linking to external stylesheets
+  * Add lintian-overrides for filenames containing wildcard characters
+    in package coq-theories
+  * Build-depend on debhelper-compat, drop file debian/compat
+  * Debhelper compatibility level 11
+    - debian/rules: use "dh_missing --fail-missing" instead of
+      "dh_install --fail-missing"
+  * Standards-Version 4.5.0  (no change)
+
+ -- Ralf Treinen <treinen@debian.org>  Fri, 24 Jan 2020 21:58:35 +0100
+
+coq (8.9.1-2) unstable; urgency=medium
+
+  * Recompile with OCaml 4.08.1
+
+ -- Stéphane Glondu <glondu@debian.org>  Fri, 08 Nov 2019 16:48:46 +0100
+
+coq (8.9.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Fix FTBFS with OCaml 4.08.0
+    - add libnum-ocaml-dev to Build-Depends
+    - apply a patch to fix double loading of pr_dump.cmo (camlp5)
+    - remove a failing test
+  * Remove Samuel from Uploaders
+  * Bump Standards-Version to 4.4.0
+
+ -- Stéphane Glondu <glondu@debian.org>  Tue, 20 Aug 2019 05:09:34 +0200
+
+coq (8.9.0-1) unstable; urgency=high
+
+  * New upstream release
+  * Set CAML_LD_LIBRARY_PATH and COQLIB correctly during building
+    (Closes: #919462)
+  * Coq no longer ships an Emacs mode; users should migrate to Proof
+    General (Closes: #736761, #854147, #877938)
+
+ -- Benjamin Barenblat <bbaren@debian.org>  Wed, 06 Feb 2019 12:41:09 -0500
+
+coq (8.8.2-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #910840)
+  * Add Benjamin Barenblat to uploaders
+  * Update debian/watch for upstream's transition to GitHub (Closes: #902903)
+  * Stop distributing CoqIDE (Closes: #916369)
+  * coqmktop(1) has been deleted; users should migrate to ocamlfind(1)
+
+ -- Benjamin Barenblat <bbaren@debian.org>  Sun, 06 Jan 2019 23:07:04 -0500
+
+coq (8.6-5) unstable; urgency=medium
+
+  * Recompile with OCaml 4.05.0
+  * Remove unused Lintian overrides
+  * Remove menu files
+  * Update Vcs-*
+
+ -- Stéphane Glondu <glondu@debian.org>  Tue, 26 Sep 2017 11:08:52 +0200
+
+coq (8.6-4) unstable; urgency=medium
+
+  * coq_makefile needs ocamlfind in order to work
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Thu, 29 Dec 2016 23:45:47 +0100
+
+coq (8.6-3) unstable; urgency=medium
+
+  * 5127.v fails on mips, disabling
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Thu, 29 Dec 2016 08:58:35 +0100
+
+coq (8.6-2) unstable; urgency=medium
+
+  * Disable some tests with hardcoded timeout to fix FTBFS on
+    slow machines
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Wed, 28 Dec 2016 18:19:29 +0100
+
+coq (8.6-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Tue, 27 Dec 2016 16:53:39 +0100
+
+coq (8.5-2) unstable; urgency=medium
+
+  * patch: disable test 4429 (timeout too strict for slow architectures)
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Thu, 28 Jan 2016 11:47:07 +0100
+
+coq (8.5-1) unstable; urgency=medium
+
+  * New upstream release
+  * patch: disable test 4366 (timeout too strict for slow architectures)
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Tue, 26 Jan 2016 16:59:05 +0100
+
+coq (8.5~beta3+dfsg-2) experimental; urgency=medium
+
+  * Option -no-native-compiler now called -native-compiler no
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Sat, 14 Nov 2015 14:59:04 +0100
+
+coq (8.5~beta3+dfsg-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Fri, 13 Nov 2015 11:27:35 +0100
+
+coq (8.5~beta2+dfsg-2) experimental; urgency=medium
+
+  * Enable native compiler only on amd64 and i386
+  * Enable 'make test-suite' target
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Mon, 20 Jul 2015 09:51:21 +0200
+
+coq (8.5~beta2+dfsg-1) experimental; urgency=medium
+
+  * New upstream release
+  * Add Enrico Tassi to uploaders
+  * Disable patch for lockf on Hurd (not needed anymore)
+  * coq-theories is now arch any, since it contains .coq-native/ directories
+    (i.e. cmxs files for native compute)
+  * coq depends on coq-theories binary:Version
+  * lintian-overrides for coq-native/*cmx* and plugins/*cmxs files
+    (hardening-no-relro)
+  * Build depend on liblablgtksourceview2-ocaml-dev
+
+ -- Enrico Tassi <gareuselesinge@debian.org>  Wed, 15 Jul 2015 11:36:30 +0200
 
 coq (8.4pl4dfsg-1) unstable; urgency=medium
 

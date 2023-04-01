@@ -1,0 +1,4 @@
+usr/lib/ocaml/coq-core/dune-package
+usr/lib/ocaml/coq-core/opam
+# *.cm* files will be added here by debian/rules
+

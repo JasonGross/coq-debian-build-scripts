@@ -6,3 +6,4 @@ Type=Application
 Categories=Development;Science;Math;IDE;GTK;
 Terminal=false
 Icon=coq
+Keywords=Science;Math

@@ -1,0 +1,6 @@
+# False positives
+libcoq-core-ocaml: spelling-error-in-binary usr/lib/ocaml/coq-core/kernel/kernel.cmxs acces access
+libcoq-core-ocaml: spelling-error-in-binary usr/lib/ocaml/coq-core/plugins/ltac2/ltac2_plugin.cmxs UpTo Up to
+libcoq-core-ocaml: spelling-error-in-binary usr/lib/ocaml/coq-core/tactics/tactics.cmxs occurences occurrences
+# False positives, lintian bug #999602
+libcoq-core-ocaml: shared-library-lacks-prerequisites *.cmxs

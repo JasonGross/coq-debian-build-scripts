@@ -17,6 +17,4 @@ For interactive use of coqtop, we suggest
  - or the Proof-General (x)emacs mode, available in the proofgeneral
    package.
 
-However, we recommend you to use the CoqIde GTK+ interface provided in coqide.
-
- -- Stéphane Glondu <glondu@debian.org>, Sun, 19 Jan 2014 15:11:59 +0100
+ -- Benjamin Barenblat <bbaren@debian.org>, Mon, 24 Dec 2018 15:11:23 -0500

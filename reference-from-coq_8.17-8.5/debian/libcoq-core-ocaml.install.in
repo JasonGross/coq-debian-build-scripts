@@ -1,0 +1,3 @@
+usr/lib/ocaml/coq-core/META
+usr/lib/ocaml/stublibs/dllcoqrun_stubs.so @OCamlDllDir@
+# *.cmo and *.cmxs files are added by debian/rules

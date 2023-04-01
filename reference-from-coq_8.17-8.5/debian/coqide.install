@@ -1,0 +1,15 @@
+usr/bin/coqide
+usr/share/man/man1/coqide*
+usr/share/coq/coq.png
+usr/share/coq/default.bindings
+usr/share/coq/coq_style.xml
+usr/share/coq/coq.lang
+usr/share/coq/coq-ssreflect.lang
+usr/lib/coqide/META
+usr/lib/coqide/dune-package
+usr/lib/coqide/opam
+usr/doc/coqide/odoc-pages/index.mld  usr/share/doc/coqide/odoc-pages/index.mld
+usr/doc/coqide/LICENSE   usr/share/doc/coqide/LICENSE
+usr/doc/coqide/README.md usr/share/doc/coqide/README.md
+usr/doc/coqide/FAQ       usr/share/doc/coqide/FAQ
+debian/coqide.desktop    usr/share/applications

@@ -1,0 +1,30 @@
+From: Stephane Glondu <steph@glondu.net>
+Date: Sun, 15 Jan 2012 12:34:19 +0100
+Subject: test-suite/success/Nsatz.v: comment out Ceva
+
+This lemma uses too much memory for many buildds...
+---
+ test-suite/success/Nsatz.v | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/test-suite/success/Nsatz.v b/test-suite/success/Nsatz.v
+index d316e4a..d783b2a 100644
+--- a/test-suite/success/Nsatz.v
++++ b/test-suite/success/Nsatz.v
+@@ -461,6 +461,7 @@ idtac "chords".
+ (*Finished transaction in 4. secs (3.959398u,0.s)*)
+ Qed.
+ 
++(*
+ Lemma Ceva: forall A B C D E F M:point,
+   collinear M A D -> collinear M B E -> collinear M C F ->
+   collinear B C D -> collinear E A C -> collinear F A B ->
+@@ -472,6 +473,7 @@ idtac "Ceva".
+ Time nsatz.
+ (*Finished transaction in 105. secs (104.121171u,0.474928s)*)
+ Qed.
++*)
+ 
+ Lemma bissectrices: forall A B C M:point,
+   equaltangente C A M M A B ->
+-- 

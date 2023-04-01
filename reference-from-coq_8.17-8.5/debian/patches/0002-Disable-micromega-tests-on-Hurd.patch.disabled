@@ -1,0 +1,25 @@
+From: Stephane Glondu <steph@glondu.net>
+Date: Fri, 22 Nov 2013 14:33:52 +0100
+Subject: Disable micromega tests on Hurd
+
+They exert lockf, which is not implemented on Hurd.
+---
+ test-suite/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/test-suite/Makefile b/test-suite/Makefile
+index cd5886f..9418be2 100644
+--- a/test-suite/Makefile
++++ b/test-suite/Makefile
+@@ -74,6 +74,10 @@ BUGS := bugs/opened/shouldnotfail bugs/opened/shouldnotsucceed \
+ VSUBSYSTEMS := prerequisite success failure $(BUGS) output \
+   interactive micromega $(COMPLEXITY) modules
+ 
++ifeq ($(shell dpkg-architecture -qDEB_HOST_ARCH_OS),hurd)
++  VSUBSYSTEMS := $(filter-out micromega,$(VSUBSYSTEMS))
++endif
++
+ # All subsystems
+ SUBSYSTEMS := $(VSUBSYSTEMS) misc bugs ide
+ 
+-- 

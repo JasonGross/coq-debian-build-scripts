@@ -153,7 +153,7 @@ EOF
   fi
   sed s"/COQ_VERSION := .*/COQ_VERSION := $i/g" -i debian/rules || exit $?
   sed s'/^Source: coq$/Source: '"$PKG"'/g' -i debian/control || exit $?
-  for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev; do
+  for pkgname in coq coqide coq-theories libcoq-ocaml libcoq-ocaml-dev libcoq-stdlib libcoq-core-ocaml libcoq-core-ocaml-dev; do
     new_pkgname="$(to_package_name "${pkgname}" "$i")"
     for f in "debian/${pkgname}".*; do
       if [ -e "$f" ]; then

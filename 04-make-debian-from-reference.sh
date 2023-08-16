@@ -72,6 +72,7 @@ for i in $VERSIONS; do
     sed s'/liblablgtk3-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
     sed s'/liblablgtksourceview3-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?
     rm -f debian/coqide*
+    sed s',debian/coqide.install,,g' -i debian/rules || exit $?
     sed s',cp debian/coq.xpm debian/coqide/usr/share/pixmaps/coqide.xpm,#,g' -i debian/rules || exit $?
     sed s'/coqide-server[, ]coqide\([, ]\)/coqide-server\1/g' -i debian/rules
     cat >> debian/rules <<'EOF'

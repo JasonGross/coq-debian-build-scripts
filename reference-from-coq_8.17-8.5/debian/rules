@@ -86,8 +86,7 @@ override_dh_auto_install:
 
 # to make dh-exec work
 override_dh_install:
-	chmod +x debian/coq.install
-	chmod +x debian/coqide.install || true
+	chmod +x debian/coq.install debian/coqide.install
 	dh_install --fail-missing
 
 override_dh_gencontrol:

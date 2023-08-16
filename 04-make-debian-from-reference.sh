@@ -97,7 +97,7 @@ EOF
   fi
   mv -f debian-orig/* debian/ || exit $?
   rm -r debian-orig || exit $?
-  if [ -e debian/coq.install.in -a "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 ]; then
+  if [ -e debian/coq.install.in -a "$(cat Makefile* configure* 2>/dev/null | grep -c coqworkmgr)" -eq 0 -a "$(find . -name dune | xargs cat | grep -c coqworkmgr)" -eq 0 ]; then
     sed s'|usr/bin/coqworkmgr.||g' -i debian/coq.install.in || exit $?
   fi
   cat >> debian/rules <<'EOF'

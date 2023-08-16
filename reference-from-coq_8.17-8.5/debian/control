@@ -9,7 +9,9 @@ Uploaders:
  Stéphane Glondu <glondu@debian.org>
 Standards-Version: 4.6.1
 Build-Depends:
+ bash,
  debhelper (>= 9),
+ dh-exec,
  dh-ocaml (>= 0.9.5~),
  dh-python,
  ocaml-dune (>= 2.9),

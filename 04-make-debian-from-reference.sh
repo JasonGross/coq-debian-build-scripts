@@ -81,7 +81,7 @@ override_dh_auto_install::
 EOF
   fi
   if [[ "$TARGET" != impish ]] && [[ "$TARGET" != hirsute ]] && [[ "$TARGET" != focal ]] && [[ "$TARGET" != bionic ]] && [[ "$TARGET" != xenial ]] && [[ "$TARGET" != trusty ]] && [[ "$TARGET" != precise ]]; then
-      sed s'/python,/debhelper,/g' -i debian/control || exit $?
+      sed s'/ python,/ debhelper,/g' -i debian/control || exit $?
   fi
   if (vercmp "$i" "<" "8.10~") && ([[ "$TARGET" != focal ]] && [[ "$TARGET" != bionic ]] && [[ "$TARGET" != xenial ]] && [[ "$TARGET" != trusty ]] && [[ "$TARGET" != precise ]]); then
     sed s'/liblablgtk2-ocaml-dev.*,/debhelper,/g' -i debian/control || exit $?

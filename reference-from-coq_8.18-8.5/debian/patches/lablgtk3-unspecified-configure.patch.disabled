@@ -1,0 +1,28 @@
+diff --git a/tools/configure/coqide.ml b/tools/configure/coqide.ml
+index 9f1aecdadc..7026c05b49 100644
+--- a/tools/configure/coqide.ml
++++ b/tools/configure/coqide.ml
+@@ -25,13 +25,16 @@ let get_lablgtkdir ocamlfind =
+ 
+ let check_lablgtk_version ocamlfind =
+   let v, _ = tryrun ocamlfind ["query"; "-format"; "%v"; "lablgtk3"] in
+-  try
+-    let vn = generic_version_nums ~name:"lablgtk3" v in
+-    if vn < [3; 1; 2] then
+-      (false, v)
+-    else
+-      (true, v)
+-  with _ -> (false, v)
++  if String.equal v "[unspecified]" then
++    (true, v)
++  else
++    try
++      let vn = generic_version_nums ~name:"lablgtk3" v in
++      if vn < [3; 1; 2] then
++        (false, v)
++      else
++        (true, v)
++    with _ -> (false, v)
+ 
+ let pr_ide = function No -> "no" | Byte -> "only bytecode" | Opt -> "native"
+ 

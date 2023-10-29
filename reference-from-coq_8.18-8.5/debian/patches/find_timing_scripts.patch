@@ -1,0 +1,47 @@
+Description: move the timing scripts to a saner location under saner names
+Author: J.Puydt
+Forwarded: Debian-specific
+
+--- coq.orig/tools/CoqMakefile.in
++++ coq/tools/CoqMakefile.in
+@@ -108,9 +108,9 @@
+ OCAMLLIBDEP ?= "$(COQBIN)ocamllibdep"
+ 
+ # Timing scripts
+-COQMAKE_ONE_TIME_FILE ?= "$(COQCORELIB)/tools/make-one-time-file.py"
+-COQMAKE_BOTH_TIME_FILES ?= "$(COQCORELIB)/tools/make-both-time-files.py"
+-COQMAKE_BOTH_SINGLE_TIMING_FILES ?= "$(COQCORELIB)/tools/make-both-single-timing-files.py"
++COQMAKE_ONE_TIME_FILE ?= "$(COQBIN)/coq-makefile-make-one-time-file"
++COQMAKE_BOTH_TIME_FILES ?= "$(COQBIN)/coq-makefile-make-both-time-files"
++COQMAKE_BOTH_SINGLE_TIMING_FILES ?= "$(COQBIN)/coq-makefile-make-both-single-timing-files"
+ BEFORE ?=
+ AFTER ?=
+ 
+--- coq.orig/tools/make-both-single-timing-files.py
++++ coq/tools/make-both-single-timing-files.py
+@@ -1,4 +1,7 @@
+ #!/usr/bin/env python3
++
++import sys
++sys.path.insert(1, '/usr/lib/coq-core/tools')
+ from TimeFileMaker import *
+ 
+ if __name__ == '__main__':
+--- coq.orig/tools/make-both-time-files.py
++++ coq/tools/make-both-time-files.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/env python3
++import sys
++sys.path.insert(1, '/usr/lib/coq-core/tools')
+ from TimeFileMaker import *
+ 
+ if __name__ == '__main__':
+--- coq.orig/tools/make-one-time-file.py
++++ coq/tools/make-one-time-file.py
+@@ -1,5 +1,6 @@
+ #!/usr/bin/env python3
+ import sys
++sys.path.insert(1, '/usr/lib/coq-core/tools')
+ from TimeFileMaker import *
+ 
+ if __name__ == '__main__':

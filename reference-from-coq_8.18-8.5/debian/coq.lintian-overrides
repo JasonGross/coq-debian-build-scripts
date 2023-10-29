@@ -1,0 +1,21 @@
+# https://github.com/coq/coq/issues/15181
+coq: no-manual-page *
+# False positive spelling errors (many authors are french-speaking)
+coq binary: spelling-error-in-binary usr/bin/coqwc tage stage
+coq: spelling-error-in-binary usr/bin/coqc acces access
+coq: spelling-error-in-binary usr/bin/coqc occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqchk acces access
+coq: spelling-error-in-binary usr/bin/coqdoc oter other
+coq: spelling-error-in-binary usr/bin/coqidetop.opt acces access
+coq: spelling-error-in-binary usr/bin/coqidetop.opt occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqnative acces access
+coq: spelling-error-in-binary usr/bin/coqproofworker.opt acces access
+coq: spelling-error-in-binary usr/bin/coqproofworker.opt occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqqueryworker.opt acces access
+coq: spelling-error-in-binary usr/bin/coqqueryworker.opt occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqtacticworker.opt acces access
+coq: spelling-error-in-binary usr/bin/coqtacticworker.opt occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqtop acces access
+coq: spelling-error-in-binary usr/bin/coqtop occurences occurrences
+coq: spelling-error-in-binary usr/bin/coqtop.opt acces access
+coq: spelling-error-in-binary usr/bin/coqtop.opt occurences occurrences

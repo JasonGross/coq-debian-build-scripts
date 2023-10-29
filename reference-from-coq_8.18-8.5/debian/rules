@@ -1,0 +1,102 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+include /usr/share/ocaml/ocamlvars.mk
+
+COQ_VERSION := 8.17
+COQ_ABI := $(COQ_VERSION)+$(OCAML_ABI)
+
+PACKAGES := $(shell dh_listpackages)
+
+export OCAMLINIT_SED += \
+  -e 's%@CoqVersion@%$(COQ_VERSION)%' \
+  -e 's%@CoqABI@%$(COQ_ABI)%'
+
+%:
+	+dh $@ --with ocaml
+
+override_dh_auto_configure:
+	ocamlfind query -format "%v" lablgtk3 || true
+	./configure -prefix=/usr -libdir=/usr/lib/ocaml/coq -mandir=/usr/share/man
+	make dunestrap
+
+override_dh_auto_build:
+	dune build -p coq-core,coq-stdlib,coqide-server,coqide --display=verbose
+	# we don't really have the full documentation
+	dune build @stdlib-html --display=verbose
+	touch _build/default/coq-doc.install
+	# all the html files point to the same logo - ship it and point to it
+	cp ide/coqide/coq.png _build/default/doc/stdlib/html/logo.png
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/files/barron_logo.png,logo.png,g"
+	# all the html files point to some remote css - but they can be local too
+	cp doc/common/styles/html/coqremote/modules/node/node.css _build/default/doc/stdlib/html/
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/modules/node/node.css,node.css,g"
+	cp doc/common/styles/html/coqremote/modules/system/defaults.css _build/default/doc/stdlib/html/
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/modules/system/defaults.css,defaults.css,g"
+	cp doc/common/styles/html/coqremote/modules/system/system.css _build/default/doc/stdlib/html/
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/modules/system/system.css,system.css,g"
+	cp doc/common/styles/html/coqremote/modules/user/user.css _build/default/doc/stdlib/html/
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/modules/user/user.css,user.css,g"
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/sites/all/themes/coq/coqdoc.css,coqdoc.css,g"
+	cp tools/coqdoc/style.css _build/default/doc/stdlib/html/
+	find _build/default/doc/stdlib/html/ -name "*.html" | xargs sed -i -e "s,//coq.inria.fr/sites/all/themes/coq/style.css,style.css,g"
+
+# Check that $(COQ_VERSION) has the right value
+	ACTUAL_COQ_VERSION="$$(./_build/install/default/bin/coqc --version | awk '/version/{print $$6}')"; \
+	if [ "$$ACTUAL_COQ_VERSION" != "$(COQ_VERSION)" ]; then \
+	  echo "Please set COQ_VERSION to $$ACTUAL_COQ_VERSION in debian/rules"; \
+	  true; \
+	fi
+
+override_dh_auto_test:
+#ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	# OCAMLPATH=$(CURDIR)/_build_vo/default/lib make -C test-suite COQBIN=$(CURDIR)/_build_vo/default/bin/ COQLIB=$(CURDIR)/_build_vo/default/lib/coq
+	@echo "TESTS ARE DISABLED FOR NOW!"
+#endif
+
+override_dh_auto_install:
+	dune install coq-core coq-stdlib coqide-server coqide \
+		--destdir=$(CURDIR)/debian/tmp --prefix=/usr --libdir=/usr/lib/ocaml --mandir=/usr/share/man
+	mkdir -p $(CURDIR)/debian/tmp/usr/doc/coq-stdlib/html
+	install -m 644 _build/default/doc/stdlib/html/* $(CURDIR)/debian/tmp/usr/doc/coq-stdlib/html
+	# cleaning what upstream installs and we don't (need to) ship
+	find $(CURDIR)/debian/tmp -name LICENSE -delete
+	rm -rf  $(CURDIR)/debian/tmp/usr/doc/coqide/odoc-pages \
+		$(CURDIR)/debian/tmp/usr/doc/coq-stdlib/odoc-pages \
+		$(CURDIR)/debian/tmp/usr/lib/ocaml/coq-core/revision \
+		$(CURDIR)/debian/tmp/usr/doc/coqide-server \
+		$(CURDIR)/debian/tmp/usr/lib/ocaml/coqide-server
+	# ok, now we detect what to ship
+	find debian/tmp/usr/lib/ocaml/coq-core -regextype posix-awk \
+	  -regex '.*\.(cma|cmxs)$$' \
+	  >> debian/libcoq-core-ocaml.install
+	find debian/tmp/usr/lib/ocaml/coq-core -regextype posix-awk \
+	  -regex '.*\.(a|cmi|cmo|cmt|cmti|cmx|cmxa|ml|mli|o)$$' \
+	  >> debian/libcoq-core-ocaml-dev.install
+	find debian/tmp/usr/lib/ocaml/coq -regextype posix-awk \
+	  -regex '.*\.(cmi|cmxs)$$' \
+	  >> debian/libcoq-stdlib.install
+	find debian/tmp -regextype posix-awk \
+	  -regex '.*\.(v|vo|vos|glob|aux)$$' \
+	  >> debian/libcoq-stdlib.install
+
+# to make dh-exec work
+override_dh_install:
+	chmod +x debian/coq.install debian/coqide.install
+	dh_install --fail-missing
+
+override_dh_gencontrol:
+	for u in $(PACKAGES); do \
+	  echo 'F:OCamlABI=$(OCAML_ABI)' >> debian/$$u.substvars; \
+	  echo 'F:CoqABI=$(COQ_ABI)' >> debian/$$u.substvars; \
+	done
+	dh_gencontrol
+
+# why is this necessary?
+override_dh_fixperms:
+	dh_fixperms
+	find $(CURDIR)/debian -name TimeFileMaker.py -exec chmod -x '{}' \;

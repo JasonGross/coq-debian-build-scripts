@@ -1,0 +1,129 @@
+Source: coq
+Section: math
+Priority: optional
+Maintainer: Debian OCaml Maintainers <debian-ocaml-maint@lists.debian.org>
+Uploaders:
+ Benjamin Barenblat <bbaren@debian.org>,
+ Julien Puydt <jpuydt@debian.org>,
+ Ralf Treinen <treinen@debian.org>,
+ Stéphane Glondu <glondu@debian.org>
+Standards-Version: 4.6.1
+Build-Depends:
+ bash,
+ debhelper (>= 9),
+ dh-exec,
+ dh-ocaml (>= 0.9.5~),
+ dh-python,
+ ocaml-dune (>= 2.9),
+ ocaml-nox (>= 4.09.0),
+ ocaml-native-compilers,
+ ocaml-findlib (>= 1.8.0),
+ libfindlib-ocaml-dev (>= 1.8.0),
+ libzarith-ocaml-dev (>= 1.10),
+ liblablgtk3-ocaml-dev (>= 3.1.2),
+ liblablgtksourceview3-ocaml-dev (>= 3.1.2),
+ python3,
+ rsync,
+ tex-common
+Rules-Requires-Root: no
+Homepage: http://coq.inria.fr/
+Vcs-Browser: https://salsa.debian.org/ocaml-team/coq
+Vcs-Git: https://salsa.debian.org/ocaml-team/coq.git
+
+Package: coq
+Architecture: any
+Depends:
+ libcoq-stdlib (= ${binary:Version}),
+ ${ocaml:Depends},
+ ${python3:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ocaml-nox,
+ ocaml-findlib
+Provides: coq-${F:CoqABI}
+Suggests:
+ coqide | proofgeneral,
+ ledit | readline-editor,
+ libcoq-core-ocaml-dev,
+ why (>= 2.19),
+ coq-doc
+Breaks: coq-libs (<< 8.2.pl1)
+Replaces: coq-libs (<< 8.2.pl1)
+Description: proof assistant for higher-order logic (toplevel and compiler)
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp5.
+ .
+ This package provides coqtop, a command line interface to Coq.
+ .
+ A graphical interface for Coq is provided in the coqide package.
+ Coq can also be used with ProofGeneral, which allows proofs to be
+ edited using emacs and xemacs. This requires the proofgeneral
+ package to be installed.
+
+Package: coqide
+Architecture: any
+Depends:
+ coq (= ${binary:Version}),
+ ${ocaml:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: proof assistant for higher-order logic (gtk interface)
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp5.
+ .
+ This package provides CoqIde, a graphical user interface for
+ developing proofs.
+
+Package: libcoq-stdlib
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: coq (>= 8.0)
+Provides: coq-theories (= ${binary:Version}), ${coq:Provides}
+Breaks: coq-doc (<= 8.0pl1.0-2), coq-libs (<< 8.2.pl1), coq-theories
+Replaces: coq-libs (<< 8.2.pl1), coq-theories
+Description: proof assistant for higher-order logic (theories)
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp5.
+ .
+ This package provides existing theories that new proofs can be
+ based upon, including theories of arithmetic and Boolean values.
+
+Package: libcoq-core-ocaml
+Section: ocaml
+Architecture: any
+Depends:
+ ${ocaml:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends}
+Suggests: ocaml-findlib
+Provides: ${ocaml:Provides}, libcoq-ocaml (= ${binary:Version})
+Breaks: coq (<< 8.3~), libcoq-ocaml-dev (<< 8.3~), coq-libs, libcoq-ocaml
+Replaces: coq (<< 8.3~), libcoq-ocaml-dev (<< 8.3~), coq-libs, libcoq-ocaml
+Description: runtime libraries for Coq
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp5.
+ .
+ This package provides runtime libraries for Coq.
+
+Package: libcoq-core-ocaml-dev
+Section: ocaml
+Architecture: any
+Depends:
+ coq (= ${binary:Version}),
+ ${ocaml:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends}
+Provides: ${ocaml:Provides}, libcoq-ocaml-dev (= ${binary:Version})
+Breaks: coq (<< 8.2-1+dfsg-1), coq-libs (<< 8.2.pl1), libcoq-ocaml-dev
+Replaces: coq (<< 8.2-1+dfsg-1), coq-libs (<< 8.2.pl1), libcoq-ocaml-dev
+Description: development libraries and tools for Coq
+ Coq is a proof assistant for higher-order logic, which allows the
+ development of computer programs consistent with their formal
+ specification. It is developed using Objective Caml and Camlp5.
+ .
+ This package provides and libraries needed to develop OCaml-side
+ extensions to Coq.

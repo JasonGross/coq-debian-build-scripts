@@ -1,0 +1,34 @@
+#!/usr/bin/dh-exec
+usr/bin/coq*worker*
+usr/bin/coqc*
+usr/bin/coqdep*
+usr/bin/coqdoc*
+usr/bin/coqidetop*
+usr/bin/coq_makefile*
+usr/bin/coqnative*
+usr/bin/coqpp*
+usr/bin/coq-tex*
+usr/bin/coqtop*
+usr/bin/coqwc*
+usr/bin/coqworkmgr*
+usr/bin/csdpcert*
+usr/bin/ocamllibdep*
+usr/bin/votour*
+usr/lib/ocaml/coq-core/tools/CoqMakefile.in
+usr/lib/ocaml/coq-core/tools/TimeFileMaker.py
+usr/lib/ocaml/coq-core/tools/coqdoc/
+usr/lib/ocaml/coq-core/tools/make-both-single-timing-files.py => usr/bin/coq-makefile-make-both-single-timing-files
+usr/lib/ocaml/coq-core/tools/make-both-time-files.py => usr/bin/coq-makefile-make-both-time-files
+usr/lib/ocaml/coq-core/tools/make-one-time-file.py => usr/bin/coq-makefile-make-one-time-file
+usr/doc/coq-core/README.md /usr/share/doc/coq/
+usr/share/man/man1/coqc*
+usr/share/man/man1/coqdep*
+usr/share/man/man1/coqdoc*
+usr/share/man/man1/coq_makefile*
+usr/share/man/man1/coqnative*
+usr/share/man/man1/coq-tex*
+usr/share/man/man1/coqtop*
+usr/share/man/man1/coqwc*
+usr/share/texmf/tex/latex/misc/coqdoc.sty
+debian/coq.xpm                          usr/share/pixmaps
+debian/coqvars.mk                       usr/share/coq

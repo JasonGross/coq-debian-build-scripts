@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+this=compiler
+indir=debian/tests/coqfiles
+outdir=${ADT_ARTIFACTS:-/tmp}/${this}
+mkdir -p ${outdir}
+
+cp ${indir}/*.v ${outdir}
+cd ${outdir}
+for infile in *.v
+do
+    base=$(basename $infile)
+    coqc ${base}
+done

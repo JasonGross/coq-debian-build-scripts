@@ -1,0 +1,22 @@
+--------------------------
++ Coq package for Debian +
+--------------------------
+
+Packaging a new upstream version
+--------------------------------
+
+Coq documentation may be distributed only subject to the terms and
+conditions set forth in the Open Publication License, v1.0 or later,
+which is not DFSG-compliant. See:
+
+  http://lists.debian.org/debian-legal/2004/03/msg00226.html
+
+Only coqdoc-generated documentation of the standard library is shipped
+in main. The full documentation is shipped in non-free (as coq-doc
+package).
+
+The `gbp import-orig --uscan` should be enough to detect and import
+a new upstream.
+
+ -- Stéphane Glondu <glondu@debian.org>, Tue, 20 Aug 2019 03:55:22 +0200
+ -- Julien Puydt <jpuydt@debian.org>, Fri, 5 Nov 2021 20:10:00 +0200 

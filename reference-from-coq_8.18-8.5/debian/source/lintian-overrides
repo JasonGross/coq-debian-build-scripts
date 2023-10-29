@@ -1,0 +1,22 @@
+# https://github.com/coq/coq/issues/15182
+coq source: maintainer-desktop-entry debian/coqide.desktop
+# it's the list of reductions of an original problem to a simpler case by the automatic tool which analysed it
+coq source: very-long-line-length-in-source-file test-suite/bugs/closed/bug_4769.v line 3 is 1569 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/bugs/closed/bug_5578.v line 1 is 1020 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/bugs/closed/bug_7811.v line 2 is 865 characters long (>512)
+# it's a testsuite expected result file -- it's to be compared with a new output
+coq source: very-long-line-length-in-source-file test-suite/coq-makefile/timing/precomputed-time-tests/007-no-output-sync/time-of-build.log.in line 891 is 2713 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/Record.html.out line 22 is 570 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/binder.html.out line 30 is 688 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/bug11353.html.out line 25 is 653 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/bug5648.html.out line 29 is 733 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/bug5648.tex.out line 34 is 586 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/details.html.out line 33 is 514 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/links.html.out line 140 is 1554 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/coqdoc/links.tex.out line 82 is 979 characters long (>512)
+coq source: very-long-line-length-in-source-file test-suite/output/StringSyntax.out line * is * characters long (>512)
+# that long line is actually a comment giving the source code generating the following source lines
+coq source: very-long-line-length-in-source-file theories/extraction/ExtrHaskellString.v line 49 is 2018 characters long (>512)
+coq source: very-long-line-length-in-source-file theories/extraction/ExtrOcamlNativeString.v line 21 is 2018 characters long (>512)
+# it's a very long line, but it looks like it's source code
+coq source: very-long-line-length-in-source-file tools/TimeFileMaker.py line 444 is 617 characters long (>512)

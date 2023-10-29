@@ -1,0 +1,7 @@
+version=4
+opts="\
+dversionmangle=s/\+dfsg.*$//,\
+filenamemangle=s/.+\/[vV]?(\d\S+)\.tar\.gz/coq-$1\.tar\.gz/,\
+repack,repacksuffix=+dfsg,\
+" \
+https://github.com/coq/coq/tags .*/[vV]?(\d[^\s+]+)\.tar\.gz

@@ -1,0 +1,6 @@
+# it's not a info(1) document
+libcoq-core-ocaml-dev: package-contains-documentation-outside-usr-share-doc var/lib/ocaml/lintian/libcoq-core-ocaml-dev.info
+# lintian doesn't know how to check those (bug #999601)
+libcoq-core-ocaml-dev: ocaml-dangling-cmi *__*.cmi
+# stripping them would make them useless
+libcoq-core-ocaml-dev unstripped-static-library *

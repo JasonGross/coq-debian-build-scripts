@@ -9,6 +9,7 @@ usr/bin/coqnative*
 usr/bin/coqpp*
 usr/bin/coq-tex*
 usr/bin/coqtop*
+usr/bin/coqtimelog2html*
 usr/bin/coqwc*
 usr/bin/coqworkmgr*
 usr/bin/csdpcert*
